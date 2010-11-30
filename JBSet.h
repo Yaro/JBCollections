@@ -1,0 +1,3 @@
+@protocol JBSet <JBCollection>
+
+@end

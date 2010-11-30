@@ -1,0 +1,143 @@
+TJBCollections
+v7
+r0
+t312810591.538154
+cCheck dependencies
+cProcessPCH /var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch.gch JBCollections_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+cCompileC build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBAbstractCollection.o /Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m normal i386 objective-c com.apple.compilers.gcc.4_2
+cLibtool /Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/libJBCollections.a normal i386
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk
+c000000004CD798260000000000000110
+t1289197606
+s272
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Foundation
+c000000004C99BE55000000000029D5D0
+t1285144149
+s2741712
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
+c000000004C99BE3E0000000000001466
+t1285144126
+s5222
+
+N/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h
+c000000004C99C5250000000000000AA1
+t1285145893
+s2721
+
+N/Users/jetbrains/Documents/JBCollections/JBAbstractCollection.h
+c000000004CF4D9E30000000000000083
+t1291114979
+s131
+i<Foundation/Foundation.h>
+i<JBCollection.h>
+
+N/Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m
+c000000004CF4E4DD0000000000000659
+t1291117789
+s1625
+i"JBAbstractCollection.h"
+
+N/Users/jetbrains/Documents/JBCollections/JBCollection.h
+c000000004CF4E3310000000000000177
+t1291117361
+s375
+
+N/Users/jetbrains/Documents/JBCollections/JBCollections_Prefix.pch
+c000000004CF4C42100000000000000BC
+t1291109409
+s188
+i<Foundation/Foundation.h>
+
+N/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.h
+c000000004CF4DB820000000000000066
+t1291115394
+s102
+i<Foundation/Foundation.h>
+
+N/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m
+c000000004CF4DB7B0000000000000160
+t1291115387
+s352
+i"UnsupportedOperationException.h"
+
+N/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/libJBCollections.a
+t1291117790
+s15536
+
+N/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBAbstractCollection.o
+t1291117790
+s15128
+
+N/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBCollections.LinkFileList
+c000000004CF4DC3F0000000000000098
+t1291115583
+s152
+
+N/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/UnsupportedOperationException.o
+t1291115394
+s7200
+
+N/var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch.gch
+t1291109732
+s10505840
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies312810591#312810591#0(0"0(0#1#0"8621738080#0"0#
+
+CCompileC build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBAbstractCollection.o /Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s312810590.026180
+e312810590.074755
+r1
+xCompileC
+xbuild/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBAbstractCollection.o
+x/Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@71"Compile /Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m312810590#312810590#0(0"0(0#0#63"/Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m8617339232#2087"    cd /Users/jetbrains/Documents/JBCollections    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=40200 -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-generated-files.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-own-target-headers.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-all-target-headers.hmap -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-project-headers.hmap -F/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator -I/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/include -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources/i386 -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources -include /var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch -c /Users/jetbrains/Documents/JBCollections/JBAbstractCollection.m -o /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBAbstractCollection.o0#
+
+CCompileC build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/UnsupportedOperationException.o /Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m normal i386 objective-c com.apple.compilers.gcc.4_2
+s312808194.911658
+e312808194.958409
+r1
+xCompileC
+xbuild/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/UnsupportedOperationException.o
+x/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+o/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m: In function '-[UnsupportedOperationException init]':
+o/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m:14: warning: conflicting types for '-(void)init'
+o/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:72: warning: previous declaration of '-(id)init'
+lSLF07#2@80"Compile /Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m312808194#312808194#0(448"/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m: In function '-[UnsupportedOperationException init]':/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m:14: warning: conflicting types for '-(void)init'/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:72: warning: previous declaration of '-(id)init'2(22@35"Conflicting types for '-(void)init'312808194#127#122#0(6@72"/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m312808187#14#0#14#0#25"conflicting types for '*'0(22@35"Previous declaration of '-(id)init'312808194#249#199#0(6@149"/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h306836926#72#0#72#0#0"0(0#0#72"/Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m8618229248#2105"    cd /Users/jetbrains/Documents/JBCollections    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=40200 -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-generated-files.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-own-target-headers.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-all-target-headers.hmap -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-project-headers.hmap -F/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator -I/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/include -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources/i386 -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources -include /var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch -c /Users/jetbrains/Documents/JBCollections/UnsupportedOperationException.m -o /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/UnsupportedOperationException.o0#
+
+CLibtool /Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/libJBCollections.a normal i386
+s312810590.074842
+e312810590.078527
+r1
+xLibtool
+x/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/libJBCollections.a
+xnormal
+xi386
+o/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 
+lSLF07#2@66"Libtool build/Debug-iphonesimulator/libJBCollections.a normal i386312810590#312810590#0(136"/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 0(0#0#0"8622570752#772"    cd /Users/jetbrains/Documents/JBCollections    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/libtool -static -arch_only i386 -syslibroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -L/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator -filelist /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/Objects-normal/i386/JBCollections.LinkFileList -ObjC -framework Foundation -o /Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/libJBCollections.a0#
+
+CProcessPCH /var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch.gch JBCollections_Prefix.pch normal i386 objective-c com.apple.compilers.gcc.4_2
+s312802532.032842
+e312802532.678376
+r1
+xProcessPCH
+x/var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch.gch
+xJBCollections_Prefix.pch
+xnormal
+xi386
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@35"Precompile JBCollections_Prefix.pch312802532#312802532#0(0"0(0#0#65"/Users/jetbrains/Documents/JBCollections/JBCollections_Prefix.pch7598807758542761984#1939"    cd /Users/jetbrains/Documents/JBCollections    setenv LANG en_US.US-ASCII    setenv PATH "/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 -x objective-c-header -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.2.sdk -fexceptions -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -fobjc-abi-version=2 -fobjc-legacy-dispatch -D__IPHONE_OS_VERSION_MIN_REQUIRED=40200 -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-generated-files.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-own-target-headers.hmap -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-all-target-headers.hmap -iquote /Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/JBCollections-project-headers.hmap -F/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator -I/Users/jetbrains/Documents/JBCollections/build/Debug-iphonesimulator/include -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources/i386 -I/Users/jetbrains/Documents/JBCollections/build/JBCollections.build/Debug-iphonesimulator/JBCollections.build/DerivedSources -c /Users/jetbrains/Documents/JBCollections/JBCollections_Prefix.pch -o /var/folders/oS/oS2NDd6NFZKuiN43pL5Y0E+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/JBCollections_Prefix-anjqjlcjvryrcsegdcdlkcvodrpk/JBCollections_Prefix.pch.gch0#
+
