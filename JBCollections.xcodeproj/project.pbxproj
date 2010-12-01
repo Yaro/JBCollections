@@ -23,6 +23,9 @@
 		2C0F0A0412A5424C00991032 /* JBAbstractList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F0A0212A5424C00991032 /* JBAbstractList.m */; };
 		2C0F0A1F12A5437600991032 /* JBArrayList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0F0A1D12A5437600991032 /* JBArrayList.h */; };
 		2C0F0A2012A5437600991032 /* JBArrayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F0A1E12A5437600991032 /* JBArrayList.m */; };
+		2C741E6312A65A410089399D /* JBArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C741E6112A65A410089399D /* JBArray.h */; };
+		2C741E6412A65A410089399D /* JBArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C741E6212A65A410089399D /* JBArray.m */; };
+		2C7420CF12A6719F0089399D /* RandomAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7420CE12A6719F0089399D /* RandomAccess.h */; };
 		AA747D9F0F9514B9006C5449 /* JBCollections_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +47,9 @@
 		2C0F0A0212A5424C00991032 /* JBAbstractList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractList.m; sourceTree = "<group>"; };
 		2C0F0A1D12A5437600991032 /* JBArrayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArrayList.h; sourceTree = "<group>"; };
 		2C0F0A1E12A5437600991032 /* JBArrayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrayList.m; sourceTree = "<group>"; };
+		2C741E6112A65A410089399D /* JBArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArray.h; sourceTree = "<group>"; };
+		2C741E6212A65A410089399D /* JBArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArray.m; sourceTree = "<group>"; };
+		2C7420CE12A6719F0089399D /* RandomAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomAccess.h; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCollections_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libJBCollections.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJBCollections.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,8 +113,11 @@
 				2C0F09FC12A541B200991032 /* JBLinkedList.m */,
 				2C0F0A1D12A5437600991032 /* JBArrayList.h */,
 				2C0F0A1E12A5437600991032 /* JBArrayList.m */,
+				2C741E6112A65A410089399D /* JBArray.h */,
+				2C741E6212A65A410089399D /* JBArray.m */,
+				2C7420CE12A6719F0089399D /* RandomAccess.h */,
 			);
-			name = Classes;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
@@ -138,6 +147,8 @@
 				2C0F09FD12A541B200991032 /* JBLinkedList.h in Headers */,
 				2C0F0A0312A5424C00991032 /* JBAbstractList.h in Headers */,
 				2C0F0A1F12A5437600991032 /* JBArrayList.h in Headers */,
+				2C741E6312A65A410089399D /* JBArray.h in Headers */,
+				2C7420CF12A6719F0089399D /* RandomAccess.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +210,7 @@
 				2C0F09FE12A541B200991032 /* JBLinkedList.m in Sources */,
 				2C0F0A0412A5424C00991032 /* JBAbstractList.m in Sources */,
 				2C0F0A2012A5437600991032 /* JBArrayList.m in Sources */,
+				2C741E6412A65A410089399D /* JBArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

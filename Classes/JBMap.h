@@ -1,6 +1,6 @@
-@protocol JBMap
+#import "JBCollection.h"
 
-@required
+@protocol JBMap
 
 - (void) clear;
 - (BOOL) containsKey: (id) key;

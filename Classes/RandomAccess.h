@@ -1,0 +1,3 @@
+@protocol RandomAccess
+
+@end
