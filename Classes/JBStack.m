@@ -15,4 +15,8 @@
 	return [self addLast: o];
 }
 
+- (NSString*) toString {
+	return [NSString stringWithFormat: @"JBStack instance, size = %d", mySize];
+}
+
 @end

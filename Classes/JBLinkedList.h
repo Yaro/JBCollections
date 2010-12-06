@@ -2,10 +2,13 @@
 #import "JBDeque.h"
 
 @interface JBLinkedList : JBAbstractList <JBDeque>  {
-	LREntryPtr myFirst, myLast;
-	int size;
+	LRNode* myFirst;
+	LRNode* myLast;
+	NSInteger mySize;
 }
 
+@property (readonly, assign, nonatomic) NSInteger size;
 
+- (id) initWithCollection: (<JBCollection>) c;
 
 @end

@@ -1,4 +1,5 @@
 #import "JBAbstractCollection.h"
+#import "JBArray.h"
 
 @implementation JBAbstractCollection
 
@@ -28,7 +29,7 @@
 	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
 }
 - (BOOL) isEmpty {
-	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+	return [self size] != 0;
 }
 - (BOOL) remove:(id) o {
 	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
@@ -38,6 +39,36 @@
 }
 - (NSUInteger) size {
 	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+}
+
+- (<JBIterator>) iterator {
+	@throw [NSException exceptionWithName:@"No iterator in collection" reason:@"" userInfo:nil];
+}
+
+- (void) dealloc {
+	[self clear];
+	[super dealloc];
+}
+
+//hmm...
+- (JBArray*) toArray {
+	JBArray* arr = [[JBArray createWithSize: [self size]] retain];
+	<JBIterator> iter = [self iterator];
+	for (int i = 0; i < [self size]; i++) {
+		[arr set:[iter next] atIndex:i];
+	}
+	return [arr autorelease];
+}
+
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger)len {
+	@throw [NSException exceptionWithName:@"No fast enumeration yet" reason:@"" userInfo:nil];
+	//convenient fast enumeration later
+	
+	/*NSUInteger count = 0;
+	if (state->state == 0) {
+		JBArray* arr = [self toArray];
+		state->
+	}*/
 }
 
 @end

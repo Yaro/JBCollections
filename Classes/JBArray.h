@@ -6,10 +6,11 @@
 	int myLength;
 }
 
-@property (readonly, assign, nonatomic) NSInteger myLength;
+@property (readonly, assign, nonatomic) NSInteger length;
 
 - (id) initWithSize: (NSInteger) n;
-- (void) set: (id) object atIntex: (NSInteger) i;
+- (void) set: (id) object atIndex: (NSInteger) i;
 - (id) get: (NSInteger) i;
++ (JBArray*) createWithSize: (NSInteger) n;
 
 @end

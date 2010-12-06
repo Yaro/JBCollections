@@ -11,14 +11,14 @@
  */
 
 inline static void rangeCheck(JBArray* arr, NSInteger i) {
-	if (i < 0 || i >= arr.myLength)
+	if (i < 0 || i >= arr.length)
 		@throw [NSException exceptionWithName:@"JBArray index out of bounds" 
-									   reason:[NSString stringWithFormat:@"Index: %d Size: %d", i, arr.myLength] userInfo:nil];
+									   reason:[NSString stringWithFormat:@"Index: %d Size: %d", i, arr.length] userInfo:nil];
 }
 
 @implementation JBArray
 
-@synthesize myLength;
+@synthesize length = myLength;
 
 - (id) initWithSize:(NSInteger)n {
 	[super init];
@@ -33,11 +33,11 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return [self initWithSize:0];
 }
 
-- (void) set: (id) object atIntex: (NSInteger) i {
+- (void) set: (id) object atIndex: (NSInteger) i {
 	rangeCheck(self, i);
 	[object retain];
 	//NSLog(@"address = %d", [self get:i]);
-	[[self get:i] release];
+	[myArray[i] release];
 	myArray[i] = object;
 }
 
@@ -46,9 +46,14 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return myArray[i];
 }
 
++ (JBArray*) createWithSize: (NSInteger) n {
+	JBArray* ret = [[JBArray alloc] initWithSize: n];
+	return [ret autorelease];
+}
+
 - (void) dealloc {
 	for (int i = 0; i < myLength; i++)
-		[[self get:i] release];
+		[myArray[i] release];
 	free(myArray);
 	[super dealloc];
 }

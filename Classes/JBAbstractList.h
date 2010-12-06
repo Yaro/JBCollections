@@ -9,22 +9,34 @@
 @end
 
 
-typedef struct _LREntry* LREntryPtr;
+typedef struct _LRNode* LRNodePtr;
 
-/*typedef struct _REntry {
+/*typedef struct _RNode {
 	id myItem;
-	REntryPtr myNextItem;
-} REntry;*/
+	RNodePtr myNextNode;
+} RNode;*/
 
-typedef struct _LREntry {
+/*typedef struct _LRNode {
 	id myItem;
-	LREntryPtr myNextItem, myPrevItem;
-} LREntry;
+	LRNodePtr myNextNode, myPrevNode;
+} LRNode;
 
-LREntry MakeLREntry(id item, LREntry* next, LREntry* prev) {
-	LREntry r;
+static LRNode MakeLRNode(id item, LRNode* next, LRNode* prev) {
+	LRNode r;
 	r.myItem = item;
-	r.myNextItem = next;
-	r.myPrevItem = prev;
+	r.myNextNode = next;
+	r.myPrevNode = prev;
 	return r;
+}*/
+
+@interface LRNode : NSObject {
+@public
+	LRNode* myNextNode;
+	LRNode* myPrevNode;
+	id myItem;
 }
+
++ (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item;
+
+@end
+
