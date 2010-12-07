@@ -1,4 +1,5 @@
 #import "JBArray.h"
+#import "JBArrays.h"
 
 /*
 
@@ -20,12 +21,14 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 
 @synthesize length = myLength;
 
-- (id) initWithSize:(NSInteger)n {
+- (id) initWithSize: (NSInteger) n {
 	[super init];
 	myLength = n;
 	NSLog(@"creating array with length = %d", myLength);
-	myArray = malloc(myLength * sizeof(id));
-	memset(myArray, 0, myLength * sizeof(id));
+	myArray = arrayWithLength(n);
+	//myArray = malloc(myLength * sizeof(id));
+	//memset(myArray, 0, myLength * sizeof(id));
+	//NSLog(@"pointer size = %d", sizeof(myArray)); --- equals 4, certainly
 	return self;
 }
 
@@ -56,6 +59,20 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 		[myArray[i] release];
 	free(myArray);
 	[super dealloc];
+}
+
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger)len {
+	if (state->state == 0) {
+		// initialization
+		state->mutationsPtr = &(state->extra[0]);
+	}
+	NSInteger i = 0;
+	state->itemsPtr = stackbuf;
+	for (i = 0; i < len; i++) {
+		if (state->state >= myLength) return i;
+		stackbuf[i] = myArray[state->state++];
+	}
+	return i;
 }
 
 @end

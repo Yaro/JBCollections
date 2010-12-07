@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface JBArray : NSObject {
+@interface JBArray : NSObject <NSFastEnumeration> {
 	id* myArray;
 	int myLength;
 }

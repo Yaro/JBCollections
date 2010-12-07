@@ -167,7 +167,7 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 
 - (BOOL) addAll: (id <JBCollection>) c {
-	JBArray* cArr = [[c toArray] retain];
+	JBArray* cArr = [[c toJBArray] retain];
 	for (int i = 0; i < cArr.length; i++) {
 		[self addLast: [cArr get: i]];
 	}
@@ -183,6 +183,18 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 		x = x->myNextNode;
 	}
 	return ret;
+}
+
+- (id<JBIterator>) iterator {
+	__block LRNode* cursor = myFirst;
+	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
+		if (cursor == nil) return nil;
+		id ret = cursor->myItem;
+		cursor = cursor->myNextNode;
+		return ret;
+	} hasNextCL: ^BOOL(void) {
+		return cursor != nil;
+	}] autorelease];
 }
 
 - (NSString*) toString {

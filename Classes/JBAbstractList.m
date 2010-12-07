@@ -15,6 +15,18 @@
 	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
 }
 
+- (id<JBIterator>) iterator {
+	if (![self conformsToProtocol:@protocol(JBRandomAccess)])
+		@throw [NSException exceptionWithName:@"no iterator" reason:@"list interface doesn't confirm to JBRandomAccess" userInfo:nil];
+	__block NSInteger cursor = 0;
+	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
+		if (cursor >= [self size]) return nil;
+		return [self get:cursor++];
+	} hasNextCL: ^BOOL(void) {
+		return cursor < [self size];
+	}] autorelease];
+}
+
 @end
 
 

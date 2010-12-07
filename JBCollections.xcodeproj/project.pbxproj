@@ -25,10 +25,14 @@
 		2C0F0A2012A5437600991032 /* JBArrayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F0A1E12A5437600991032 /* JBArrayList.m */; };
 		2C741E6312A65A410089399D /* JBArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C741E6112A65A410089399D /* JBArray.h */; };
 		2C741E6412A65A410089399D /* JBArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C741E6212A65A410089399D /* JBArray.m */; };
-		2C7420CF12A6719F0089399D /* RandomAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7420CE12A6719F0089399D /* RandomAccess.h */; };
+		2C7420CF12A6719F0089399D /* JBRandomAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7420CE12A6719F0089399D /* JBRandomAccess.h */; };
 		2C74212712ACE4E70089399D /* JBIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C74212612ACE4E70089399D /* JBIterator.h */; };
-		2CEB888312AD2D4D0080AC4C /* PriorityQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEB888112AD2D4D0080AC4C /* PriorityQueue.h */; };
-		2CEB888412AD2D4D0080AC4C /* PriorityQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB888212AD2D4D0080AC4C /* PriorityQueue.m */; };
+		2C98F89E12AE441300AB3547 /* JBArrays.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C98F89C12AE441300AB3547 /* JBArrays.h */; };
+		2C98F89F12AE441300AB3547 /* JBArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98F89D12AE441300AB3547 /* JBArrays.m */; };
+		2C98FBC112AE9D4C00AB3547 /* JBAbstractIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */; };
+		2C98FBC212AE9D4C00AB3547 /* JBAbstractIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */; };
+		2CEB888312AD2D4D0080AC4C /* JBPriorityQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEB888112AD2D4D0080AC4C /* JBPriorityQueue.h */; };
+		2CEB888412AD2D4D0080AC4C /* JBPriorityQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB888212AD2D4D0080AC4C /* JBPriorityQueue.m */; };
 		AA747D9F0F9514B9006C5449 /* JBCollections_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -52,10 +56,14 @@
 		2C0F0A1E12A5437600991032 /* JBArrayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrayList.m; sourceTree = "<group>"; };
 		2C741E6112A65A410089399D /* JBArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArray.h; sourceTree = "<group>"; };
 		2C741E6212A65A410089399D /* JBArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArray.m; sourceTree = "<group>"; };
-		2C7420CE12A6719F0089399D /* RandomAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomAccess.h; sourceTree = "<group>"; };
+		2C7420CE12A6719F0089399D /* JBRandomAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBRandomAccess.h; sourceTree = "<group>"; };
 		2C74212612ACE4E70089399D /* JBIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBIterator.h; sourceTree = "<group>"; };
-		2CEB888112AD2D4D0080AC4C /* PriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriorityQueue.h; sourceTree = "<group>"; };
-		2CEB888212AD2D4D0080AC4C /* PriorityQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriorityQueue.m; sourceTree = "<group>"; };
+		2C98F89C12AE441300AB3547 /* JBArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArrays.h; sourceTree = "<group>"; };
+		2C98F89D12AE441300AB3547 /* JBArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrays.m; sourceTree = "<group>"; };
+		2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAbstractIterator.h; sourceTree = "<group>"; };
+		2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractIterator.m; sourceTree = "<group>"; };
+		2CEB888112AD2D4D0080AC4C /* JBPriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPriorityQueue.h; sourceTree = "<group>"; };
+		2CEB888212AD2D4D0080AC4C /* JBPriorityQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPriorityQueue.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCollections_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libJBCollections.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJBCollections.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,12 +117,12 @@
 				2C0F093312A505F800991032 /* JBMap.h */,
 				2C0F099112A51EA200991032 /* JBQueue.h */,
 				2C0F09A512A53DCB00991032 /* JBDeque.h */,
-				2C7420CE12A6719F0089399D /* RandomAccess.h */,
+				2C74212612ACE4E70089399D /* JBIterator.h */,
+				2C7420CE12A6719F0089399D /* JBRandomAccess.h */,
 				2C0F087312A4FD2D00991032 /* JBAbstractCollection.h */,
 				2C0F087412A4FD2D00991032 /* JBAbstractCollection.m */,
 				2C0F0A0112A5424C00991032 /* JBAbstractList.h */,
 				2C0F0A0212A5424C00991032 /* JBAbstractList.m */,
-				2C74212612ACE4E70089399D /* JBIterator.h */,
 				2C0F09DD12A5407E00991032 /* JBStack.h */,
 				2C0F09DE12A5407E00991032 /* JBStack.m */,
 				2C0F09FB12A541B200991032 /* JBLinkedList.h */,
@@ -123,8 +131,12 @@
 				2C0F0A1E12A5437600991032 /* JBArrayList.m */,
 				2C741E6112A65A410089399D /* JBArray.h */,
 				2C741E6212A65A410089399D /* JBArray.m */,
-				2CEB888112AD2D4D0080AC4C /* PriorityQueue.h */,
-				2CEB888212AD2D4D0080AC4C /* PriorityQueue.m */,
+				2CEB888112AD2D4D0080AC4C /* JBPriorityQueue.h */,
+				2CEB888212AD2D4D0080AC4C /* JBPriorityQueue.m */,
+				2C98F89C12AE441300AB3547 /* JBArrays.h */,
+				2C98F89D12AE441300AB3547 /* JBArrays.m */,
+				2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */,
+				2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -157,9 +169,11 @@
 				2C0F0A0312A5424C00991032 /* JBAbstractList.h in Headers */,
 				2C0F0A1F12A5437600991032 /* JBArrayList.h in Headers */,
 				2C741E6312A65A410089399D /* JBArray.h in Headers */,
-				2C7420CF12A6719F0089399D /* RandomAccess.h in Headers */,
+				2C7420CF12A6719F0089399D /* JBRandomAccess.h in Headers */,
 				2C74212712ACE4E70089399D /* JBIterator.h in Headers */,
-				2CEB888312AD2D4D0080AC4C /* PriorityQueue.h in Headers */,
+				2CEB888312AD2D4D0080AC4C /* JBPriorityQueue.h in Headers */,
+				2C98F89E12AE441300AB3547 /* JBArrays.h in Headers */,
+				2C98FBC112AE9D4C00AB3547 /* JBAbstractIterator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +236,9 @@
 				2C0F0A0412A5424C00991032 /* JBAbstractList.m in Sources */,
 				2C0F0A2012A5437600991032 /* JBArrayList.m in Sources */,
 				2C741E6412A65A410089399D /* JBArray.m in Sources */,
-				2CEB888412AD2D4D0080AC4C /* PriorityQueue.m in Sources */,
+				2CEB888412AD2D4D0080AC4C /* JBPriorityQueue.m in Sources */,
+				2C98F89F12AE441300AB3547 /* JBArrays.m in Sources */,
+				2C98FBC212AE9D4C00AB3547 /* JBAbstractIterator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

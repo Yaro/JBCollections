@@ -2,6 +2,6 @@
 
 - (BOOL) hasNext;
 - (id) next;
-- (void) remove;
+//- (void) remove;
 
 @end

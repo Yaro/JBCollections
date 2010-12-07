@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractList.h"
-#import "RandomAccess.h"
+#import "JBRandomAccess.h"
 
-@interface JBArrayList : JBAbstractList <RandomAccess> {
+@interface JBArrayList : JBAbstractList <JBRandomAccess> {
 	
 }
 
