@@ -5,8 +5,8 @@
 
 - (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 {
 	[super init];
-	nextCL = handler1;
-	hasNextCL = handler2;
+	nextCL = [handler1 copy];
+	hasNextCL = [handler2 copy];
 	return self;
 }
 
@@ -16,6 +16,12 @@
 
 - (BOOL) hasNext {
 	return hasNextCL();
+}
+
+- (void) dealloc {
+	[nextCL release];
+	[hasNextCL release];
+	[super dealloc];
 }
 
 @end

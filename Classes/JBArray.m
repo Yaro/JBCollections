@@ -33,7 +33,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (id) init {
-	return [self initWithSize:0];
+	return [self initWithSize: 0];
 }
 
 - (void) set: (id) object atIndex: (NSInteger) i {
@@ -54,6 +54,29 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return [ret autorelease];
 }
 
++ (JBArray*) createWithObjects: (id) firstObject, ... {
+	id object;
+	va_list argumentList;
+	int size = 0;
+	if (firstObject) {
+		size++;
+		va_start(argumentList, firstObject);
+		while (va_arg(argumentList, id))
+			size++;
+		va_end(argumentList);
+	}
+	JBArray* ret = [[JBArray createWithSize: size] retain];
+	
+	int index = 0;
+	if (firstObject) {
+		ret->myArray[index++] = firstObject;
+		va_start(argumentList, firstObject);
+		while (object = va_arg(argumentList, id))
+			ret->myArray[index++] = object;
+	}
+	return [ret autorelease];
+}
+
 - (void) dealloc {
 	for (int i = 0; i < myLength; i++)
 		[myArray[i] release];
@@ -61,7 +84,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	[super dealloc];
 }
 
-- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger)len {
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {
 	if (state->state == 0) {
 		// initialization
 		state->mutationsPtr = &(state->extra[0]);
@@ -73,6 +96,14 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 		stackbuf[i] = myArray[state->state++];
 	}
 	return i;
+}
+
+- (id*) toArray {
+	return copyOf(myArray, myLength);
+}
+
+- (NSUInteger) size {
+	return myLength;
 }
 
 @end

@@ -16,6 +16,11 @@
 	id myItem;
 }
 
+@property (readwrite, nonatomic, assign) LRNode* nextNode,* prevNode;
+@property (readwrite, nonatomic, assign) id item;
+
+//better "assign", cause we don't actually own instance variables, the structure does
+
 + (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item;
 
 @end

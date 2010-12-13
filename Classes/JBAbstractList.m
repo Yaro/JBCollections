@@ -32,6 +32,8 @@
 
 @implementation LRNode 
 
+@synthesize nextNode = myNextNode, prevNode = myPrevNode, item = myItem;
+
 + (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item {
 	LRNode* ret = [[LRNode alloc] init];
 	ret->myItem = item;

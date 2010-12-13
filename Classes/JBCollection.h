@@ -1,8 +1,8 @@
-#import "JBArray.h"
 #import "JBIterator.h"
 #import "JBAbstractIterator.h"
 #import "JBRandomAccess.h"
 #import <Foundation/Foundation.h>
+@class JBArray;
 
 @protocol JBCollection <NSFastEnumeration>
 
@@ -20,7 +20,7 @@
 - (BOOL) removeAll: (id<JBCollection>) c;
 - (NSUInteger) size;
 - (NSString*) toString;
-- (id<JBIterator>) iterator;
+- (NSObject<JBIterator>*) iterator;
 - (id*) toArray;
 - (JBArray*) toJBArray;
 

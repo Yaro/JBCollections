@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "JBCollection.h"
 
-@interface JBAbstractCollection : NSObject <JBCollection, JBIterator> {
+@interface JBAbstractCollection : NSObject <JBCollection> {
 	
 }
 
