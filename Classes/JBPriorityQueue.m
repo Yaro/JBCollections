@@ -98,12 +98,12 @@
 }
 
 - (void) heapify {
-	// bad version at the moment
-	for (int i = 0; i < mySize; i++)
+	int maxToHeapify = mySize >> 1;
+	for (int i = 0; i < maxToHeapify; i++)
 		[self siftDown: i object: myQueue[i]];
 }
 
-- (id<JBIterator>) iterator {
+- (NSObject<JBIterator>*) iterator {
 	__block NSInteger cursor = 0;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor >= mySize) return nil;

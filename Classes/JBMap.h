@@ -1,6 +1,6 @@
 #import "JBCollection.h"
 
-@protocol JBMap
+@protocol JBMap <NSFastEnumeration, NSCopying>
 
 - (void) clear;
 - (BOOL) containsKey: (id) key;
@@ -10,10 +10,14 @@
 - (BOOL) isEqual: (id) o;
 - (BOOL) isEmpty;
 - (id) putKey: (id) key withValue: (id) value;
-- (id) putAll: (id <JBMap>) map;
-- (id) remove:(id) key; // returns value associated with the key
+- (void) putAll: (id<JBMap>) map;
+- (id) initWithMap: (id<JBMap>) map;
+- (id) initWithKeysAndObjects: (id) firstKey, ...;
+- (id) remove: (id) key; // returns value associated with the key
 - (NSUInteger) size;
-- (NSString*) toString;
-- (id <JBCollection>) values;
+- (NSString*) description;
+- (JBArray*) values;
+- (NSObject<JBIterator>*) keyIterator;
+- (NSObject<JBIterator>*) entryIterator;
 
 @end

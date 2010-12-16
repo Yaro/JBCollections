@@ -22,7 +22,6 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	if (mySize == 0) @throw [NSException exceptionWithName: @"Collection is empty" reason: @"" userInfo: nil];
 }
 
-
 - (LRNode*) node: (NSUInteger) index {
 	rangeCheck(self, index);
 	if (index > (mySize >> 1)) {
@@ -56,13 +55,6 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	[node release];
 	[ret autorelease];
 	return ret;
-}
-
-
-- (id) initWithCollection: (<JBCollection>) c {
-	[self init];
-	[self addAll:c];
-	return self;
 }
 
 - (void) addFirst: (id) o {
@@ -180,7 +172,7 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	return ret;
 }
 
-- (id<JBIterator>) iterator {
+- (NSObject<JBIterator>*) iterator {
 	__block LRNode* cursor = myFirst;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor == nil) return nil;

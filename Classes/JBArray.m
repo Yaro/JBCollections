@@ -24,7 +24,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 - (id) initWithSize: (NSInteger) n {
 	[super init];
 	myLength = n;
-	NSLog(@"creating array with length = %d", myLength);
+	//NSLog(@"creating array with length = %d", myLength);
 	myArray = arrayWithLength(n);
 	//myArray = malloc(myLength * sizeof(id));
 	//memset(myArray, 0, myLength * sizeof(id));
@@ -69,10 +69,10 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	
 	int index = 0;
 	if (firstObject) {
-		ret->myArray[index++] = firstObject;
+		ret->myArray[index++] = [firstObject retain];
 		va_start(argumentList, firstObject);
 		while (object = va_arg(argumentList, id))
-			ret->myArray[index++] = object;
+			ret->myArray[index++] = [object retain];
 	}
 	return [ret autorelease];
 }

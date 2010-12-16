@@ -9,6 +9,4 @@
 
 @property (readonly, assign, nonatomic) NSInteger size;
 
-- (id) initWithCollection: (<JBCollection>) c;
-
 @end

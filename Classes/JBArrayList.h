@@ -10,6 +10,7 @@
 @property (readonly) NSInteger size;
 
 - (id) initWithCapacity: (NSInteger) n;
+- (id) initWithCollection: (id<JBCollection>) c;
 - (void) insert: (id) o atIndex: (NSInteger) index;
 
 @end

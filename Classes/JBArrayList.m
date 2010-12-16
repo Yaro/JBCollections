@@ -23,18 +23,15 @@
 	return self;
 }
 
-- (id) init {
-	return [self initWithCapacity: 10];
+- (id) initWithCollection: (<JBCollection>) c {
+	mySize = [c size];
+	[self initWithCapacity: mySize];
+	[self addAll: c];
+	return self;
 }
 
-- (id) initWithCollection: (id<JBCollection>) c {
-	[super init];
-	myData = [c toArray];
-	mySize = [c size];
-	myLength = mySize;
-	for (int i = 0; i < mySize; i++)
-		[myData[i] retain];
-	return self;
+- (id) init {
+	return [self initWithCapacity: 10];
 }
 
 - (void) trimToSize {
@@ -53,6 +50,7 @@
 		myData = newData;
 		myLength = nLength;
 	}
+	//NSLog(@"length = %d", myLength);
 }
 
 - (int) indexOf: (NSObject*) o {
@@ -130,7 +128,7 @@
 
 // JBAbstractList provides iterator for <RandomAccess> list implementations
 
-/*- (id<JBIterator>) iterator {
+/*- (NSObject<JBIterator>*) iterator {
 	__block NSInteger cursor = 0;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor >= mySize) return nil;
