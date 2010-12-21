@@ -5,14 +5,15 @@
 @interface JBHashMap : JBAbstractMap {
 @public
 	HMapEntry** myTable;
-	NSInteger mySize, myLength, myThreshold;
+	NSUInteger mySize, myLength, myThreshold;
 	double myLoadFactor;
 }
 
-@property (readonly) NSInteger size;
+@property (readonly) NSUInteger size;
 @property (readonly) double loadFactor;
 
 - (id) initWithCapacity: (NSInteger) initCapacity loadFactor: (double) f;
 - (id) initWithCapacity: (NSInteger) initCapacity;
+- (id) init;
 
 @end

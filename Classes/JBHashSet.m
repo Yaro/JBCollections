@@ -9,6 +9,8 @@ so we should distinguish nil return (when map doesn't contain such a key) and va
  Therefore, PRESENCE object is a sign of the map containing the key.
 */
 static NSObject* PRESENCE;
+extern double DEFAULT_LOAD_FACTOR;
+extern int DEFAULT_INIT_CAPACITY;
 
 - (id) initWithCapacity: (NSInteger) initCapacity loadFactor: (double) f {
 	[super init];
@@ -20,21 +22,11 @@ static NSObject* PRESENCE;
 }
 
 - (id) initWithCapacity: (NSInteger) initCapacity {
-	[super init];
-	if (PRESENCE == nil) {
-		PRESENCE = [NSObject new];
-	}
-	myMap = [[JBHashMap alloc] initWithCapacity: initCapacity];
-	return self;
+	return [self initWithCapacity: initCapacity loadFactor: DEFAULT_LOAD_FACTOR];
 }
 
 - (id) init {
-	[super init];
-	if (PRESENCE == nil) {
-		PRESENCE = [NSObject new];
-	}
-	myMap = [JBHashMap new];
-	return self;
+	return [self initWithCapacity: DEFAULT_INIT_CAPACITY loadFactor: DEFAULT_LOAD_FACTOR];
 }
 
 - (NSObject<JBIterator>*) iterator {
@@ -50,7 +42,7 @@ static NSObject* PRESENCE;
 }
 
 - (BOOL) add: (NSObject*) o {
-	return [myMap putKey: o withValue: PRESENCE] != nil;
+	return [myMap putKey: o withValue: PRESENCE] == nil;
 }
 
 - (void) clear {

@@ -24,6 +24,12 @@
 	return [NSString stringWithFormat: @"Map entry: KEY = %@, VALUE = %@", myKey, myValue];
 }
 
+- (void) dealloc {
+	[myKey release];
+	[myValue release];
+	[super dealloc];
+}
+
 @end
 
 @implementation JBAbstractMap
@@ -57,28 +63,28 @@
 }
 
 - (NSObject<JBIterator>*) entryIterator {
-	@throw [NSException exceptionWithName: @"No entryIterator implementation" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"No entryIterator implementation" reason: @"" userInfo: nil];
 }
 
 - (NSObject<JBIterator>*) keyIterator {
-	@throw [NSException exceptionWithName: @"No keyIterator implementation" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"No keyIterator implementation" reason: @"" userInfo: nil];
 }
 
 - (id) putKey: (id) key withValue: (id) value {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
 }
 
 // returns value associated with the key
 - (id) remove: (id) key {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
 }
 
 - (NSUInteger) size {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
 }
 
 - (void) clear {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo:nil];
+	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
 }
 
 

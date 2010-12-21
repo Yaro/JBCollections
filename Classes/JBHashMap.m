@@ -8,19 +8,11 @@
 
 @property (readwrite, assign) HMapEntry* nextEntry;
 
-- (id) initWithKey: (id) key value: (id) value;
-
 @end
 
 @implementation HMapEntry
 
 @synthesize nextEntry = myNextEntry;
-
-- (id) initWithKey: (id) key value: (id) value {
-	[super initWithKey: key value: value];
-	myNextEntry = nil;
-	return self;
-}
 
 @end
 
@@ -35,12 +27,12 @@
 
 @implementation JBHashMap
 
-static const int MAX_CAPACITY = 1 << 30, DEFAULT_INIT_CAPACITY = 16;
-static const double DEFAULT_LOAD_FACTOR = .75;
+const int MAX_CAPACITY = 1 << 30, DEFAULT_INIT_CAPACITY = 16;
+const double DEFAULT_LOAD_FACTOR = .75;
 
 @synthesize size = mySize, loadFactor = myLoadFactor;
 
-#if 1
+#if 0
 - (void) averageBucket {
 	double expectation = mySize * 1.0 / myLength;
 	double ro = 0;
@@ -162,9 +154,9 @@ static const double DEFAULT_LOAD_FACTOR = .75;
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
 	for (HMapEntry* e = myTable[index]; e != nil; e = e->myNextEntry) {
 		if ([e->myKey isEqual: key]) {
-			id oldVal = e->myValue;
+			id oldVal = [e->myValue retain];
 			e.value = value;
-			return oldVal;
+			return [oldVal autorelease];
 		}
 	}
 	HMapEntry* e = myTable[index];

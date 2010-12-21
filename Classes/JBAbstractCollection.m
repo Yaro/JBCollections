@@ -29,7 +29,7 @@
 	@throw [NSException exceptionWithName: @"No iterator in collection" reason: @"" userInfo: nil];
 }
 
-- (BOOL) remove:(id) o {
+- (BOOL) remove: (id) o {
 	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
 }
 
