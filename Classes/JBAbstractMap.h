@@ -12,7 +12,7 @@
 	id myKey, myValue;
 }
 
-@property (readonly) id key;
+@property (readwrite, retain) id key;
 @property (readwrite, nonatomic, retain) id value;
 
 - (id) initWithKey: (id) key value: (id) value;

@@ -258,6 +258,21 @@
 @synthesize left = myLeft;
 @synthesize right = myRight;
 
+- (NSString*) trace: (int) h {
+	NSMutableString* ret = [NSMutableString new];
+	for (int i = 0; i < h; i++)
+		[ret appendString: @"  "];
+	[ret appendString: [myValue description]];
+	[ret appendString: @"\n"];
+	if (self.left != nil) {
+		[ret appendString: [myLeft trace: h + 1]];
+	}
+	if (self.right != nil) {
+		[ret appendString: [myRight trace: h + 1]];
+	}
+	return [ret autorelease];
+}
+
 - (JPRBNode*) rotateLeft {
 	JPRBNode* result = self.right;
 	self.right = result.left;
@@ -321,6 +336,7 @@
 	return self;
 }
 
+// lol
 - (JPRBNode*) max {
 	if (self.right != nil) return [self.right min];
 	return self;

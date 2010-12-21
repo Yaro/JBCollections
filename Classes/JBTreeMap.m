@@ -167,7 +167,8 @@
         }
 		
         if ([self compare: key with: result.key] == NSOrderedSame) {
-			result.value = [result.right min].value;
+			result.key = [result.right min].key;
+			//? result.value = ...
 			result.right = [result.right deleteMin];
 		} else {
 			result.right = [self delete: key from: result.right];
@@ -195,6 +196,8 @@
 	mySize--;
 	return [oldVal autorelease];
 }
+
+
 
 - (BOOL) containsKey: (id) key {
 	return [self node: myRoot containsKey: key];	
@@ -247,7 +250,7 @@
 	if (res == NSOrderedDescending) {
 		return [self nextOrEqualTo: key inNode: node.right];
 	} else {
-		id current = node.value;
+		id current = node.key;
 		id candidate = [self nextOrEqualTo: key inNode: node.left];
 		if (candidate != nil) {
 			current = [self min: current with: candidate];
@@ -267,7 +270,7 @@
 	if (res == NSOrderedAscending) {
 		return [self prevOrEqualTo: key inNode: node.left];
 	} else {
-		id current = node.value;
+		id current = node.key;
 		id candidate = [self prevOrEqualTo: key inNode: node.right];
 		if (candidate != nil) {
 			current = [self max: current with: candidate];
@@ -321,6 +324,7 @@
 - (void) clear {
 	[myRoot release];
 	myRoot = nil;
+	mySize = 0;
 }
 
 
@@ -332,6 +336,27 @@
 @synthesize red = myRed;
 @synthesize left = myLeft;
 @synthesize right = myRight;
+
+- (id) initWithKey: (id) key value: (id) value {
+	[super initWithKey: key value: value];
+	myRed = YES;
+	return self;
+}
+
+- (NSString*) trace: (int) h {
+	NSMutableString* ret = [NSMutableString new];
+	for (int i = 0; i < h; i++)
+		[ret appendString: @"  "];
+	[ret appendString: [self description]];
+	[ret appendString: @"\n"];
+	if (self.left != nil) {
+		[ret appendString: [myLeft trace: h + 1]];
+	}
+	if (self.right != nil) {
+		[ret appendString: [myRight trace: h + 1]];
+	}
+	return [ret autorelease];
+}
 
 - (RBNode*) rotateLeft {
 	RBNode* result = self.right;
@@ -397,7 +422,7 @@
 }
 
 - (RBNode*) max {
-	if (self.right != nil) return [self.right min];
+	if (self.right != nil) return [self.right max];
 	return self;
 }
 

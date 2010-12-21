@@ -8,7 +8,7 @@
 extern NSObject* PRESENCE;
 
 - (id) initWithComparator: (NSComparator) comp {
-	[super init];
+	[super performSelector: @selector(initSafe)];
 	if (PRESENCE == nil) {
 		PRESENCE = [NSObject new];
 	}

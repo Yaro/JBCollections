@@ -5,6 +5,7 @@
 @class RBNode;
 
 @interface JBTreeMap : JBAbstractMap<JBSortedMap> {
+	@public
 	NSComparator myComparator;
 	RBNode* myRoot;
 	NSUInteger mySize;

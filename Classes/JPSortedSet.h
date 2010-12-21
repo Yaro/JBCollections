@@ -3,6 +3,7 @@
 @class JPRBNode;
 
 @interface JPSortedSet : NSObject {
+	@public
 	NSComparator myComparator;
 	JPRBNode* myRoot;
 	int myCount;

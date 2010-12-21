@@ -20,14 +20,21 @@ NSObject* PRESENCE;
 }
 
 - (id) initWithCollection: (id<JBCollection>) c {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	SEL comparatorSelector = @selector(comparator);
+	if ([(id)c respondsToSelector: comparatorSelector]) {
+		return [self initWithSortedSet: c];
+	} else {
+		@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	}
 }
 
-- (id) initWithSortedSet: (id) set {
+- (id) initSafe {
+	return [super init];
+}
+
+- (id) initWithSortedSet: (id<JBCollection>) set {
 	SEL comparatorSelector = @selector(comparator);
-	if ([set respondsToSelector: comparatorSelector]) {
-		[self initWithComparator: [set performSelector: comparatorSelector]];
-	}
+	[self initWithComparator: [(id)set performSelector: comparatorSelector]];
 	[self addAll: set];
 	return self;
 }

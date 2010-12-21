@@ -5,6 +5,7 @@
 
 - (id) init;
 - (id) initWithComparator: (NSComparator) comp;
+- (id) initWithSortedSet: (id<JBCollection>) set;
 - (id) first;
 - (id) last;
 - (id) next: (id) key;
