@@ -1,4 +1,4 @@
-@protocol JBQueue <JBCollection>
+@protocol JBQueue<JBCollection>
 
 - (BOOL) add: (id) o;
 - (id) peek;

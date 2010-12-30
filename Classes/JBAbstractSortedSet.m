@@ -39,6 +39,26 @@ NSObject* PRESENCE;
 	return self;
 }
 
+- (id) withComparator: (NSComparator) comp {
+	return [[[[self class] alloc] initWithComparator: comp] autorelease];
+}
+
+- (BOOL) isEqual: (id) o {
+	if (!([[o class] isKindOfClass: [JBAbstractSortedSet class]])) {
+		return FALSE;
+	}
+	id ourIter = [self iterator], iter = [o iterator];
+	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
+	while (q1 || q2) {
+		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
+			return FALSE;
+		}
+		q1 = [ourIter hasNext];
+		q2 = [iter hasNext];
+	}
+	return TRUE;
+}
+
 - (NSComparator) comparator {
 	return [myMap comparator];
 }

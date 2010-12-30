@@ -2,66 +2,48 @@
 
 
 enum {LEFT, RIGHT, ROOT};
-//or define?
+typedef int CTYPE;
 
-@interface TMapEntry : MapEntry {
+@interface TMapEntry : JBMapEntry {
 @public
-	TMapEntry* myLeft,* myRight,* myPar;
+	TMapEntry* myLeft,* myRight;
 }
 
-@property (readwrite, nonatomic, assign) TMapEntry* left,* right,* par;
+@property (readwrite, nonatomic, assign) TMapEntry* left,* right;
 
-- (NSInteger) toParent;
+- (NSInteger) toParent: (TMapEntry*) p;
 - (BOOL) hasRight;
 - (BOOL) hasLeft;
-- (void) unlinkParent;
-- (void) splay;
-- (void) splayOnce;
-- (void) rotateWithParent;
+- (TMapEntry*) min;
+- (TMapEntry*) max;
+- (TMapEntry*) unlinkNext;
+- (void) splayOnce: (TMapEntry*) p and: (TMapEntry*) X and: (TMapEntry*) Xp;
+- (void) rotateWithParent: (TMapEntry*) p and: (TMapEntry*) X;
 
 @end
 
 
 @implementation TMapEntry
 
-@synthesize left = myLeft, right = myRight, par = myPar;
+@synthesize left = myLeft, right = myRight;
 
 - (void) dealloc {
 	[super dealloc];
 }
 
-- (NSInteger) toParent {
-	if (myPar == nil) return ROOT;
-	return myPar->myLeft == self ? LEFT : RIGHT;
-}
-
-- (void) unlinkParent {
-	if ([self toParent] == LEFT) {
-		myPar.left = nil;
-	}
-	else {
-		myPar.right = nil;
-	}
-}
-
-- (void) delink {
-	assert(!([self hasLeft] && [self hasRight]));
-	assert(myPar != nil);
+- (void) delink: (TMapEntry*) par {
 	TMapEntry* ch = nil;
 	if ([self hasLeft]) {
-		myLeft->myPar = myPar;
-		ch = myLeft;
-	} else
-	if ([self hasRight]) {
-		myRight->myPar = myPar;
-		ch = myRight;
+		ch = self->myLeft;
+	} else {
+		ch = self->myRight;
 	}
 	
-	if ([self toParent] == LEFT) {
-		myPar->myLeft = ch;
+	if (par->myLeft == self) {
+		par->myLeft = ch;
 	}
 	else {
-		myPar->myRight = ch;
+		par->myRight = ch;
 	}
 }
 
@@ -73,52 +55,82 @@ enum {LEFT, RIGHT, ROOT};
 	return myRight != nil;
 }
 
-- (void) rotateWithParent {
-	if (myPar == nil) return;
-	BOOL isLeft = [self toParent] == LEFT;
-	BOOL isParLeft = [myPar toParent] == LEFT;
-	TMapEntry* p = myPar;
-	TMapEntry* X = myPar->myPar;
-	//now we become the appropriate child of X
-	myPar = X;
-	if (isParLeft) {
-		X.left = self;
-	} else {
-		X.right = self;
+- (TMapEntry*) min {
+	TMapEntry* e = self;
+	while (e->myLeft != nil) {
+		e = e->myLeft;
+	}
+	return e;
+}
+
+- (TMapEntry*) max {
+	TMapEntry* e = self;
+	while (e->myRight != nil) {
+		e = e->myRight;
+	}
+	return e;
+}
+
+- (TMapEntry*) unlinkNext {
+	if (myRight == nil) {
+		return nil;
 	}
 	
-	p.par = self;
-	if (isLeft) {
-		p.left = myRight;
-		myRight.par = p;
+	TMapEntry* e = myRight,* ret = nil;
+	if (e->myLeft == nil) {
+		[e delink: self];
+		return e;
+	}
+	
+	while (e->myLeft->myLeft != nil) {
+		e = e->myLeft;
+	}
+	
+	ret = e->myLeft;
+	e->myLeft = ret->myRight;
+	return ret;
+}
+
+- (void) rotateWithParent: (TMapEntry*) p and: (TMapEntry*) X {
+	if (p == nil) return;
+	if (X != nil) {
+		if (X->myLeft == p) {
+			X->myLeft = self;
+		}
+		else {
+			X->myRight = self;
+		}
+	}
+	if (p->myLeft == self) {
+		p->myLeft = myRight;
 		myRight = p;
-	} else {
-		p.right = myLeft;
-		myLeft.par = p;
+	} 
+	else {
+		p->myRight = myLeft;
 		myLeft = p;
 	}
 }
 
-- (void) splay {
-	while (myPar != nil)
-		[self splayOnce];
+- (CTYPE) toParent: (TMapEntry*) p {
+	if (p == nil) return ROOT;
+	return p->myLeft == self ? LEFT : RIGHT;
 }
 
-- (void) splayOnce {
-	TMapEntry* p = myPar;
-	if (p.par == nil) {
-		[self rotateWithParent];
+- (void) splayOnce: (TMapEntry*) p and: (TMapEntry*) X and: (TMapEntry*) Xp {
+	if (X == nil) {
+		[self rotateWithParent: p and: X];
 		return;
 	}
-	if ([self toParent] == [p toParent]) {
-		[p rotateWithParent];
-		[self rotateWithParent];
+	if ([self toParent: p] == [p toParent: X]) {
+		[p rotateWithParent: X and: Xp];
+		[self rotateWithParent: p and: Xp];
 	} else {
-		[self rotateWithParent];
-		[self rotateWithParent];
+		[self rotateWithParent: p and: X];
+		[self rotateWithParent: X and: Xp];
 	}
 }
 
+// debug feature
 - (NSString*) trace: (int) h {
 	NSMutableString* ret = [NSMutableString new];
 	for (int i = 0; i < h; i++)
@@ -144,8 +156,9 @@ enum {LEFT, RIGHT, ROOT};
 - (void) splayEntry: (TMapEntry*) e;
 - (TMapEntry*) firstEntry;
 - (TMapEntry*) lastEntry;
-- (TMapEntry*) prevEntry: (TMapEntry*) e;
+- (BOOL) splayEntry: (TMapEntry*) e into: (TMapEntry*) Xp and: (TMapEntry*) X;
 - (TMapEntry*) nextEntry: (TMapEntry*) e;
+- (TMapEntry*) max: (TMapEntry*) e1 with: (TMapEntry*) e2;
 
 @end
 
@@ -153,6 +166,8 @@ enum {LEFT, RIGHT, ROOT};
 
 @synthesize comparator = myComparator, size = mySize;
 
+
+// debug only
 #if 1
 - (int) height: (TMapEntry*) e {
 	if (e == nil) return 0;
@@ -175,22 +190,22 @@ enum {LEFT, RIGHT, ROOT};
 #endif
 
 
-- (id) initWithComparator: (NSComparator) comp {
+- (id) initWithComparator: (NSComparator) cmp {
 	[super init];
-	myComparator = [comp copy];
+	myComparator = [cmp copy];
 	return self;
 }
 
 - (id) init {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithKeysAndObjects: (id) firstKey, ... {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithMap: (id<JBMap>) map {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithSortedMap: (id) map {
@@ -202,6 +217,14 @@ enum {LEFT, RIGHT, ROOT};
 	return self;
 }
 
+- (TMapEntry*) max: (id) o1 with: (id) o2 {
+	return myComparator(o1, o2) == NSOrderedAscending ? o2 : o1;
+}
+
+- (NSComparisonResult) compare: (id) o1 with: (id) o2 {
+	return myComparator(o1, o2);
+}
+
 - (id) firstKey {
 	return [self firstEntry].key;
 }
@@ -211,40 +234,26 @@ enum {LEFT, RIGHT, ROOT};
 }
 
 - (TMapEntry*) firstEntry {
-	TMapEntry* e = myRoot;
-	while (e.left != nil)
-		e = e.left;
-	return e;
+	return [myRoot min];
 }
 
 - (TMapEntry*) lastEntry {
-	TMapEntry* e = myRoot;
-	while (e.right != nil)
-		e = e.right;
-	return e;
+	return [myRoot max];
 }
 
+//not to use in iterator after all
 - (TMapEntry*) nextEntry: (TMapEntry*) e {
-	if ([e hasRight]) {
-		e = e.right;
-		while ([e hasLeft]) {
-			e = e.left;
-		}
-		return e;
-	}
-	while ([e toParent] == RIGHT) e = e.par;
-	return e.par;
-}
-
-- (TMapEntry*) prevEntry: (TMapEntry*) e {
-	if ([e hasLeft]) {
-		e = e.left;
-		while ([e hasRight]) {
-			e = e.right;
+	TMapEntry* node = myRoot,* ret = nil;
+	while (node != nil) {
+		NSComparisonResult res = [self compare: node->myKey with: e->myKey];
+		if (res <= NSOrderedSame) {
+			node = node->myRight;
+		} else {
+			ret = node;
+			node = node->myLeft;
 		}
 	}
-	while ([e toParent] == LEFT) e = e.par;
-	return e.par;
+	return ret;
 }
 
 
@@ -253,36 +262,35 @@ enum {LEFT, RIGHT, ROOT};
 		@throw [NSException exceptionWithName: @"nil keys or values not allowed" reason: @"" userInfo: nil];
 	}
 	
-	TMapEntry* e = [[TMapEntry alloc] initWithKey: key value: value];
-	
 	if (myRoot == nil) {
-		myRoot = e;
+		myRoot = [[TMapEntry alloc] initWithKey: key value: value];
 		mySize = 1;
 		return nil;
 	}
 	
-	TMapEntry* tEntry = myRoot;
+	TMapEntry* e,* tEntry = myRoot;
 	BOOL added = FALSE;
 	while (!added) {
-		NSComparisonResult cmp = myComparator(tEntry.key, key);
+		NSComparisonResult cmp = [self compare: tEntry.key with: key];
 		if (cmp == NSOrderedSame) {
-			[e release];
-			id ret = tEntry.value;
+			id ret = [tEntry.value retain];
 			tEntry.value = value;
-			return ret;
+			return [ret autorelease];
 		}
 		else if (cmp == NSOrderedDescending) {
 			if (tEntry.left == nil) {
-				tEntry.left = e;
-				e.par = tEntry;
+				tEntry.left = (e = [[TMapEntry alloc] initWithKey: key value: value]);
 				added = TRUE;
-			} else tEntry = tEntry.left;
+			} else {
+				tEntry = tEntry.left;
+			}
 		} else {
 			if (tEntry.right == nil) {
-				tEntry.right = e;
-				e.par = tEntry;
+				tEntry.right = (e = [[TMapEntry alloc] initWithKey: key value: value]);
 				added = TRUE;
-			} else tEntry = tEntry.right;
+			} else {
+				tEntry = tEntry.right;
+			}
 		}
 	}
 	mySize++;
@@ -291,48 +299,55 @@ enum {LEFT, RIGHT, ROOT};
 }
 
 - (void) splayEntry: (TMapEntry*) e {
-	[e splay];
+	BOOL even = [self splayEntry: e into: myRoot and: nil];
+	if (!even) {
+		[e splayOnce: myRoot and: nil and: nil];
+	}
 	myRoot = e;
 }
 
+- (BOOL) splayEntry: (TMapEntry*) e into: (TMapEntry*) X and: (TMapEntry*) PX {
+	if (e == X) {
+		return TRUE;
+	}
+	TMapEntry* CX = (myComparator(X->myKey, e->myKey) == NSOrderedDescending) ? X->myLeft : X->myRight;
+	BOOL even = [self splayEntry: e into: CX and: X];
+	if (!even) {
+		[e splayOnce: CX and: X and: PX];
+	}
+	return !even;
+}
+
 - (id) remove: (id) key {
-	TMapEntry* e = myRoot;
+	TMapEntry* e = myRoot,* par = e;
 	while (e != nil) {
-		NSComparisonResult res = myComparator(e.key, key);
+		NSComparisonResult res = [self compare: e.key with: key];
 		if (res == NSOrderedSame) {
-			id ret = e.value;
-			if (mySize == 1) {
-				ret = myRoot.value;
-				myRoot = nil;
-			} else {
-				if ([e hasLeft] && [e hasRight]) {
-					TMapEntry* q = [self nextEntry: e];
-					if (q == nil || q == myRoot) {
-						q = [self prevEntry: e];
-					}
-					[q delink];
-					[e->myKey release];
-					e->myKey = [q->myKey retain];
-					e.value = q.value;
-					[q release];
+			id ret = [e.value retain];
+			TMapEntry* ne = [e unlinkNext];
+			if (ne == nil) {
+				if (e == par) {
+					myRoot = e->myLeft;
 				} else {
-					TMapEntry* child = [e hasLeft] ? e->myLeft : e->myRight;
-					if (myRoot == e) {
-						myRoot = child;
-						myRoot->myPar = nil;
+					if ([e toParent: par] == LEFT) {
+						par->myLeft = e->myLeft;
 					} else {
-						[e delink];
+						par->myRight = e->myLeft;
 					}
-					[e release];
 				}
+			} else {
+				e.value = ne.value;
+				e.key = ne.key;
+				[ne release];
 			}
 			mySize--;
-			return ret;
-		}
-		if (res == NSOrderedDescending) {
-			e = e.left;
+			return [ret autorelease];
+		} else if (res == NSOrderedDescending) {
+			par = e;
+			e = e->myLeft;
 		} else {
-			e = e.right;
+			par = e;
+			e = e->myRight;
 		}
 	}
 	return nil;
@@ -341,12 +356,12 @@ enum {LEFT, RIGHT, ROOT};
 - (BOOL) containsKey: (id) key {
 	TMapEntry* e = myRoot;
 	while (e != nil) {
-		NSComparisonResult res = myComparator(e.key, key);
+		NSComparisonResult res = [self compare: e.key with: key];
 		if (res == NSOrderedSame) return TRUE;
 		if (res == NSOrderedDescending) {
-			e = e.left;
+			e = e->myLeft;
 		} else {
-			e = e.right;
+			e = e->myRight;
 		}
 	}
 	return FALSE;
@@ -356,6 +371,9 @@ enum {LEFT, RIGHT, ROOT};
 	__block NSInteger done = 0;
 	__block TMapEntry* e = [self firstEntry];
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
+		if (e == nil) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
 		id ret = e;
 		e = [self nextEntry: e];
 		done++;
@@ -369,6 +387,9 @@ enum {LEFT, RIGHT, ROOT};
 	__block NSInteger done = 0;
 	__block TMapEntry* e = [self firstEntry];
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
+		if (e == nil) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
 		id ret = e.key;
 		e = [self nextEntry: e];
 		done++;
@@ -384,10 +405,10 @@ enum {LEFT, RIGHT, ROOT};
 
 - (void) clear: (TMapEntry*) e {
 	if ([e hasLeft]) {
-		[self clear: e.left];
+		[self clear: e->myLeft];
 	}
 	if ([e hasRight]) {
-		[self clear: e.right];
+		[self clear: e->myRight];
 	}
 	[e release];
 }
@@ -412,7 +433,6 @@ enum {LEFT, RIGHT, ROOT};
 	return ret;
 }
 
-//copy-paste...
 - (id) prevOrEqualKey: (id) key {
 	TMapEntry* e = myRoot;
 	id ret = nil;
@@ -443,7 +463,6 @@ enum {LEFT, RIGHT, ROOT};
 	return ret;
 }
 
-//don't like copy-paste
 - (id) nextOrEqualKey: (id) key {
 	TMapEntry* e = myRoot;
 	id ret = nil;

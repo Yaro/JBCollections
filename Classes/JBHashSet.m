@@ -3,8 +3,8 @@
 @implementation JBHashSet
 
 /*
-When we add object to the set the return value stands for this object presense in the set
-backing map in its turn returns the value of the MapEntry for the key if it is present in the map,
+When we add object to the set the return value stands for this object presense in the set;
+backing map in its turn returns the value of the JBMapEntry for the key if it is present in the map,
 so we should distinguish nil return (when map doesn't contain such a key) and value return (when the value for the key is returned)
  Therefore, PRESENCE object is a sign of the map containing the key.
 */
@@ -54,7 +54,6 @@ extern int DEFAULT_INIT_CAPACITY;
 }
 
 - (void) dealloc {
-	NSLog(@"%d", [myMap retainCount]);
 	[myMap release];
 	[super dealloc];
 }

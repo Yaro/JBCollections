@@ -14,8 +14,14 @@
 
 @synthesize size = mySize;
 
++ (id) withCapacity: (NSInteger) n {
+	return [[[JBArrayList alloc] initWithCapacity: n] autorelease];
+}
+
 - (id) initWithCapacity: (NSInteger) n {
-	if (n < 0) @throw [NSException exceptionWithName: @"negative arraylist size" reason: @"" userInfo: nil];
+	if (n <= 0) {
+		@throw [NSException exceptionWithName: @"non-positive capacity" reason: @"" userInfo: nil];
+	}
 	[super init];
 	myData = arrayWithLength(n);
 	myLength = n;
@@ -50,13 +56,14 @@
 		myData = newData;
 		myLength = nLength;
 	}
-	//NSLog(@"length = %d", myLength);
 }
 
 - (int) indexOf: (NSObject*) o {
-	for (int i = 0; i < mySize; i++)
-		if ([o isEqual: myData[i]])
+	for (int i = 0; i < mySize; i++) {
+		if ([o isEqual: myData[i]]) {
 			return i;
+		}
+	}
 	return -1;		
 }
 
@@ -69,7 +76,7 @@
 	return myData[i];
 }
 
-- (id) setObject: (id) o atIndex: (NSInteger) i {
+- (id) set: (id) o at: (NSInteger) i {
 	[self rangeCheck: i];
 	id ret = myData[i];
 	myData[i] = [o retain];
@@ -83,11 +90,12 @@
 	return TRUE;
 }
 
-- (void) insert: (id) o atIndex: (NSInteger) index {
+- (void) insert: (id) o at: (NSInteger) index {
 	[self rangeCheckForAdd: index];
 	[self ensureCapacity: mySize + 1];
-	for (int i = mySize - 1; i >= index; i--)
+	for (int i = mySize - 1; i >= index; i--) {
 		myData[i + 1] = myData[i];
+	}
 	myData[index] = [o retain];
 	mySize++;
 }
@@ -95,19 +103,20 @@
 - (id) removeAt: (NSInteger) index {
 	[self rangeCheck: index];
 	id ret = myData[index];
-	for (int i = index + 1; i < mySize; i++)
+	for (int i = index + 1; i < mySize; i++) {
 		myData[i - 1] = myData[i];
+	}
 	mySize--;
-	[ret release];
-	return ret;
+	return [ret autorelease];
 }
 
 - (BOOL) remove: (id) o {
-	for (int i = 0; i < mySize; i++)
+	for (int i = 0; i < mySize; i++) {
 		if ([o isEqual: myData[i]]) {
 			[self removeAt: i];
 			return TRUE;
 		}
+	}
 	return FALSE;
 }
 
@@ -122,46 +131,40 @@
 
 - (void) dealloc {
 	[self clear];
-	free(myData);
+	deleteArray(myData);
 	[super dealloc];
 }
 
-// JBAbstractList provides iterator for <RandomAccess> list implementations
-
-/*- (NSObject<JBIterator>*) iterator {
+- (NSObject<JBIterator>*) iterator {
 	__block NSInteger cursor = 0;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor >= mySize) return nil;
+		if (cursor >= mySize) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
 		return myData[cursor++];
 	} hasNextCL: ^BOOL(void) {
 		return cursor < mySize;
+	} removeCL: ^void(void) {
+		if (cursor > 0) {
+			[self removeAt: --cursor];
+		} else {
+			@throw [JBAbstractIterator badRemove];
+		}
 	}] autorelease];
-}*/
-
-
-// JBAbstractCollection can be responsible for this operation
-
-/*- (BOOL) addAll: (NSObject<JBCollection>*) c {
-	id* arr = [c toArray];
-	int arrLen = [c size];
-	int nSize = mySize + arrLen;
-	[self ensureCapacity: nSize];
-	for (int i = mySize, j = 0; i < nSize; i++, j++)
-		myData[i] = [arr[j] retain];
-	mySize = nSize;
-	deleteArray(arr);
-	return arrLen != 0;
-}*/
-
+}
 
 - (void) rangeCheck: (NSInteger) i {
-	if (i < 0 || i >= mySize)
-		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " reason: [NSString stringWithFormat:@"Index = %d, Size = %d", i, mySize] userInfo: nil];
+	if (i < 0 || i >= mySize) {
+		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " 
+			reason: [NSString stringWithFormat: @"Index = %d, Size = %d", i, mySize] userInfo: nil];
+	}
 }
 
 - (void) rangeCheckForAdd: (NSInteger) i {
-	if (i < 0 || i > mySize)
-		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " reason: [NSString stringWithFormat:@"Index = %d, Size = %d", i, mySize] userInfo: nil];
+	if (i < 0 || i > mySize) {
+		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " 
+			reason: [NSString stringWithFormat:@"Index = %d, Size = %d", i, mySize] userInfo: nil];
+	}
 }
 
 @end

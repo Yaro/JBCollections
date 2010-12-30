@@ -1,10 +1,10 @@
 #import "JBIterator.h"
 #import "JBAbstractIterator.h"
-#import "JBRandomAccess.h"
+#import "JBExceptions.h"
 #import <Foundation/Foundation.h>
 @class JBArray;
 
-@protocol JBCollection <NSFastEnumeration, NSCopying>
+@protocol JBCollection<NSFastEnumeration, NSCopying>
 
 @required
 
@@ -15,7 +15,6 @@
 - (void) clear;
 - (BOOL) contains: (id) o;
 - (BOOL) containsAll: (id<JBCollection>) c;
-- (BOOL) isEqual: (id) o;
 - (NSUInteger) hash;
 - (BOOL) isEmpty;
 - (BOOL) remove: (id) o;

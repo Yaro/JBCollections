@@ -2,15 +2,16 @@
 #import "JBAbstractList.h"
 #import "JBRandomAccess.h"
 
-@interface JBArrayList : JBAbstractList <JBRandomAccess> {
+@interface JBArrayList : JBAbstractList {
 	NSInteger mySize, myLength;
 	id* myData;
 }
 
 @property (readonly) NSInteger size;
 
++ (id) withCapacity: (NSInteger) n;
 - (id) initWithCapacity: (NSInteger) n;
 - (id) initWithCollection: (id<JBCollection>) c;
-- (void) insert: (id) o atIndex: (NSInteger) index;
+- (void) insert: (id) o at: (NSInteger) index;
 
 @end

@@ -1,6 +1,6 @@
 #import "JBCollection.h"
 
-@protocol JBMap <NSFastEnumeration, NSCopying>
+@protocol JBMap<NSFastEnumeration, NSCopying>
 
 - (void) clear;
 - (BOOL) containsKey: (id) key;

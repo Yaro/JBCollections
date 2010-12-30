@@ -1,7 +1,7 @@
 #import "JBHashMap.h"
 
 
-@interface HMapEntry : MapEntry {
+@interface HMapEntry : JBMapEntry {
 @public
 	HMapEntry* myNextEntry;
 }
@@ -32,31 +32,13 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 @synthesize size = mySize, loadFactor = myLoadFactor;
 
-#if 0
-- (void) averageBucket {
-	double expectation = mySize * 1.0 / myLength;
-	double ro = 0;
-	for (int i = 0; i < myLength; i++) {
-		HMapEntry* e = myTable[i];
-		int cnt = 0;
-		while (e != nil) {
-			e = e.nextEntry;
-			cnt++;
-		}
-		ro += (cnt - expectation) * (cnt - expectation);
-	}
-	ro /= myLength;
-	ro = sqrt(ro);
-	NSLog(@"standart deviation = %.10f", ro);
-}
-#endif
-
 - (id) initWithCapacity: (NSInteger) initCapacity loadFactor: (double) factor {
 	[super init];
 	initCapacity = MIN(initCapacity, MAX_CAPACITY);
 	myLength = 1;
-	while (myLength < initCapacity)
+	while (myLength < initCapacity) {
 		myLength <<= 1;
+	}
 	myTable = arrayWithLength(myLength);
 	myLoadFactor = factor;
 	myThreshold = (int)(myLength * myLoadFactor);
@@ -73,7 +55,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (NSObject<JBIterator>*) keyIterator {
 	__block NSInteger done = 0, index = 0;
-	__block HMapEntry* e = myTable[0];
+	__block HMapEntry* e = myTable[0],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		while (index < myLength) {
 			if (e == nil) {
@@ -81,20 +63,26 @@ const double DEFAULT_LOAD_FACTOR = .75;
 			} 
 			else {
 				done++;
-				id ret = e.key;
+				prev = e;
 				e = e.nextEntry;
-				return ret;
+				return prev.key;
 			}
 		}
-		return nil;
+		@throw [JBAbstractIterator noSuchElement];
 	} hasNextCL: ^BOOL(void) {
 		return done < mySize;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];
+		done--;
 	}] autorelease];
 }
 
 - (NSObject<JBIterator>*) entryIterator {
 	__block NSInteger done = 0, index = 0;
-	__block HMapEntry* e = myTable[0];
+	__block HMapEntry* e = myTable[0],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		while (index < myLength) {
 			if (e == nil) {
@@ -102,21 +90,24 @@ const double DEFAULT_LOAD_FACTOR = .75;
 			} 
 			else {
 				done++;
-				id ret = e;
+				prev = e;
 				e = e.nextEntry;
-				return ret;
+				return prev;
 			}
 		}
-		return nil;
+		@throw [JBAbstractIterator noSuchElement];
 	} hasNextCL: ^BOOL(void) {
 		return done < mySize;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];
+		done--;
 	}] autorelease];
 }
 
 - (void) resize: (NSUInteger) newCapacity {
-	static int resizings = 0;
-	NSLog(@"resized: %d times", resizings++);
-	
 	if (newCapacity > MAX_CAPACITY) {
 		newCapacity = MAX_CAPACITY;
 		myThreshold = MAX_CAPACITY;
@@ -142,8 +133,11 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (BOOL) containsKey: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
-	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry)
-		if ([e.key isEqual: key]) return TRUE;
+	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry) {
+		if ([e.key isEqual: key]) {
+			return TRUE;
+		}
+	}
 	return FALSE;
 }
 
@@ -171,10 +165,14 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (id) get: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
-	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry)
-		if ([e.key isEqual: key]) return e.value;
+	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry) {
+		if ([e.key isEqual: key]) {
+			return e.value;
+		}
+	}
 	return nil;
 }
+		
 
 - (id) remove: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];

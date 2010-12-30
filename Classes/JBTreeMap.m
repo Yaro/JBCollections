@@ -2,6 +2,31 @@
 
 #define ISRED(n) ((n) != nil && (n.red))
 
+@interface RBNode : JBMapEntry {
+	BOOL myRed;
+	RBNode* myLeft;
+	RBNode* myRight;
+}
+
+- (RBNode*) rotateLeft;
+- (RBNode*) rotateRight;
+- (void) colorFlip;
+- (RBNode*) moveRedRight;
+- (RBNode*) moveRedLeft;
+- (RBNode*) fixUp;
+- (RBNode*) min;
+- (RBNode*) max;
+- (RBNode*) deleteMin;
+
+@property (readwrite) BOOL red;
+@property (readwrite, assign) RBNode* left;
+@property (readwrite, assign) RBNode* right;
+
+@end
+
+
+
+
 @interface JBTreeMap()
 
 - (RBNode*) getNode: (id) key;
@@ -40,15 +65,15 @@
 }
 
 - (id) init {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithKeysAndObjects: (id) firstKey, ... {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithMap: (id<JBMap>) map {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithSortedMap: (id) map {
@@ -167,8 +192,10 @@
         }
 		
         if ([self compare: key with: result.key] == NSOrderedSame) {
-			result.key = [result.right min].key;
-			//? result.value = ...
+			RBNode* rmnode = [result.right min];
+			result.key = rmnode.key;
+			result.value = rmnode.value;
+			//check
 			result.right = [result.right deleteMin];
 		} else {
 			result.right = [self delete: key from: result.right];
@@ -298,26 +325,40 @@
 
 // O(n*log(n)) time
 - (NSObject<JBIterator>*) entryIterator {
-	__block RBNode* cursor = [myRoot min];
+	__block RBNode* cursor = [myRoot min],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor == nil) return nil;
-		id ret = cursor;
+		if (cursor == nil) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
+		prev = cursor;
 		cursor = [self nextEntry: cursor.key inNode: myRoot];
-		return ret;
+		return prev;
 	} hasNextCL: ^BOOL(void) {
 		return cursor != nil;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];
 	}] autorelease];
 }
 
 - (NSObject<JBIterator>*) keyIterator {
-	__block RBNode* cursor = [myRoot min];
+	__block RBNode* cursor = [myRoot min],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor == nil) return nil;
-		id ret = cursor.key;
+		if (cursor == nil) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
+		prev = cursor;
 		cursor = [self nextEntry: cursor.key inNode: myRoot];
-		return ret;
+		return prev.key;
 	} hasNextCL: ^BOOL(void) {
 		return cursor != nil;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];		
 	}] autorelease];
 }
 

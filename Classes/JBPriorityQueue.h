@@ -2,14 +2,14 @@
 #import "JBQueue.h"
 #import "JBArrays.h"
 
-@interface JBPriorityQueue : JBAbstractCollection <JBQueue> {
+@interface JBPriorityQueue : JBAbstractCollection<JBQueue> {
 	id* myQueue;
-	NSUInteger myLength; // allocated array length
+	NSUInteger myLength;
 	NSComparator myComparator;
 	NSUInteger mySize;
 }
 
-@property (assign, readonly, nonatomic) NSUInteger size;
+@property (readonly) NSUInteger size;
 
 - (void) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp;
 

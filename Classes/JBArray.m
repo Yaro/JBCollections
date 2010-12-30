@@ -12,9 +12,10 @@
  */
 
 inline static void rangeCheck(JBArray* arr, NSInteger i) {
-	if (i < 0 || i >= arr.length)
-		@throw [NSException exceptionWithName:@"JBArray index out of bounds" 
-									   reason:[NSString stringWithFormat:@"Index: %d Size: %d", i, arr.length] userInfo:nil];
+	if (i < 0 || i >= arr.length) {
+		@throw [NSException exceptionWithName: @"JBArray index out of bounds" 
+			reason: [NSString stringWithFormat: @"Index: %d Size: %d", i, arr.length] userInfo: nil];
+	}
 }
 
 @implementation JBArray
@@ -24,11 +25,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 - (id) initWithSize: (NSInteger) n {
 	[super init];
 	myLength = n;
-	//NSLog(@"creating array with length = %d", myLength);
 	myArray = arrayWithLength(n);
-	//myArray = malloc(myLength * sizeof(id));
-	//memset(myArray, 0, myLength * sizeof(id));
-	//NSLog(@"pointer size = %d", sizeof(myArray)); --- equals 4, certainly
 	return self;
 }
 
@@ -36,12 +33,11 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return [self initWithSize: 0];
 }
 
-- (void) set: (id) object atIndex: (NSInteger) i {
+- (id) set: (id) object at: (NSInteger) i {
 	rangeCheck(self, i);
-	[object retain];
-	//NSLog(@"address = %d", [self get:i]);
-	[myArray[i] release];
-	myArray[i] = object;
+	id ret = myArray[i];
+	myArray[i] = [object retain];
+	return [ret autorelease];
 }
 
 - (id) get: (NSInteger) i {
@@ -49,50 +45,76 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return myArray[i];
 }
 
-+ (JBArray*) createWithSize: (NSInteger) n {
+- (id) removeAt: (NSInteger) index {
+	return [self set: nil at: index];
+}
+
++ (JBArray*) withSize: (NSInteger) n {
 	JBArray* ret = [[JBArray alloc] initWithSize: n];
 	return [ret autorelease];
 }
 
-+ (JBArray*) createWithObjects: (id) firstObject, ... {
++ (JBArray*) withObjects: (id) firstObject, ... {
 	id object;
 	va_list argumentList;
 	int size = 0;
 	if (firstObject) {
 		size++;
 		va_start(argumentList, firstObject);
-		while (va_arg(argumentList, id))
+		while (va_arg(argumentList, id)) {
 			size++;
+		}
 		va_end(argumentList);
 	}
-	JBArray* ret = [[JBArray createWithSize: size] retain];
+	JBArray* ret = [[JBArray withSize: size] retain];
 	
 	int index = 0;
 	if (firstObject) {
 		ret->myArray[index++] = [firstObject retain];
 		va_start(argumentList, firstObject);
-		while (object = va_arg(argumentList, id))
+		while (object = va_arg(argumentList, id)) {
 			ret->myArray[index++] = [object retain];
+		}
 	}
 	return [ret autorelease];
 }
 
 - (void) dealloc {
-	for (int i = 0; i < myLength; i++)
+	for (int i = 0; i < myLength; i++) {
 		[myArray[i] release];
-	free(myArray);
+	}
+	deleteArray(myArray);
 	[super dealloc];
+}
+
+- (NSObject<JBIterator>*) iterator {
+	__block NSInteger cursor = 0;
+	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
+		if (cursor >= myLength) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
+		return myArray[cursor++];
+	} hasNextCL: ^BOOL(void) {
+		return cursor < myLength;
+	} removeCL: ^void(void) {
+		if (cursor > 0) {
+			[self removeAt: cursor - 1];
+		} else {
+			@throw [JBAbstractIterator badRemove];
+		}
+	}] autorelease];
 }
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {
 	if (state->state == 0) {
-		// initialization
 		state->mutationsPtr = &(state->extra[0]);
 	}
 	NSInteger i = 0;
 	state->itemsPtr = stackbuf;
 	for (i = 0; i < len; i++) {
-		if (state->state >= myLength) return i;
+		if (state->state >= myLength) {
+			return i;
+		}
 		stackbuf[i] = myArray[state->state++];
 	}
 	return i;

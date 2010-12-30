@@ -1,5 +1,5 @@
 #import "JBCollection.h"
 
-@protocol JBSet <JBCollection>
+@protocol JBSet<JBCollection>
 
 @end

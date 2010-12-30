@@ -3,11 +3,16 @@
 
 @implementation JBAbstractIterator
 
-- (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 {
+- (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 removeCL: (void(^)(void)) handler3 {
 	[super init];
 	nextCL = [handler1 copy];
 	hasNextCL = [handler2 copy];
+	removeCL = [handler3 copy];
 	return self;
+}
+
+- (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 {
+	return [self initWithNextCL: handler1 hasNextCL: handler2 removeCL: nil];
 }
 
 - (id) next {
@@ -18,10 +23,29 @@
 	return hasNextCL();
 }
 
+- (void) remove {
+	if (removeCL == nil) {
+		[JBAbstractIterator noRemove];
+	} 
+	removeCL();
+}
+
 - (void) dealloc {
 	[nextCL release];
 	[hasNextCL release];
 	[super dealloc];
+}
+
++ (NSException*) noSuchElement {
+	return [NSException exceptionWithName: @"No such element exception" reason: @"end reached while iterating" userInfo: nil];
+}
+
++ (NSException*) noRemove {
+	return [NSException exceptionWithName: @"No remove supported" reason: @"" userInfo: nil];
+}
+
++ (NSException*) badRemove {
+	return [NSException exceptionWithName: @"Remove execution before next" reason: @"" userInfo: nil];
 }
 
 @end

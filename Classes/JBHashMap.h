@@ -3,7 +3,6 @@
 @class HMapEntry;
 
 @interface JBHashMap : JBAbstractMap {
-@public
 	HMapEntry** myTable;
 	NSUInteger mySize, myLength, myThreshold;
 	double myLoadFactor;

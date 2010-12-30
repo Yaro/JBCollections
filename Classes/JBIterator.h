@@ -2,6 +2,7 @@
 
 - (BOOL) hasNext;
 - (id) next;
-//- (void) remove;
+// optional method
+- (void) remove;
 
 @end

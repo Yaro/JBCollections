@@ -9,4 +9,6 @@
 
 @property (readonly) NSComparator comparator;
 
+- (BOOL) isEqual: (id) o;
+
 @end

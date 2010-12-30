@@ -1,5 +1,21 @@
 #import "JBLinkedList.h"
 
+
+@interface LRNode : NSObject {
+@public
+	LRNode* myNextNode;
+	LRNode* myPrevNode;
+	id myItem;
+}
+
+@property (readwrite, nonatomic, assign) LRNode* nextNode,* prevNode;
+@property (readwrite, nonatomic, assign) id item;
+
++ (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item;
+
+@end
+
+
 @interface JBLinkedList()
 
 - (LRNode*) node: (NSUInteger) index;
@@ -13,26 +29,31 @@
 @synthesize size = mySize;
 
 inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
-	if (i < 0 || i >= list.size)
-		@throw [NSException exceptionWithName:@"JBLinkedList index out of bounds" 
-									   reason:[NSString stringWithFormat:@"Index: %d Size: %d", i, list.size] userInfo:nil];
+	if (i < 0 || i >= list.size) {
+		@throw [NSException exceptionWithName: @"JBLinkedList index out of bounds" 
+			reason: [NSString stringWithFormat:@"Index: %d Size: %d", i, list.size] userInfo: nil];
+	}
 }
 
 - (void) checkEmpty {
-	if (mySize == 0) @throw [NSException exceptionWithName: @"Collection is empty" reason: @"" userInfo: nil];
+	if (mySize == 0) {
+		@throw [NSException exceptionWithName: @"Collection is empty" reason: @"" userInfo: nil];
+	}
 }
 
 - (LRNode*) node: (NSUInteger) index {
 	rangeCheck(self, index);
 	if (index > (mySize >> 1)) {
 		LRNode* x = myLast;
-		for (int i = mySize - 1; i > index; i--)
+		for (int i = mySize - 1; i > index; i--) {
 			x = x.prevNode;
+		}
 		return x;
 	} else {
 		LRNode* x = myFirst;
-		for (int i = 0; i < index; i++)
+		for (int i = 0; i < index; i++) {
 			x = x.nextNode;
+		}
 		return x;
 	}
 }
@@ -40,21 +61,24 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 - (id) unlinkNode: (LRNode*) node {
 	id ret = node.item;
 	
-	if (node == myFirst)
+	if (node == myFirst) {
 		myFirst = myFirst.nextNode;
-	else
+	}
+	else {
 		node.prevNode.nextNode = node.nextNode;
+	}
 	
-	if (node == myLast)
+	if (node == myLast) {
 		myLast = myLast.prevNode;
-	else
+	}
+	else {
 		node.nextNode.prevNode = node.prevNode;
+	}
 	
 	mySize--;
 	
 	[node release];
-	[ret autorelease];
-	return ret;
+	return [ret autorelease];
 }
 
 - (void) addFirst: (id) o {
@@ -72,9 +96,9 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 - (void) addLast: (id) o {
 	[o retain];
 	if (myLast == nil) {
-		myFirst = myLast = [[LRNode createNodeWithPrev:nil next:nil item:o] retain];
+		myFirst = myLast = [[LRNode createNodeWithPrev: nil next: nil item: o] retain];
 	} else {
-		LRNode* nNode = [[LRNode createNodeWithPrev:myLast next:nil item:o] retain];
+		LRNode* nNode = [[LRNode createNodeWithPrev: myLast next: nil item: o] retain];
 		myLast->myNextNode = nNode;
 		myLast = nNode;
 	}
@@ -83,15 +107,13 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 - (id) removeFirst {
 	[self checkEmpty];
-	assert(myFirst != nil);
 	id ret = myFirst.item;
-	[self unlinkNode:myFirst];
+	[self unlinkNode: myFirst];
 	return ret;
 }
 
 - (id) removeLast {
 	[self checkEmpty];
-	assert(myLast != nil);
 	id ret = myLast.item;
 	[self unlinkNode: myLast];
 	return ret;
@@ -99,18 +121,18 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 
 
-- (id) getFirst {
+- (id) first {
 	[self checkEmpty];
 	return myFirst.item;
 }
 
-- (id) getLast {
+- (id) last {
 	[self checkEmpty];
 	return myLast.item;
 }
 
 - (BOOL) add: (id) o {
-	[self addLast:o];
+	[self addLast: o];
 	return TRUE;
 }
 
@@ -133,64 +155,72 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 - (NSInteger) indexOf: (id) o {
 	LRNode* x = myFirst;
 	for (int i = 0; i < mySize; i++) {
-		if ([x->myItem isEqual: o]) return i;
+		if ([x->myItem isEqual: o]) {
+			return i;
+		}
 		x = x->myNextNode;
 	}
 	return -1;
 }
 
 - (BOOL) contains: (id) o {
-	return [self indexOf:o] != -1;
+	return [self indexOf: o] != -1;
 }
 
 - (BOOL) remove: (id) o {
 	LRNode* x = myFirst;
 	for (int i = 0; i < mySize; i++) {
 		if ([x.item isEqual: o]) {
-			[self unlinkNode:x];
+			[self unlinkNode: x];
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-- (id) setObject: (id) o atIndex: (NSInteger) index {
+- (id) set: (id) o at: (NSInteger) index {
 	rangeCheck(self, index);
 	LRNode* x = [self node: index];
 	id ret = x.item;
-	x.item = o;
-	return ret;
+	x.item = [o retain];
+	return [ret autorelease];
 }
 
-- (NSUInteger) hash {
-	LRNode* x = myFirst;
-	NSUInteger ret = 0;
-	for (int i = 0; i < mySize; i++) {
-		ret ^= [x.item hash];
-		x = x.nextNode;
-	}
-	return ret;
-}
 
 - (NSObject<JBIterator>*) iterator {
-	__block LRNode* cursor = myFirst;
+	__block LRNode* cursor = myFirst,* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor == nil) return nil;
-		id ret = cursor.item;
+		if (cursor == nil) {
+			@throw [JBAbstractIterator noSuchElement];
+		}
+		prev = cursor;
 		cursor = cursor.nextNode;
-		return ret;
+		return prev.item;
 	} hasNextCL: ^BOOL(void) {
 		return cursor != nil;
+	} removeCL: ^void(void) {
+		if (prev != nil) {
+			[self unlinkNode: prev];
+		} else {
+			@throw [JBAbstractIterator badRemove];
+		}
 	}] autorelease];
 }
 
-- (NSString*) toString {
-	return [NSString stringWithFormat: @"JBLinkedList instance, size = %d", mySize];
-}
+@end
 
-   /*- (id <JBList>) subListInRange: (NSRange) range;
-- (BOOL) containsAll: (id <JBCollection>) c;
-- (BOOL) isEqual: (id) o;
-- (BOOL) removeAll: (id <JBCollection>) c;*/
+
+
+@implementation LRNode 
+
+@synthesize nextNode = myNextNode, prevNode = myPrevNode, item = myItem;
+
++ (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item {
+	LRNode* ret = [[LRNode alloc] init];
+	ret->myItem = item;
+	ret->myNextNode = nextNode;
+	ret->myPrevNode = prevNode;
+	return [ret autorelease];
+}
 
 @end

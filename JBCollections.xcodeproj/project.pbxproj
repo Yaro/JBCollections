@@ -23,8 +23,8 @@
 		2C0F0A0412A5424C00991032 /* JBAbstractList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F0A0212A5424C00991032 /* JBAbstractList.m */; };
 		2C0F0A1F12A5437600991032 /* JBArrayList.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0F0A1D12A5437600991032 /* JBArrayList.h */; };
 		2C0F0A2012A5437600991032 /* JBArrayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F0A1E12A5437600991032 /* JBArrayList.m */; };
-		2C34284712B6118700499AED /* JBSplayTree.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C34284512B6118700499AED /* JBSplayTree.h */; };
-		2C34284812B6118700499AED /* JBSplayTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C34284612B6118700499AED /* JBSplayTree.m */; };
+		2C34284712B6118700499AED /* JBSplayTreeSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C34284512B6118700499AED /* JBSplayTreeSet.h */; };
+		2C34284812B6118700499AED /* JBSplayTreeSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C34284612B6118700499AED /* JBSplayTreeSet.m */; };
 		2C342E0712B65A6D00499AED /* JBHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C342E0512B65A6D00499AED /* JBHashMap.h */; };
 		2C342E0812B65A6D00499AED /* JBHashMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C342E0612B65A6D00499AED /* JBHashMap.m */; };
 		2C342E0B12B65AE400499AED /* JBAbstractMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C342E0912B65AE400499AED /* JBAbstractMap.h */; };
@@ -33,12 +33,27 @@
 		2C342E3612B6678D00499AED /* JBHashSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C342E3412B6678D00499AED /* JBHashSet.m */; };
 		2C741E6312A65A410089399D /* JBArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C741E6112A65A410089399D /* JBArray.h */; };
 		2C741E6412A65A410089399D /* JBArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C741E6212A65A410089399D /* JBArray.m */; };
-		2C7420CF12A6719F0089399D /* JBRandomAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7420CE12A6719F0089399D /* JBRandomAccess.h */; };
 		2C74212712ACE4E70089399D /* JBIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C74212612ACE4E70089399D /* JBIterator.h */; };
 		2C98F89E12AE441300AB3547 /* JBArrays.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C98F89C12AE441300AB3547 /* JBArrays.h */; };
 		2C98F89F12AE441300AB3547 /* JBArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98F89D12AE441300AB3547 /* JBArrays.m */; };
 		2C98FBC112AE9D4C00AB3547 /* JBAbstractIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */; };
 		2C98FBC212AE9D4C00AB3547 /* JBAbstractIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */; };
+		2CE3056012BF60DE007B4488 /* JBSplayTreeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE3055E12BF60DE007B4488 /* JBSplayTreeMap.h */; };
+		2CE3056112BF60DE007B4488 /* JBSplayTreeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3055F12BF60DE007B4488 /* JBSplayTreeMap.m */; };
+		2CE309CB12BF8C00007B4488 /* JBTreeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309C912BF8C00007B4488 /* JBTreeMap.h */; };
+		2CE309CC12BF8C00007B4488 /* JBTreeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE309CA12BF8C00007B4488 /* JBTreeMap.m */; };
+		2CE309CF12BF8C13007B4488 /* JBTreeSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309CD12BF8C13007B4488 /* JBTreeSet.h */; };
+		2CE309D012BF8C13007B4488 /* JBTreeSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE309CE12BF8C13007B4488 /* JBTreeSet.m */; };
+		2CE309D312BF8CAC007B4488 /* JBAbstractSortedSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309D112BF8CAC007B4488 /* JBAbstractSortedSet.h */; };
+		2CE309D412BF8CAC007B4488 /* JBAbstractSortedSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE309D212BF8CAC007B4488 /* JBAbstractSortedSet.m */; };
+		2CE309D612BF8D00007B4488 /* JBSortedMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309D512BF8D00007B4488 /* JBSortedMap.h */; };
+		2CE309E612BF8E7C007B4488 /* JBSortedSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309E512BF8E7C007B4488 /* JBSortedSet.h */; };
+		2CE30F2B12C0BFBD007B4488 /* JPSortedSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE30F2912C0BFBD007B4488 /* JPSortedSet.h */; };
+		2CE30F2C12C0BFBD007B4488 /* JPSortedSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE30F2A12C0BFBD007B4488 /* JPSortedSet.m */; };
+		2CE88B4612CA0A9600A945FA /* JBExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE88B4412CA0A9600A945FA /* JBExceptions.h */; };
+		2CE88B4712CA0A9600A945FA /* JBExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE88B4512CA0A9600A945FA /* JBExceptions.m */; };
+		2CE88C1012CA1D9500A945FA /* JBMapEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE88C0E12CA1D9500A945FA /* JBMapEntry.h */; };
+		2CE88C1112CA1D9500A945FA /* JBMapEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE88C0F12CA1D9500A945FA /* JBMapEntry.m */; };
 		2CEB888312AD2D4D0080AC4C /* JBPriorityQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEB888112AD2D4D0080AC4C /* JBPriorityQueue.h */; };
 		2CEB888412AD2D4D0080AC4C /* JBPriorityQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB888212AD2D4D0080AC4C /* JBPriorityQueue.m */; };
 		AA747D9F0F9514B9006C5449 /* JBCollections_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */; };
@@ -62,8 +77,8 @@
 		2C0F0A0212A5424C00991032 /* JBAbstractList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractList.m; sourceTree = "<group>"; };
 		2C0F0A1D12A5437600991032 /* JBArrayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArrayList.h; sourceTree = "<group>"; };
 		2C0F0A1E12A5437600991032 /* JBArrayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrayList.m; sourceTree = "<group>"; };
-		2C34284512B6118700499AED /* JBSplayTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSplayTree.h; sourceTree = "<group>"; };
-		2C34284612B6118700499AED /* JBSplayTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBSplayTree.m; sourceTree = "<group>"; };
+		2C34284512B6118700499AED /* JBSplayTreeSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSplayTreeSet.h; sourceTree = "<group>"; };
+		2C34284612B6118700499AED /* JBSplayTreeSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBSplayTreeSet.m; sourceTree = "<group>"; };
 		2C342E0512B65A6D00499AED /* JBHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBHashMap.h; sourceTree = "<group>"; };
 		2C342E0612B65A6D00499AED /* JBHashMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBHashMap.m; sourceTree = "<group>"; };
 		2C342E0912B65AE400499AED /* JBAbstractMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAbstractMap.h; sourceTree = "<group>"; };
@@ -72,12 +87,28 @@
 		2C342E3412B6678D00499AED /* JBHashSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBHashSet.m; sourceTree = "<group>"; };
 		2C741E6112A65A410089399D /* JBArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArray.h; sourceTree = "<group>"; };
 		2C741E6212A65A410089399D /* JBArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArray.m; sourceTree = "<group>"; };
-		2C7420CE12A6719F0089399D /* JBRandomAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBRandomAccess.h; sourceTree = "<group>"; };
 		2C74212612ACE4E70089399D /* JBIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBIterator.h; sourceTree = "<group>"; };
+		2C9885C812CB7BCA000818F9 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		2C98F89C12AE441300AB3547 /* JBArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBArrays.h; sourceTree = "<group>"; };
 		2C98F89D12AE441300AB3547 /* JBArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrays.m; sourceTree = "<group>"; };
 		2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAbstractIterator.h; sourceTree = "<group>"; };
 		2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractIterator.m; sourceTree = "<group>"; };
+		2CE3055E12BF60DE007B4488 /* JBSplayTreeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSplayTreeMap.h; sourceTree = "<group>"; };
+		2CE3055F12BF60DE007B4488 /* JBSplayTreeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBSplayTreeMap.m; sourceTree = "<group>"; };
+		2CE309C912BF8C00007B4488 /* JBTreeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTreeMap.h; sourceTree = "<group>"; };
+		2CE309CA12BF8C00007B4488 /* JBTreeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTreeMap.m; sourceTree = "<group>"; };
+		2CE309CD12BF8C13007B4488 /* JBTreeSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTreeSet.h; sourceTree = "<group>"; };
+		2CE309CE12BF8C13007B4488 /* JBTreeSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTreeSet.m; sourceTree = "<group>"; };
+		2CE309D112BF8CAC007B4488 /* JBAbstractSortedSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAbstractSortedSet.h; sourceTree = "<group>"; };
+		2CE309D212BF8CAC007B4488 /* JBAbstractSortedSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractSortedSet.m; sourceTree = "<group>"; };
+		2CE309D512BF8D00007B4488 /* JBSortedMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSortedMap.h; sourceTree = "<group>"; };
+		2CE309E512BF8E7C007B4488 /* JBSortedSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSortedSet.h; sourceTree = "<group>"; };
+		2CE30F2912C0BFBD007B4488 /* JPSortedSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSortedSet.h; sourceTree = "<group>"; };
+		2CE30F2A12C0BFBD007B4488 /* JPSortedSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSortedSet.m; sourceTree = "<group>"; };
+		2CE88B4412CA0A9600A945FA /* JBExceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBExceptions.h; sourceTree = "<group>"; };
+		2CE88B4512CA0A9600A945FA /* JBExceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBExceptions.m; sourceTree = "<group>"; };
+		2CE88C0E12CA1D9500A945FA /* JBMapEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBMapEntry.h; sourceTree = "<group>"; };
+		2CE88C0F12CA1D9500A945FA /* JBMapEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBMapEntry.m; sourceTree = "<group>"; };
 		2CEB888112AD2D4D0080AC4C /* JBPriorityQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPriorityQueue.h; sourceTree = "<group>"; };
 		2CEB888212AD2D4D0080AC4C /* JBPriorityQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPriorityQueue.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JBCollections_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCollections_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -112,6 +143,7 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				2C9885C812CB7BCA000818F9 /* Tests-Info.plist */,
 			);
 			name = JBCollections;
 			sourceTree = "<group>";
@@ -130,17 +162,22 @@
 				2C0F083D12A4FC3100991032 /* JBCollection.h */,
 				2C0F08CE12A5005100991032 /* JBList.h */,
 				2C0F092912A505AE00991032 /* JBSet.h */,
+				2CE309E512BF8E7C007B4488 /* JBSortedSet.h */,
 				2C0F093312A505F800991032 /* JBMap.h */,
+				2CE309D512BF8D00007B4488 /* JBSortedMap.h */,
 				2C0F099112A51EA200991032 /* JBQueue.h */,
 				2C0F09A512A53DCB00991032 /* JBDeque.h */,
 				2C74212612ACE4E70089399D /* JBIterator.h */,
-				2C7420CE12A6719F0089399D /* JBRandomAccess.h */,
 				2C342E0912B65AE400499AED /* JBAbstractMap.h */,
 				2C342E0A12B65AE400499AED /* JBAbstractMap.m */,
+				2CE88C0E12CA1D9500A945FA /* JBMapEntry.h */,
+				2CE88C0F12CA1D9500A945FA /* JBMapEntry.m */,
 				2C0F087312A4FD2D00991032 /* JBAbstractCollection.h */,
 				2C0F087412A4FD2D00991032 /* JBAbstractCollection.m */,
 				2C0F0A0112A5424C00991032 /* JBAbstractList.h */,
 				2C0F0A0212A5424C00991032 /* JBAbstractList.m */,
+				2CE309D112BF8CAC007B4488 /* JBAbstractSortedSet.h */,
+				2CE309D212BF8CAC007B4488 /* JBAbstractSortedSet.m */,
 				2C0F09DD12A5407E00991032 /* JBStack.h */,
 				2C0F09DE12A5407E00991032 /* JBStack.m */,
 				2C0F09FB12A541B200991032 /* JBLinkedList.h */,
@@ -155,12 +192,22 @@
 				2C98F89D12AE441300AB3547 /* JBArrays.m */,
 				2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */,
 				2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */,
-				2C34284512B6118700499AED /* JBSplayTree.h */,
-				2C34284612B6118700499AED /* JBSplayTree.m */,
-				2C342E0512B65A6D00499AED /* JBHashMap.h */,
-				2C342E0612B65A6D00499AED /* JBHashMap.m */,
 				2C342E3312B6678D00499AED /* JBHashSet.h */,
 				2C342E3412B6678D00499AED /* JBHashSet.m */,
+				2C342E0512B65A6D00499AED /* JBHashMap.h */,
+				2C342E0612B65A6D00499AED /* JBHashMap.m */,
+				2CE309CD12BF8C13007B4488 /* JBTreeSet.h */,
+				2CE309CE12BF8C13007B4488 /* JBTreeSet.m */,
+				2CE309C912BF8C00007B4488 /* JBTreeMap.h */,
+				2CE309CA12BF8C00007B4488 /* JBTreeMap.m */,
+				2C34284512B6118700499AED /* JBSplayTreeSet.h */,
+				2C34284612B6118700499AED /* JBSplayTreeSet.m */,
+				2CE3055E12BF60DE007B4488 /* JBSplayTreeMap.h */,
+				2CE3055F12BF60DE007B4488 /* JBSplayTreeMap.m */,
+				2CE88B4412CA0A9600A945FA /* JBExceptions.h */,
+				2CE88B4512CA0A9600A945FA /* JBExceptions.m */,
+				2CE30F2912C0BFBD007B4488 /* JPSortedSet.h */,
+				2CE30F2A12C0BFBD007B4488 /* JPSortedSet.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -193,15 +240,23 @@
 				2C0F0A0312A5424C00991032 /* JBAbstractList.h in Headers */,
 				2C0F0A1F12A5437600991032 /* JBArrayList.h in Headers */,
 				2C741E6312A65A410089399D /* JBArray.h in Headers */,
-				2C7420CF12A6719F0089399D /* JBRandomAccess.h in Headers */,
 				2C74212712ACE4E70089399D /* JBIterator.h in Headers */,
 				2CEB888312AD2D4D0080AC4C /* JBPriorityQueue.h in Headers */,
 				2C98F89E12AE441300AB3547 /* JBArrays.h in Headers */,
 				2C98FBC112AE9D4C00AB3547 /* JBAbstractIterator.h in Headers */,
-				2C34284712B6118700499AED /* JBSplayTree.h in Headers */,
+				2C34284712B6118700499AED /* JBSplayTreeSet.h in Headers */,
 				2C342E0712B65A6D00499AED /* JBHashMap.h in Headers */,
 				2C342E0B12B65AE400499AED /* JBAbstractMap.h in Headers */,
 				2C342E3512B6678D00499AED /* JBHashSet.h in Headers */,
+				2CE3056012BF60DE007B4488 /* JBSplayTreeMap.h in Headers */,
+				2CE309CB12BF8C00007B4488 /* JBTreeMap.h in Headers */,
+				2CE309CF12BF8C13007B4488 /* JBTreeSet.h in Headers */,
+				2CE309D312BF8CAC007B4488 /* JBAbstractSortedSet.h in Headers */,
+				2CE309D612BF8D00007B4488 /* JBSortedMap.h in Headers */,
+				2CE309E612BF8E7C007B4488 /* JBSortedSet.h in Headers */,
+				2CE30F2B12C0BFBD007B4488 /* JPSortedSet.h in Headers */,
+				2CE88B4612CA0A9600A945FA /* JBExceptions.h in Headers */,
+				2CE88C1012CA1D9500A945FA /* JBMapEntry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,10 +322,17 @@
 				2CEB888412AD2D4D0080AC4C /* JBPriorityQueue.m in Sources */,
 				2C98F89F12AE441300AB3547 /* JBArrays.m in Sources */,
 				2C98FBC212AE9D4C00AB3547 /* JBAbstractIterator.m in Sources */,
-				2C34284812B6118700499AED /* JBSplayTree.m in Sources */,
+				2C34284812B6118700499AED /* JBSplayTreeSet.m in Sources */,
 				2C342E0812B65A6D00499AED /* JBHashMap.m in Sources */,
 				2C342E0C12B65AE400499AED /* JBAbstractMap.m in Sources */,
 				2C342E3612B6678D00499AED /* JBHashSet.m in Sources */,
+				2CE3056112BF60DE007B4488 /* JBSplayTreeMap.m in Sources */,
+				2CE309CC12BF8C00007B4488 /* JBTreeMap.m in Sources */,
+				2CE309D012BF8C13007B4488 /* JBTreeSet.m in Sources */,
+				2CE309D412BF8CAC007B4488 /* JBAbstractSortedSet.m in Sources */,
+				2CE30F2C12C0BFBD007B4488 /* JPSortedSet.m in Sources */,
+				2CE88B4712CA0A9600A945FA /* JBExceptions.m in Sources */,
+				2CE88C1112CA1D9500A945FA /* JBMapEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,12 +376,15 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = "";
 			};
 			name = Debug;
 		};
@@ -328,11 +393,14 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = "";
 			};
 			name = Release;
 		};

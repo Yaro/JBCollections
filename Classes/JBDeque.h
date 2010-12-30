@@ -1,8 +1,9 @@
-@protocol JBDeque <JBCollection>
+@protocol JBDeque<JBCollection>
+
 - (void) addFirst: (id) o;
 - (void) addLast: (id) o;
-- (id) getFirst;
-- (id) getLast;
+- (id) first;
+- (id) last;
 - (id) removeLast;
 - (id) removeFirst;
 

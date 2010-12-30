@@ -1,37 +1,5 @@
 #import "JBAbstractMap.h"
 
-
-@implementation MapEntry
-
-@synthesize key = myKey, value = myValue;
-
-- (NSUInteger) hash {
-	return [myKey hash] + [myValue hash];
-}
-
-- (BOOL) isEqual: (id) o {
-	return ([o class] == [self class] && [[o key] isEqual: myKey] && [[o value] isEqual: myValue]);
-}
-
-- (id) initWithKey: (id) key value: (id) value {
-	[super init];
-	myKey = [key retain];
-	myValue = [value retain];
-	return self;
-}
-
-- (NSString*) description {
-	return [NSString stringWithFormat: @"Map entry: KEY = %@, VALUE = %@", myKey, myValue];
-}
-
-- (void) dealloc {
-	[myKey release];
-	[myValue release];
-	[super dealloc];
-}
-
-@end
-
 @implementation JBAbstractMap
 
 
@@ -42,13 +10,15 @@
 	if (firstKey) {
 		va_start(argumentList, firstKey);
 		id firstObject = va_arg(argumentList, id);
-		if (firstObject == nil)
+		if (firstObject == nil) {
 			@throw [NSException exceptionWithName: @"odd number of elements" reason: @"" userInfo: nil];
+		}
 		[self putKey: firstKey withValue: firstObject];
 		while (key = va_arg(argumentList, id)) {
 			object = va_arg(argumentList, id);
-			if (object == nil)
+			if (object == nil) {
 				@throw [NSException exceptionWithName: @"odd number of elements" reason: @"" userInfo: nil];
+			}
 			[self putKey: key withValue: object];
 		}
 	}
@@ -71,34 +41,34 @@
 }
 
 - (id) putKey: (id) key withValue: (id) value {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
+	@throw [JBExceptions unsupportedOperation];
 }
 
-// returns value associated with the key
 - (id) remove: (id) key {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
+	@throw [JBExceptions unsupportedOperation];
 }
 
 - (NSUInteger) size {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
+	@throw [JBExceptions unsupportedOperation];
 }
 
 - (void) clear {
-	@throw [NSException exceptionWithName: @"Unsupported operation exception" reason: @"" userInfo: nil];
+	@throw [JBExceptions unsupportedOperation];
 }
 
 
 - (NSUInteger) hash {
 	NSUInteger ret = 0;
 	id iter = [self entryIterator];
-	while ([iter hasNext])
+	while ([iter hasNext]) {
 		ret += [[iter next] hash];
+	}
 	return abs(ret);
 }
 
 
 - (NSString*) description {
-	NSMutableString* s = [[NSMutableString stringWithFormat:@"%@, size = %d:\n", [[self class] description], [self size]] retain];
+	NSMutableString* s = [[NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]] retain];
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
 		[s appendFormat:@"%@\n", [iter next]];
@@ -108,11 +78,15 @@
 
 
 - (BOOL) isEqual: (id) o {
-	if (!([o class] == [self class])) return FALSE;
+	if (!([[o class] isKindOfClass: [JBAbstractMap class]])) {
+		return FALSE;
+	}
 	id ourIter = [self entryIterator], iter = [o entryIterator];
 	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
 	while (q1 || q2) {
-		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) return FALSE;
+		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
+			return FALSE;
+		}
 		q1 = [ourIter hasNext];
 		q2 = [iter hasNext];
 	}
@@ -122,7 +96,7 @@
 - (BOOL) containsKey: (id) key {
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
-		MapEntry* entry = [iter next];
+	 JBMapEntry* entry = [iter next];
 		if ([entry.key isEqual: key]) {
 			return TRUE;
 		}
@@ -133,7 +107,7 @@
 - (BOOL) containsValue: (id) value {
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
-		MapEntry* entry = [iter next];
+	 JBMapEntry* entry = [iter next];
 		if ([entry.value isEqual: value]) {
 			return TRUE;
 		}
@@ -145,7 +119,7 @@
 - (id) get: (id) key {
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
-		MapEntry* entry = [iter next];
+	 JBMapEntry* entry = [iter next];
 		if ([entry.key isEqual: key]) {
 			return entry.value;
 		}
@@ -161,7 +135,7 @@
 - (void) putAll: (id<JBMap>) map {
 	id iter = [map entryIterator];
 	while ([iter hasNext]) {
-		MapEntry* e = [iter next];
+	 JBMapEntry* e = [iter next];
 		[self putKey: e.key withValue: e.value];
 	}
 }
@@ -171,8 +145,8 @@
 	int cnt = 0;
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
-		MapEntry* e = [iter next];
-		[arr set: e.value atIndex: cnt++];
+		JBMapEntry* e = [iter next];
+		[arr set: e.value at: cnt++];
 	}
 	return [arr autorelease];
 }

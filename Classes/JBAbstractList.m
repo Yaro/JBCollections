@@ -1,30 +1,62 @@
 #import "JBAbstractList.h"
 
+
+@interface JBSublist : JBAbstractList {
+	NSInteger myOffset, myLength;
+	JBAbstractList* myList;
+}
+
+- (id) initWithList: (JBAbstractList*) list range: (NSRange) range;
+
+@end
+
+
+
+
 @implementation JBAbstractList
 
 - (id) get: (NSInteger) index {
-	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+	@throw [JBExceptions unsupportedOperation];
 }
+
 - (NSInteger) indexOf: (id) o {
-	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+	@throw [JBExceptions unsupportedOperation];
 }
-- (id <JBList>) subListInRange: (NSRange) range {
-	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+
+- (id <JBList>) sublist: (NSRange) range {
+	return [[[JBSublist alloc] initWithList: self range: range] autorelease];
 }
-- (id) setObject: (id) o atIndex: (NSInteger) index {
-	@throw [NSException exceptionWithName:@"Unsupported operation exception" reason:@"" userInfo:nil];
+
+- (id) set: (id) o at: (NSInteger) index {
+	@throw [JBExceptions unsupportedOperation];
+}
+
+- (id) removeAt: (NSInteger) index {
+	@throw [JBExceptions unsupportedOperation];
+}
+
+- (BOOL) contains: (id) o {
+	return [self indexOf: o] >= 0;
+}
+
+- (BOOL) isEqual: (id) o {
+	if (!([o isKindOfClass: [JBAbstractList class]])) {
+		return FALSE;
+	}
+	id ourIter = [self iterator], iter = [o iterator];
+	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
+	while (q1 || q2) {
+		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
+			return FALSE;
+		}
+		q1 = [ourIter hasNext];
+		q2 = [iter hasNext];
+	}
+	return TRUE;
 }
 
 - (NSObject<JBIterator>*) iterator {
-	if (![self conformsToProtocol:@protocol(JBRandomAccess)])
-		@throw [NSException exceptionWithName:@"no iterator" reason:@"list interface doesn't confirm to JBRandomAccess" userInfo:nil];
-	__block NSInteger cursor = 0;
-	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor >= [self size]) return nil;
-		return [self get:cursor++];
-	} hasNextCL: ^BOOL(void) {
-		return cursor < [self size];
-	}] autorelease];
+	@throw [NSException exceptionWithName: @"no iterator" reason: @"this list doesn't provide iterator" userInfo: nil];
 }
 
 @end
@@ -32,16 +64,42 @@
 
 
 
-@implementation LRNode 
+@implementation JBSublist {
 
-@synthesize nextNode = myNextNode, prevNode = myPrevNode, item = myItem;
+}
 
-+ (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item {
-	LRNode* ret = [[LRNode alloc] init];
-	ret->myItem = item;
-	ret->myNextNode = nextNode;
-	ret->myPrevNode = prevNode;
-	return [ret autorelease];
+- (id) initWithList: (JBAbstractList*) plist range: (NSRange) range {
+	[super init];
+	if (range.location < 0 || range.location + range.length > [plist size]) {
+		@throw [NSException exceptionWithName: @"bad sublist range" reason: @"" userInfo: nil];
+	}
+	myList = [plist retain];
+	myOffset = range.location;
+	myLength = range.length;
+	return self;
+}
+
+- (id) get: (NSInteger) index {
+	if (index < 0 || index >= myLength) {
+		@throw [JBExceptions indexOutOfBounds];
+	}
+	return [myList get: index + myOffset];
+}
+
+- (id) set: (id) o at: (NSInteger) index {
+	if (index < 0 || index >= myLength) {
+		@throw [JBExceptions indexOutOfBounds];
+	}
+	return [myList set: o at: index + myOffset];
+}
+
+- (NSUInteger) size {
+	return myLength;
+}
+
+- (void) dealloc {
+	[myList release];
+	[super dealloc];
 }
 
 @end
