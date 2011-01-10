@@ -7,4 +7,6 @@
 - (id) removeAt: (NSInteger) index;
 - (BOOL) isEqual: (id) o;
 
+- (void) sort: (NSComparator) cmp;
+
 @end

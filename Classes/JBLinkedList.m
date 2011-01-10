@@ -30,8 +30,7 @@
 
 inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	if (i < 0 || i >= list.size) {
-		@throw [NSException exceptionWithName: @"JBLinkedList index out of bounds" 
-			reason: [NSString stringWithFormat:@"Index: %d Size: %d", i, list.size] userInfo: nil];
+		@throw [JBExceptions indexOutOfBounds: i size: list.size];
 	}
 }
 
@@ -63,15 +62,13 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	
 	if (node == myFirst) {
 		myFirst = myFirst.nextNode;
-	}
-	else {
+	} else {
 		node.prevNode.nextNode = node.nextNode;
 	}
 	
 	if (node == myLast) {
 		myLast = myLast.prevNode;
-	}
-	else {
+	} else {
 		node.nextNode.prevNode = node.prevNode;
 	}
 	
@@ -86,7 +83,7 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	if (myFirst == nil) {
 		myFirst = myLast = [[LRNode createNodeWithPrev: nil next: nil item: o] retain];
 	} else {
-		LRNode* nNode = [[LRNode createNodeWithPrev: myFirst next: nil item: o] retain];
+		LRNode* nNode = [[LRNode createNodeWithPrev: nil next: myFirst item: o] retain];
 		myFirst.prevNode = nNode;
 		myFirst = nNode;
 	}
@@ -119,7 +116,9 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	return ret;
 }
 
-
+- (id) removeAt: (NSInteger) index {
+	return [self unlinkNode: [self node: index]];
+}
 
 - (id) first {
 	[self checkEmpty];
@@ -174,9 +173,11 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 			[self unlinkNode: x];
 			return TRUE;
 		}
+		x = x->myNextNode;
 	}
 	return FALSE;
 }
+
 
 - (id) set: (id) o at: (NSInteger) index {
 	rangeCheck(self, index);

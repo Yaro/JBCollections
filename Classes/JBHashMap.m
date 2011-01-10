@@ -172,7 +172,6 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	}
 	return nil;
 }
-		
 
 - (id) remove: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
@@ -214,6 +213,10 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	[self clear];
 	deleteArray(myTable);
 	[super dealloc];
+}
+
+- (BOOL) isEqual: (id) o {
+	return self == o;
 }
 
 - (NSUInteger) hash: (NSUInteger) h {

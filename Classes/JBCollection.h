@@ -3,6 +3,7 @@
 #import "JBExceptions.h"
 #import <Foundation/Foundation.h>
 @class JBArray;
+@class JBArrayList;
 
 @protocol JBCollection<NSFastEnumeration, NSCopying>
 
@@ -22,7 +23,13 @@
 - (NSUInteger) size;
 - (NSString*) description;
 - (NSObject<JBIterator>*) iterator;
-- (id*) toArray;
 - (JBArray*) toJBArray;
+
+- (BOOL) any: (BOOL(^)(id)) handler;
+- (BOOL) all: (BOOL(^)(id)) handler;
+- (JBArrayList*) select: (BOOL(^)(id)) handler;
+
+@optional
+- (id*) toArray;
 
 @end

@@ -26,7 +26,6 @@
 }
 
 - (id) initWithMap: (id<JBMap>) map {
-	//may be dangerous, depends on init
 	[self init];
 	[self putAll: map];
 	return self;
@@ -71,14 +70,14 @@
 	NSMutableString* s = [[NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]] retain];
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
-		[s appendFormat:@"%@\n", [iter next]];
+		[s appendFormat: @"%@\n", [iter next]];
 	}
 	return [s autorelease];
 }
 
 
 - (BOOL) isEqual: (id) o {
-	if (!([[o class] isKindOfClass: [JBAbstractMap class]])) {
+	if (!([o isKindOfClass: [JBAbstractMap class]])) {
 		return FALSE;
 	}
 	id ourIter = [self entryIterator], iter = [o entryIterator];

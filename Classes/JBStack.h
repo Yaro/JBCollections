@@ -8,6 +8,6 @@
 - (BOOL) empty;
 - (id) peek;
 - (id) pop;
-- (void) push : (id) o;
+- (void) push: (id) o;
 
 @end

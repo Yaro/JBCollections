@@ -7,6 +7,7 @@
 
 + (NSException*) needComparator;
 + (NSException*) unsupportedOperation;
-+ (NSException*) indexOutOfBounds;
++ (NSException*) indexOutOfBounds: (NSInteger) index size: (NSInteger) n;
++ (NSException*) noIterator;
 
 @end

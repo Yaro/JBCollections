@@ -1,5 +1,5 @@
 #import "JBAbstractList.h"
-
+#import "JBArray.h"
 
 @interface JBSublist : JBAbstractList {
 	NSInteger myOffset, myLength;
@@ -23,16 +23,18 @@
 	@throw [JBExceptions unsupportedOperation];
 }
 
-- (id <JBList>) sublist: (NSRange) range {
-	return [[[JBSublist alloc] initWithList: self range: range] autorelease];
-}
-
 - (id) set: (id) o at: (NSInteger) index {
 	@throw [JBExceptions unsupportedOperation];
 }
 
 - (id) removeAt: (NSInteger) index {
 	@throw [JBExceptions unsupportedOperation];
+}
+
+
+
+- (id <JBList>) sublist: (NSRange) range {
+	return [[[JBSublist alloc] initWithList: self range: range] autorelease];
 }
 
 - (BOOL) contains: (id) o {
@@ -55,8 +57,14 @@
 	return TRUE;
 }
 
-- (NSObject<JBIterator>*) iterator {
-	@throw [NSException exceptionWithName: @"no iterator" reason: @"this list doesn't provide iterator" userInfo: nil];
+- (void) sort: (NSComparator) cmp {
+	JBArray* arr = [[self toJBArray] retain];
+	[arr sort: cmp];
+	[self clear];
+	for (int i = 0; i < [arr size]; i++) {
+		[self add: [arr get: i]];
+	}
+	[arr release];
 }
 
 @end
@@ -81,14 +89,14 @@
 
 - (id) get: (NSInteger) index {
 	if (index < 0 || index >= myLength) {
-		@throw [JBExceptions indexOutOfBounds];
+		@throw [JBExceptions indexOutOfBounds: index size: myLength];
 	}
 	return [myList get: index + myOffset];
 }
 
 - (id) set: (id) o at: (NSInteger) index {
 	if (index < 0 || index >= myLength) {
-		@throw [JBExceptions indexOutOfBounds];
+		@throw [JBExceptions indexOutOfBounds: index size: myLength];
 	}
 	return [myList set: o at: index + myOffset];
 }

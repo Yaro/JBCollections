@@ -1,6 +1,7 @@
 #import "JBAbstractCollection.h"
 #import "JBArray.h"
 #import "JBArrays.h"
+#import "JBArrayList.h"
 
 @implementation JBAbstractCollection
 
@@ -26,7 +27,7 @@
 }
 
 - (NSObject<JBIterator>*) iterator {
-	@throw [NSException exceptionWithName: @"No iterator in collection" reason: @"" userInfo: nil];
+	@throw [JBExceptions noIterator];
 }
 
 - (BOOL) remove: (id) o {
@@ -123,6 +124,38 @@
 	return [arr autorelease];
 }
 
+- (BOOL) any: (BOOL(^)(id)) handler {
+	id<JBIterator> iter = [self iterator];
+	for (int i = 0; i < [self size]; i++) {
+		if (handler([iter next]) == TRUE) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+- (BOOL) all: (BOOL(^)(id)) handler {
+	id<JBIterator> iter = [self iterator];
+	for (int i = 0; i < [self size]; i++) {
+		if (handler([iter next]) == FALSE) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+
+- (JBArrayList*) select: (BOOL(^)(id)) handler {
+	JBArrayList* ret = [JBArrayList new];
+	id<JBIterator> iter = [self iterator];
+	for (int i = 0; i < [self size]; i++) {
+		id item = [iter next];
+		if (handler(item) == TRUE) {
+			[ret add: item];
+		}
+	}
+	return [ret autorelease];
+}
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {
 	static id iter;

@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractList.h"
 
-@interface JBArray : JBAbstractList<NSFastEnumeration> {
+@interface JBArray : JBAbstractList {
 	id* myArray;
 	int myLength;
 }
@@ -11,6 +11,8 @@
 - (id) initWithSize: (NSInteger) n;
 - (id) set: (id) object at: (NSInteger) i;
 - (id) get: (NSInteger) i;
+- (void) sort: (NSComparator) cmp;
+
 + (JBArray*) withSize: (NSInteger) n;
 + (JBArray*) withObjects: (id) firstObject, ...;
 

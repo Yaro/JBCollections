@@ -7,16 +7,27 @@ NSObject* PRESENCE;
 
 @dynamic comparator;
 
+//if it works
+
 - (id) initWithComparator: (NSComparator) comp {
-	@throw [NSException exceptionWithName: @"undefined method" reason: @"should be overriden by descendant class" userInfo: nil];
+	[super performSelector: @selector(initSafe)];
+	if (PRESENCE == nil) {
+		PRESENCE = [NSObject new];
+	}
+	myMap = [[[myMap class] alloc] initWithComparator: comp];
+	return self;
 }
 
+/*- (id) initWithComparator: (NSComparator) comp {
+	@throw [NSException exceptionWithName: @"undefined method" reason: @"should be overriden by descendant class" userInfo: nil];
+}*/
+
 - (id) init {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithObjects: (id) firstObject, ... {
-	@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+	@throw [JBExceptions needComparator];
 }
 
 - (id) initWithCollection: (id<JBCollection>) c {
@@ -24,7 +35,7 @@ NSObject* PRESENCE;
 	if ([(id)c respondsToSelector: comparatorSelector]) {
 		return [self initWithSortedSet: c];
 	} else {
-		@throw [NSException exceptionWithName: @"initialization with comparator required" reason: @"" userInfo: nil];
+		@throw [JBExceptions needComparator];
 	}
 }
 
@@ -44,7 +55,7 @@ NSObject* PRESENCE;
 }
 
 - (BOOL) isEqual: (id) o {
-	if (!([[o class] isKindOfClass: [JBAbstractSortedSet class]])) {
+	if (!([o isKindOfClass: [JBAbstractSortedSet class]])) {
 		return FALSE;
 	}
 	id ourIter = [self iterator], iter = [o iterator];

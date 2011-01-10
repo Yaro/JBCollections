@@ -1,22 +1,32 @@
 #import "JBArray.h"
 #import "JBArrays.h"
 
-/*
 
-// just another way to hide a method
- 
-@interface JBArray()
-- (void) rangeCheck: (NSInteger) n;
-@end
- 
- */
+
+/*void swap(id* a, id* b) {
+	id x = *a;
+	*a = *b;
+	*b = x;
+}*/
+
+int randInt(int l, int r) {
+	return (int)(rand() % (r - l + 1) + l);
+}
 
 inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	if (i < 0 || i >= arr.length) {
-		@throw [NSException exceptionWithName: @"JBArray index out of bounds" 
-			reason: [NSString stringWithFormat: @"Index: %d Size: %d", i, arr.length] userInfo: nil];
+		@throw [JBExceptions indexOutOfBounds: i size: arr.length];
 	}
 }
+
+
+
+@interface JBArray()
+
+- (void) sort: (NSComparator) cmp left: (int) l right: (int) r;
+
+@end
+
 
 @implementation JBArray
 
@@ -30,23 +40,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (id) init {
-	return [self initWithSize: 0];
-}
-
-- (id) set: (id) object at: (NSInteger) i {
-	rangeCheck(self, i);
-	id ret = myArray[i];
-	myArray[i] = [object retain];
-	return [ret autorelease];
-}
-
-- (id) get: (NSInteger) i {
-	rangeCheck(self, i);
-	return myArray[i];
-}
-
-- (id) removeAt: (NSInteger) index {
-	return [self set: nil at: index];
+	@throw [JBExceptions unsupportedOperation];
 }
 
 + (JBArray*) withSize: (NSInteger) n {
@@ -79,10 +73,40 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return [ret autorelease];
 }
 
-- (void) dealloc {
+- (id) set: (id) object at: (NSInteger) i {
+	rangeCheck(self, i);
+	id ret = myArray[i];
+	myArray[i] = [object retain];
+	return [ret autorelease];
+}
+
+- (id) get: (NSInteger) i {
+	rangeCheck(self, i);
+	return myArray[i];
+}
+
+- (BOOL) contains: (id) o {
+	for (int i = 0; i < myLength; i++) {
+		if ([myArray[i] isEqual: o]) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+- (id) removeAt: (NSInteger) index {
+	return [self set: nil at: index];
+}
+
+- (void) clear {
 	for (int i = 0; i < myLength; i++) {
 		[myArray[i] release];
+		myArray[i] = nil;
 	}
+}
+
+- (void) dealloc {
+	[self clear];
 	deleteArray(myArray);
 	[super dealloc];
 }
@@ -128,7 +152,31 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return myLength;
 }
 
+- (void) sort: (NSComparator) cmp left: (int) l right: (int) r {
+	if (l >= r) return;
+	int xi = randInt(l, r);
+	id x = myArray[xi], t;
+	int bl = l, br = r, bm = l;
+	while (bm <= br) {
+		NSComparisonResult res = cmp(myArray[bm], x);
+		if (res == NSOrderedAscending) {
+			t = myArray[bl], myArray[bl] = myArray[bm], myArray[bm] = t;
+			bl++;
+			bm++;
+		} else if (res == NSOrderedDescending) {
+			t = myArray[bm], myArray[bm] = myArray[br], myArray[br] = t;
+			br--;
+		} else {
+			bm++;
+		}
+	}
+	[self sort: cmp left: l right: bl - 1];
+	[self sort: cmp left: bm right: r];
+}
+
+- (void) sort: (NSComparator) cmp {
+	[self sort: cmp left: 0 right: myLength - 1];
+}
+
 @end
-
-
 

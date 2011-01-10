@@ -107,6 +107,9 @@
 		myData[i - 1] = myData[i];
 	}
 	mySize--;
+	if (mySize >= 10 && myLength > (mySize * 5) / 2) {
+		[self trimToSize];
+	}
 	return [ret autorelease];
 }
 
@@ -125,6 +128,11 @@
 	for (int i = 0; i < mySize; i++) {
 		[myData[i] release];
 		myData[i] = nil;
+	}
+	if (myLength > 30) {
+		free(myData);
+		myLength = 10;
+		myData = arrayWithLength(10);
 	}
 	mySize = 0;
 }
@@ -155,15 +163,13 @@
 
 - (void) rangeCheck: (NSInteger) i {
 	if (i < 0 || i >= mySize) {
-		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " 
-			reason: [NSString stringWithFormat: @"Index = %d, Size = %d", i, mySize] userInfo: nil];
+		@throw [JBExceptions indexOutOfBounds: i size: mySize];
 	}
 }
 
 - (void) rangeCheckForAdd: (NSInteger) i {
 	if (i < 0 || i > mySize) {
-		@throw [NSException exceptionWithName: @"JBArrayList index out of bounds: " 
-			reason: [NSString stringWithFormat:@"Index = %d, Size = %d", i, mySize] userInfo: nil];
+		@throw [JBExceptions indexOutOfBounds: i size: mySize];
 	}
 }
 
