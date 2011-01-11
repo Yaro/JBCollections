@@ -26,14 +26,14 @@ NSObject* PRESENCE;
 	@throw [JBExceptions needComparator];
 }
 
-- (id) initWithObjects: (id) firstObject, ... {
++ (id) withObjects: (id) firstObject, ... {
 	@throw [JBExceptions needComparator];
 }
 
-- (id) initWithCollection: (id<JBCollection>) c {
++ (id) withCollection: (id<JBCollection>) c {
 	SEL comparatorSelector = @selector(comparator);
 	if ([(id)c respondsToSelector: comparatorSelector]) {
-		return [self initWithSortedSet: c];
+		return [[[self alloc] initWithSortedSet: c] autorelease];
 	} else {
 		@throw [JBExceptions needComparator];
 	}

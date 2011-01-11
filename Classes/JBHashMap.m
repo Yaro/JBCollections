@@ -216,7 +216,21 @@ const double DEFAULT_LOAD_FACTOR = .75;
 }
 
 - (BOOL) isEqual: (id) o {
-	return self == o;
+	if (!([o isMemberOfClass: [JBHashMap class]])) {
+		return FALSE;
+	}
+	JBHashMap* omap = (JBHashMap*)o;
+	if (mySize != [omap size]) {
+		return FALSE;
+	}
+	id iter = [omap entryIterator];
+	for (int i = 0; i < mySize; i++) {
+		HMapEntry* e = [iter next];
+		if ([self get: e->myKey] != e->myValue) {
+			return FALSE;
+		}
+	}
+	return TRUE;
 }
 
 - (NSUInteger) hash: (NSUInteger) h {

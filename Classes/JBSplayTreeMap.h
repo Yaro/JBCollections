@@ -4,7 +4,6 @@
 @class TMapEntry;
 
 @interface JBSplayTreeMap : JBAbstractMap<JBSortedMap> {
-@public
 	NSComparator myComparator;
 	NSUInteger mySize;
 	TMapEntry* myRoot;

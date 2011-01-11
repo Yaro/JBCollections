@@ -6,32 +6,33 @@ typedef int CTYPE;
 
 @interface TMapEntry : JBMapEntry {
 @public
-	TMapEntry* myLeft,* myRight;
+	TMapEntry* myLeft,* myRight,* myPar;
 }
 
-@property (readwrite, nonatomic, assign) TMapEntry* left,* right;
+@property (readwrite, nonatomic, assign) TMapEntry* left,* right,* par;
 
-- (NSInteger) toParent: (TMapEntry*) p;
+- (CTYPE) toParent;
 - (BOOL) hasRight;
 - (BOOL) hasLeft;
 - (TMapEntry*) min;
 - (TMapEntry*) max;
 - (TMapEntry*) unlinkNext;
-- (void) splayOnce: (TMapEntry*) p and: (TMapEntry*) X and: (TMapEntry*) Xp;
-- (void) rotateWithParent: (TMapEntry*) p and: (TMapEntry*) X;
+- (void) splay;
+- (void) splayOnce;
+- (void) rotateWithParent;
 
 @end
 
 
 @implementation TMapEntry
 
-@synthesize left = myLeft, right = myRight;
+@synthesize left = myLeft, right = myRight, par = myPar;
 
 - (void) dealloc {
 	[super dealloc];
 }
 
-- (void) delink: (TMapEntry*) par {
+- (void) delink {
 	TMapEntry* ch = nil;
 	if ([self hasLeft]) {
 		ch = self->myLeft;
@@ -39,11 +40,10 @@ typedef int CTYPE;
 		ch = self->myRight;
 	}
 	
-	if (par->myLeft == self) {
-		par->myLeft = ch;
-	}
-	else {
-		par->myRight = ch;
+	if (myPar->myLeft == self) {
+		myPar->myLeft = ch;
+	} else {
+		myPar->myRight = ch;
 	}
 }
 
@@ -53,6 +53,10 @@ typedef int CTYPE;
 
 - (BOOL) hasRight {
 	return myRight != nil;
+}
+
+- (BOOL) isRoot {
+	return myPar == nil;
 }
 
 - (TMapEntry*) min {
@@ -75,10 +79,10 @@ typedef int CTYPE;
 	if (myRight == nil) {
 		return nil;
 	}
-	
+
 	TMapEntry* e = myRight,* ret = nil;
 	if (e->myLeft == nil) {
-		[e delink: self];
+		[e delink];
 		return e;
 	}
 	
@@ -91,42 +95,48 @@ typedef int CTYPE;
 	return ret;
 }
 
-- (void) rotateWithParent: (TMapEntry*) p and: (TMapEntry*) X {
-	if (p == nil) return;
+- (void) rotateWithParent {
+	if (myPar == nil) return;
+	TMapEntry* X = myPar->myPar;
 	if (X != nil) {
-		if (X->myLeft == p) {
+		if (X->myLeft == myPar) {
 			X->myLeft = self;
-		}
-		else {
+		} else {
 			X->myRight = self;
 		}
 	}
-	if (p->myLeft == self) {
-		p->myLeft = myRight;
-		myRight = p;
-	} 
-	else {
-		p->myRight = myLeft;
-		myLeft = p;
+	if (myPar->myLeft == self) {
+		myPar->myLeft = myRight;
+		myRight = myPar;
+	} else {
+		myPar->myRight = myLeft;
+		myLeft = myPar;
 	}
 }
 
-- (CTYPE) toParent: (TMapEntry*) p {
-	if (p == nil) return ROOT;
-	return p->myLeft == self ? LEFT : RIGHT;
+- (void) splay {
+	while (myPar != nil) {
+		[self splayOnce];
+	}
 }
 
-- (void) splayOnce: (TMapEntry*) p and: (TMapEntry*) X and: (TMapEntry*) Xp {
-	if (X == nil) {
-		[self rotateWithParent: p and: X];
+- (CTYPE) toParent {
+	if (myPar == nil) return ROOT;
+	return myPar->myLeft == self ? LEFT : RIGHT;
+}
+
+- (void) splayOnce {
+	TMapEntry* p = myPar;
+	if (p->myPar == nil) {
+		[self rotateWithParent];
 		return;
 	}
-	if ([self toParent: p] == [p toParent: X]) {
-		[p rotateWithParent: X and: Xp];
-		[self rotateWithParent: p and: Xp];
+	if ([self toParent] == [p toParent]) {
+		[p rotateWithParent];
+		[self rotateWithParent];
 	} else {
-		[self rotateWithParent: p and: X];
-		[self rotateWithParent: X and: Xp];
+		[self rotateWithParent];
+		[self rotateWithParent];
 	}
 }
 
@@ -153,12 +163,11 @@ typedef int CTYPE;
 @interface JBSplayTreeMap()
 
 - (void) clear: (TMapEntry*) e;
-- (void) splayEntry: (TMapEntry*) e;
 - (TMapEntry*) firstEntry;
 - (TMapEntry*) lastEntry;
-- (BOOL) splayEntry: (TMapEntry*) e into: (TMapEntry*) Xp and: (TMapEntry*) X;
 - (TMapEntry*) nextEntry: (TMapEntry*) e;
 - (TMapEntry*) max: (TMapEntry*) e1 with: (TMapEntry*) e2;
+- (NSComparisonResult) compare: (id) o1 with: (id) o2;
 
 @end
 
@@ -241,19 +250,18 @@ typedef int CTYPE;
 	return [myRoot max];
 }
 
-//not to use in iterator after all
 - (TMapEntry*) nextEntry: (TMapEntry*) e {
-	TMapEntry* node = myRoot,* ret = nil;
-	while (node != nil) {
-		NSComparisonResult res = [self compare: node->myKey with: e->myKey];
-		if (res <= NSOrderedSame) {
-			node = node->myRight;
-		} else {
-			ret = node;
-			node = node->myLeft;
+	if ([e hasRight]) {
+		e = e->myRight;
+		while ([e hasLeft]) {
+			e = e->myLeft;
 		}
+		return e;
 	}
-	return ret;
+	while ([e toParent] == RIGHT) {
+		e = e->myPar;
+	}
+	return e->myPar;
 }
 
 
@@ -294,47 +302,25 @@ typedef int CTYPE;
 		}
 	}
 	mySize++;
-	[self splayEntry: e];
+	[e splay];
 	return nil;
 }
 
-- (void) splayEntry: (TMapEntry*) e {
-	BOOL even = [self splayEntry: e into: myRoot and: nil];
-	if (!even) {
-		[e splayOnce: myRoot and: nil and: nil];
-	}
-	myRoot = e;
-}
-
-- (BOOL) splayEntry: (TMapEntry*) e into: (TMapEntry*) X and: (TMapEntry*) PX {
-	if (e == X) {
-		return TRUE;
-	}
-	TMapEntry* CX = (myComparator(X->myKey, e->myKey) == NSOrderedDescending) ? X->myLeft : X->myRight;
-	BOOL even = [self splayEntry: e into: CX and: X];
-	if (!even) {
-		[e splayOnce: CX and: X and: PX];
-	}
-	return !even;
-}
-
 - (id) remove: (id) key {
-	TMapEntry* e = myRoot,* par = e;
+	TMapEntry* e = myRoot;
 	while (e != nil) {
 		NSComparisonResult res = [self compare: e.key with: key];
 		if (res == NSOrderedSame) {
 			id ret = [e.value retain];
 			TMapEntry* ne = [e unlinkNext];
 			if (ne == nil) {
-				if (e == par) {
+				if (e == myRoot) {
 					myRoot = e->myLeft;
+					myRoot->myPar = nil;;
 				} else {
-					if ([e toParent: par] == LEFT) {
-						par->myLeft = e->myLeft;
-					} else {
-						par->myRight = e->myLeft;
-					}
+					[e delink];
 				}
+				[e release];
 			} else {
 				e.value = ne.value;
 				e.key = ne.key;
@@ -343,10 +329,8 @@ typedef int CTYPE;
 			mySize--;
 			return [ret autorelease];
 		} else if (res == NSOrderedDescending) {
-			par = e;
 			e = e->myLeft;
 		} else {
-			par = e;
 			e = e->myRight;
 		}
 	}
@@ -415,6 +399,7 @@ typedef int CTYPE;
 
 - (void) dealloc {
 	[self clear];
+	[myComparator release];
 	[super dealloc];
 }
 

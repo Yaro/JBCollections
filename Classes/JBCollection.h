@@ -9,10 +9,11 @@
 
 @required
 
++ (id) withCollection: (id<JBCollection>) c;
++ (id) withObjects: (id) firstObject, ...;
+
 - (BOOL) add: (id) o;
 - (BOOL) addAll: (id<JBCollection>) c;
-- (id) initWithCollection: (id<JBCollection>) c;
-- (id) initWithObjects: (id) firstObject, ...;
 - (void) clear;
 - (BOOL) contains: (id) o;
 - (BOOL) containsAll: (id<JBCollection>) c;

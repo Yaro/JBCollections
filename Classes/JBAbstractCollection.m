@@ -6,24 +6,24 @@
 @implementation JBAbstractCollection
 
 
-- (id) initWithCollection: (id<JBCollection>) c {
-	[self init];
-	[self addAll: c];
-	return self;
++ (id) withCollection: (id<JBCollection>) c {
+	id ret = [[self alloc] init];
+	[ret addAll: c];
+	return [ret autorelease];
 }
 
-- (id) initWithObjects: (id) firstObject, ... {
-	[self init];
++ (id) withObjects: (id) firstObject, ... {
+	id ret = [[self alloc] init];
 	id object;
 	va_list argumentList;
 	if (firstObject) {
 		va_start(argumentList, firstObject);
-		[self add: firstObject];
+		[ret add: firstObject];
 		while (object = va_arg(argumentList, id)) {
-			[self add: object];
+			[ret add: object];
 		}
 	}
-	return self;
+	return [ret autorelease];
 }
 
 - (NSObject<JBIterator>*) iterator {
@@ -51,7 +51,7 @@
 }
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[[self class] alloc] initWithCollection: self];
+	return [[[self class] withCollection: self] retain];
 }
 
 - (NSString*) description {

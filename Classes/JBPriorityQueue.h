@@ -10,7 +10,11 @@
 }
 
 @property (readonly) NSUInteger size;
+@property (readonly) NSComparator comparator;
 
-- (void) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp;
+- (id) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp;
+- (id) initWithComparator: (NSComparator) comp;
+
++ (id) withComparator: (NSComparator) comp;
 
 @end

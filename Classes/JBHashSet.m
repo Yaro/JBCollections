@@ -33,6 +33,14 @@ extern int DEFAULT_INIT_CAPACITY;
 	return [myMap keyIterator];
 }
 
+- (BOOL) isEqual: (id) o {
+	if (!([o isMemberOfClass: [JBHashSet class]])) {
+		return FALSE;
+	}
+	return [myMap isEqual: ((JBHashSet*)o)->myMap];
+}
+
+
 - (BOOL) remove: (id) o {
 	return [myMap remove: o] != nil;
 }

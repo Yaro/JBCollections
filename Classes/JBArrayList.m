@@ -29,11 +29,10 @@
 	return self;
 }
 
-- (id) initWithCollection: (<JBCollection>) c {
-	mySize = [c size];
-	[self initWithCapacity: mySize];
-	[self addAll: c];
-	return self;
++ (id) withCollection: (<JBCollection>) c {
+	JBArrayList* ret = [JBArrayList withCapacity: MAX([c size], 10)];
+	[ret addAll: c];
+	return ret;
 }
 
 - (id) init {

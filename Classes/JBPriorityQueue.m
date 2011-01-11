@@ -5,6 +5,7 @@
 - (void) grow: (NSInteger) minCapacity;
 - (void) siftUp: (NSInteger) i object: (id) o;
 - (void) siftDown: (NSInteger) i object: (id) o;
+- (void) siftEmpty: (NSInteger) i;
 
 @end
 
@@ -12,13 +13,40 @@
 
 @implementation JBPriorityQueue
 
-@synthesize size = mySize;
+@synthesize size = mySize, comparator = myComparator;
 
-- (void) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp {
+- (id) init {
+	@throw [JBExceptions needComparator];
+}
+
++ (id) withObjects: (id) firstObject, ... {
+	@throw [JBExceptions needComparator];
+}
+
+- (id) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp {
+	[super init];
 	myComparator = [comp copy];
 	myQueue = arrayWithLength(capacity);
 	myLength = capacity;
 	mySize = 0;
+	return self;
+}
+
+- (id) initWithComparator: (NSComparator) comp {
+	return [self initWithCapacity: 10 comparator: comp];
+}
+
++ (id) withComparator: (NSComparator) comp {
+	return [[[JBPriorityQueue alloc] initWithComparator: comp] autorelease];
+}
+
++ (id) withCollection: (id<JBCollection>) c {
+	SEL comparatorSelector = @selector(comparator);
+	if ([(id)c respondsToSelector: comparatorSelector]) {
+		return [[[self alloc] initWithComparator: [(id)c performSelector: comparatorSelector]] autorelease];
+	} else {
+		@throw [JBExceptions needComparator];
+	}
 }
 
 - (void) clear {
@@ -41,6 +69,17 @@
 	myQueue[mySize++] = o;
 	[self siftUp: (mySize - 1) object: o];
 	return TRUE;
+}
+
+- (BOOL) remove: (id) o {
+	for (int i = 0; i < mySize; i++) {
+		if ([myQueue[i] isEqual: o]) {
+			[self siftEmpty: i];
+			mySize--;
+			return TRUE;
+		}
+	}
+	return FALSE;
 }
 
 - (id) peek {
@@ -69,13 +108,30 @@
 		id parent = myQueue[pi];
 		if (myComparator(parent, o) == NSOrderedDescending) {
 			myQueue[i] = parent;
+			i = pi;
+		} else {
+			break;
 		}
-		i = pi;
 	}
+	myQueue[i] = o;
+}
+
+
+- (void) siftEmpty: (NSInteger) i {
+	while ((i << 1) + 1 < mySize) {
+		NSInteger ci = (i << 1) + 1;
+		NSInteger ri = ci + 1;
+		if (ri < mySize && myComparator(myQueue[ci], myQueue[ri]) == NSOrderedDescending) {
+			ci = ri;
+		}
+		myQueue[i] = myQueue[ci];
+		i = ci;
+	}
+	myQueue[i] = nil;
 }
 
 - (void) siftDown: (NSInteger) i object: (id) o {
-	while ((i + 1) << 1 < mySize) {
+	while ((i << 1) + 1 < mySize) {
 		NSInteger ci = (i << 1) + 1;
 		id child = myQueue[ci];
 		NSInteger ri = ci + 1;
