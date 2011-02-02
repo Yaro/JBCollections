@@ -43,18 +43,18 @@
 
 - (BOOL) isEqual: (id) o {
 	if (!([o isKindOfClass: [JBAbstractList class]])) {
-		return FALSE;
+		return NO;
 	}
 	id ourIter = [self iterator], iter = [o iterator];
 	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
 	while (q1 || q2) {
 		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
-			return FALSE;
+			return NO;
 		}
 		q1 = [ourIter hasNext];
 		q2 = [iter hasNext];
 	}
-	return TRUE;
+	return YES;
 }
 
 - (void) sort: (NSComparator) cmp {

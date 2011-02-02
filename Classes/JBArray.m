@@ -88,10 +88,10 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 - (BOOL) contains: (id) o {
 	for (int i = 0; i < myLength; i++) {
 		if ([myArray[i] isEqual: o]) {
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (id) removeAt: (NSInteger) index {

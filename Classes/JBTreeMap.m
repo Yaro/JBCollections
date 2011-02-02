@@ -198,7 +198,6 @@
 			RBNode* rmnode = [result.right min];
 			result.key = rmnode.key;
 			result.value = rmnode.value;
-			//check
 			result.right = [result.right deleteMin];
 		} else {
 			result.right = [self delete: key from: result.right];

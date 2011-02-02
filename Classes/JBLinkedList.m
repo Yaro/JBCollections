@@ -132,7 +132,7 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 - (BOOL) add: (id) o {
 	[self addLast: o];
-	return TRUE;
+	return YES;
 }
 
 
@@ -171,11 +171,11 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	for (int i = 0; i < mySize; i++) {
 		if ([x.item isEqual: o]) {
 			[self unlinkNode: x];
-			return TRUE;
+			return YES;
 		}
 		x = x->myNextNode;
 	}
-	return FALSE;
+	return NO;
 }
 
 

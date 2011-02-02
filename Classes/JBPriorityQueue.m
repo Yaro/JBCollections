@@ -68,7 +68,7 @@
 	}
 	myQueue[mySize++] = o;
 	[self siftUp: (mySize - 1) object: o];
-	return TRUE;
+	return YES;
 }
 
 - (BOOL) remove: (id) o {
@@ -76,10 +76,10 @@
 		if ([myQueue[i] isEqual: o]) {
 			[self siftEmpty: i];
 			mySize--;
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (id) peek {

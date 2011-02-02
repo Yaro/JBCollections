@@ -86,7 +86,7 @@
 - (BOOL) add: (NSObject*) o {
 	[self ensureCapacity: mySize + 1];
 	myData[mySize++] = [o retain];
-	return TRUE;
+	return YES;
 }
 
 - (void) insert: (id) o at: (NSInteger) index {
@@ -120,10 +120,10 @@
 	for (int i = mySize - 1; i >= 0; i--) {
 		if ([o isEqual: myData[i]]) {
 			[self safeRemoveAt: i];
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 

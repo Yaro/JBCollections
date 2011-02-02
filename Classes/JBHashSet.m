@@ -35,7 +35,7 @@ extern int DEFAULT_INIT_CAPACITY;
 
 - (BOOL) isEqual: (id) o {
 	if (!([o isMemberOfClass: [JBHashSet class]])) {
-		return FALSE;
+		return NO;
 	}
 	return [myMap isEqual: ((JBHashSet*)o)->myMap];
 }

@@ -91,7 +91,7 @@
 }
 
 - (BOOL) add: (NSObject*) obj {
-	if ([self node: myRoot contains: obj]) return TRUE;
+	if ([self node: myRoot contains: obj]) return YES;
     JPRBNode* newRoot = [self insert: obj to: myRoot];
     [newRoot retain];
     [myRoot release];
@@ -100,7 +100,7 @@
 		myRoot.red = NO;
 	}
 	myCount++;
-	return FALSE;
+	return NO;
 }
 
 - (JPRBNode*) delete: (NSObject*) obj from: (JPRBNode*) node {
@@ -137,8 +137,8 @@
 }
 
 - (BOOL) remove: (NSObject*) obj {
-	if (![self node: myRoot contains: obj]) return FALSE;
-	if (myRoot == nil || ![self node: myRoot contains: obj]) return FALSE;
+	if (![self node: myRoot contains: obj]) return NO;
+	if (myRoot == nil || ![self node: myRoot contains: obj]) return NO;
 	JPRBNode* newRoot = [self delete: obj from: myRoot];
 	[newRoot retain];
 	[myRoot release];
@@ -147,7 +147,7 @@
 		myRoot.red = NO;
 	}
 	myCount--;
-	return TRUE;
+	return YES;
 }
 
 - (BOOL) contains: (NSObject*) obj {

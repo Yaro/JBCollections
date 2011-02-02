@@ -7,13 +7,13 @@
 
 
 + (id) withCollection: (id<JBCollection>) c {
-	id ret = [[self alloc] init];
+	id ret = [self new];
 	[ret addAll: c];
 	return [ret autorelease];
 }
 
 + (id) withObjects: (id) firstObject, ... {
-	id ret = [[self alloc] init];
+	id ret = [self new];
 	id object;
 	va_list argumentList;
 	if (firstObject) {
@@ -55,18 +55,18 @@
 }
 
 - (NSString*) description {
-	NSMutableString* s = [[NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]] retain];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]];
 	id iter = [self iterator];
 	while ([iter hasNext]) {
 		[s appendFormat: @"element: %@\n", [[iter next] description]];
 	}
-	return [s autorelease];
+	return s;
 }
 
 
 - (BOOL) addAll: (id<JBCollection>) c {
 	id iter = [c iterator];
-	BOOL anyAdded = FALSE;
+	BOOL anyAdded = NO;
 	while ([iter hasNext]) {
 		anyAdded |= [self add: [iter next]];
 	}
@@ -77,10 +77,10 @@
 	id iter = [c iterator];
 	while ([iter hasNext]) {
 		if (![self contains: [iter next]]) {
-			return FALSE;
+			return NO;
 		}
 	}
-	return TRUE;
+	return YES;
 }
 
 - (NSUInteger) hash {
@@ -89,7 +89,7 @@
 	while ([iter hasNext]) {
 		ret += [[iter next] hash];
 	}
-	return abs(ret);
+	return ret;
 }
 
 - (BOOL) isEmpty {
@@ -98,7 +98,7 @@
 
 - (BOOL) removeAll: (id <JBCollection>) c {
 	id iter = [c iterator];
-	BOOL anyRemoved = FALSE;
+	BOOL anyRemoved = NO;
 	while ([iter hasNext]) {
 		anyRemoved |= [self remove: [iter next]];
 	}
@@ -127,21 +127,21 @@
 - (BOOL) any: (BOOL(^)(id)) handler {
 	id<JBIterator> iter = [self iterator];
 	for (int i = 0; i < [self size]; i++) {
-		if (handler([iter next]) == TRUE) {
-			return TRUE;
+		if (handler([iter next]) == YES) {
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (BOOL) all: (BOOL(^)(id)) handler {
 	id<JBIterator> iter = [self iterator];
 	for (int i = 0; i < [self size]; i++) {
-		if (handler([iter next]) == FALSE) {
-			return FALSE;
+		if (handler([iter next]) == NO) {
+			return NO;
 		}
 	}
-	return TRUE;
+	return YES;
 }
 
 
@@ -150,7 +150,7 @@
 	id<JBIterator> iter = [self iterator];
 	for (int i = 0; i < [self size]; i++) {
 		id item = [iter next];
-		if (handler(item) == TRUE) {
+		if (handler(item) == YES) {
 			[ret add: item];
 		}
 	}
@@ -171,7 +171,9 @@
 	int i;
 	for (i = 0; i < len; i++) {
 		if (![iter hasNext]) {
-			if (i == 0) [iter release];
+			if (i == 0) {
+				[iter release];
+			}
 			return i;
 		}
 		stackbuf[i] = [iter next];

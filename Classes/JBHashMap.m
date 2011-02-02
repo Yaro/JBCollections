@@ -111,7 +111,6 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	if (newCapacity > MAX_CAPACITY) {
 		newCapacity = MAX_CAPACITY;
 		myThreshold = MAX_CAPACITY;
-		return;
 	}
 	NSInteger oldLength = myLength;
 	myLength = newCapacity;
@@ -135,10 +134,10 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
 	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry) {
 		if ([e.key isEqual: key]) {
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (id) putKey: (id) key withValue: (id) value {
@@ -217,20 +216,20 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (BOOL) isEqual: (id) o {
 	if (!([o isMemberOfClass: [JBHashMap class]])) {
-		return FALSE;
+		return NO;
 	}
 	JBHashMap* omap = (JBHashMap*)o;
 	if (mySize != [omap size]) {
-		return FALSE;
+		return NO;
 	}
 	id iter = [omap entryIterator];
 	for (int i = 0; i < mySize; i++) {
 		HMapEntry* e = [iter next];
 		if ([self get: e->myKey] != e->myValue) {
-			return FALSE;
+			return NO;
 		}
 	}
-	return TRUE;
+	return YES;
 }
 
 - (NSUInteger) hash: (NSUInteger) h {

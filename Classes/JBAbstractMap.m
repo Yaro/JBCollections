@@ -62,34 +62,34 @@
 	while ([iter hasNext]) {
 		ret += [[iter next] hash];
 	}
-	return abs(ret);
+	return ret;
 }
 
 
 - (NSString*) description {
-	NSMutableString* s = [[NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]] retain];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]];
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
 		[s appendFormat: @"%@\n", [iter next]];
 	}
-	return [s autorelease];
+	return s;
 }
 
 
 - (BOOL) isEqual: (id) o {
 	if (!([o isKindOfClass: [JBAbstractMap class]])) {
-		return FALSE;
+		return NO;
 	}
 	id ourIter = [self entryIterator], iter = [o entryIterator];
 	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
 	while (q1 || q2) {
 		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
-			return FALSE;
+			return NO;
 		}
 		q1 = [ourIter hasNext];
 		q2 = [iter hasNext];
 	}
-	return TRUE;
+	return YES;
 }
 
 - (BOOL) containsKey: (id) key {
@@ -97,10 +97,10 @@
 	while ([iter hasNext]) {
 	 JBMapEntry* entry = [iter next];
 		if ([entry.key isEqual: key]) {
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (BOOL) containsValue: (id) value {
@@ -108,10 +108,10 @@
 	while ([iter hasNext]) {
 	 JBMapEntry* entry = [iter next];
 		if ([entry.value isEqual: value]) {
-			return TRUE;
+			return YES;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 

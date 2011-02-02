@@ -131,22 +131,6 @@ typedef int CTYPE;
 	return myPar->myLeft == self ? LEFT : RIGHT;
 }
 
-// debug feature
-- (NSString*) trace: (int) h {
-	NSMutableString* ret = [NSMutableString new];
-	for (int i = 0; i < h; i++)
-		[ret appendString: @"  "];
-	[ret appendString: [self description]];
-	[ret appendString: @"\n"];
-	if ([self hasLeft]) {
-		[ret appendString: [myLeft trace: h + 1]];
-	}
-	if ([self hasRight]) {
-		[ret appendString: [myRight trace: h + 1]];
-	}
-	return [ret autorelease];
-}
-
 @end
 
 
@@ -167,29 +151,6 @@ typedef int CTYPE;
 @implementation JBSplayTreeMap
 
 @synthesize comparator = myComparator, size = mySize;
-
-
-// debug
-#if 1
-- (int) height: (TMapEntry*) e {
-	if (e == nil) return 0;
-	int L = [self height: e.left], R = [self height: e.right];
-	return 1 + MAX(L, R);
-}
-
-- (int) height {
-	return [self height: myRoot];
-}
-
-- (int) size: (TMapEntry*) e {
-	if (e == nil) return 0;
-	return 1 + [self size: e.left] + [self size: e.right];
-}
-
-- (int) ssize {
-	return [self size: myRoot];
-}
-#endif
 
 
 - (id) initWithComparator: (NSComparator) cmp {
@@ -297,7 +258,7 @@ typedef int CTYPE;
 	}
 	
 	TMapEntry* e,* tEntry = myRoot;
-	BOOL added = FALSE;
+	BOOL added = NO;
 	while (!added) {
 		NSComparisonResult cmp = [self compare: tEntry.key with: key];
 		if (cmp == NSOrderedSame) {
@@ -308,14 +269,14 @@ typedef int CTYPE;
 		else if (cmp == NSOrderedDescending) {
 			if (tEntry.left == nil) {
 				tEntry.left = (e = [[TMapEntry alloc] initWithKey: key value: value parent: tEntry]);
-				added = TRUE;
+				added = YES;
 			} else {
 				tEntry = tEntry.left;
 			}
 		} else {
 			if (tEntry.right == nil) {
 				tEntry.right = (e = [[TMapEntry alloc] initWithKey: key value: value parent: tEntry]);
-				added = TRUE;
+				added = YES;
 			} else {
 				tEntry = tEntry.right;
 			}
@@ -361,14 +322,14 @@ typedef int CTYPE;
 	TMapEntry* e = myRoot;
 	while (e != nil) {
 		NSComparisonResult res = [self compare: e.key with: key];
-		if (res == NSOrderedSame) return TRUE;
+		if (res == NSOrderedSame) return YES;
 		if (res == NSOrderedDescending) {
 			e = e->myLeft;
 		} else {
 			e = e->myRight;
 		}
 	}
-	return FALSE;
+	return NO;
 }
 
 - (NSObject<JBIterator>*) entryIterator {

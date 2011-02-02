@@ -273,7 +273,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
+									<integer>16</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -316,7 +316,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JBCollection.h</string>
+								<string>JBAbstractCollection.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,11 +324,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JBCollection.h</string>
+										<string>JBAbstractCollection.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>2C4AA19212EF11F900984C8B</string>
+										<string>2C36DA6612F9A45300A0924C</string>
 										<key>history</key>
 										<array>
 											<string>2C0F0ACB12A553F200991032</string>
@@ -352,38 +352,47 @@
 											<string>2CE30F7C12C0C1A4007B4488</string>
 											<string>2CE30F7D12C0C1A4007B4488</string>
 											<string>2CE312E912C0E755007B4488</string>
-											<string>2C6203E212DC8B6B00A82450</string>
-											<string>2C6203F012DC8B6B00A82450</string>
 											<string>2C62049712DC905000A82450</string>
 											<string>2C62049F12DC905000A82450</string>
 											<string>2C6204A012DC905000A82450</string>
 											<string>2C6204A112DC905000A82450</string>
 											<string>2C62050412DC920D00A82450</string>
 											<string>2C62050612DC920D00A82450</string>
-											<string>2C6205C012DC965000A82450</string>
 											<string>2C62068312DC9A5E00A82450</string>
 											<string>2C62068712DC9AA700A82450</string>
 											<string>2C6206A512DCA14B00A82450</string>
 											<string>2C6206A612DCA14B00A82450</string>
 											<string>2C62076312DCB28900A82450</string>
 											<string>2C62076412DCB28900A82450</string>
-											<string>2C62076512DCB28900A82450</string>
-											<string>2C62076C12DCB28900A82450</string>
 											<string>2C62078A12DCBD0900A82450</string>
-											<string>2C62078D12DCBD0900A82450</string>
-											<string>2C62078E12DCBD0900A82450</string>
 											<string>2C6207C212DCCE4500A82450</string>
 											<string>2C6207C312DCCE4500A82450</string>
 											<string>2C6207C412DCCE4500A82450</string>
-											<string>2C62080712DDB11600A82450</string>
 											<string>2C62080812DDB11600A82450</string>
 											<string>2C62080912DDB11600A82450</string>
-											<string>2C62080B12DDB11600A82450</string>
 											<string>2C62091712DDBC3D00A82450</string>
 											<string>2C4AA18E12EF11F900984C8B</string>
-											<string>2C4AA18F12EF11F900984C8B</string>
-											<string>2C4AA19012EF11F900984C8B</string>
-											<string>2C4AA19112EF11F900984C8B</string>
+											<string>2C36D9F412F9A02D00A0924C</string>
+											<string>2C36DA2D12F9A2A300A0924C</string>
+											<string>2C36DA2E12F9A2A300A0924C</string>
+											<string>2C36DA2F12F9A2A300A0924C</string>
+											<string>2C36DA3012F9A2A300A0924C</string>
+											<string>2C36DA3112F9A2A300A0924C</string>
+											<string>2C36DA3212F9A2A300A0924C</string>
+											<string>2C36DA3312F9A2A300A0924C</string>
+											<string>2C36DA3412F9A2A300A0924C</string>
+											<string>2C36DA3512F9A2A300A0924C</string>
+											<string>2C36DA3612F9A2A300A0924C</string>
+											<string>2C36DA3712F9A2A300A0924C</string>
+											<string>2C36DA3812F9A2A300A0924C</string>
+											<string>2C36DA3A12F9A2A300A0924C</string>
+											<string>2C36DA3B12F9A2A300A0924C</string>
+											<string>2C36DA3C12F9A2A300A0924C</string>
+											<string>2C36DA3D12F9A2A300A0924C</string>
+											<string>2C36DA3E12F9A2A300A0924C</string>
+											<string>2C36DA5412F9A2F800A0924C</string>
+											<string>2C36DA6312F9A44C00A0924C</string>
+											<string>2C36DA6412F9A44C00A0924C</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -395,14 +404,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {998, 794}}</string>
+								<string>{{0, 0}, {998, 792}}</string>
 								<key>RubberWindowFrame</key>
 								<string>504 179 1256 946 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>794pt</string>
+							<string>792pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -415,14 +424,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 799}, {998, 106}}</string>
+								<string>{{0, 797}, {998, 108}}</string>
 								<key>RubberWindowFrame</key>
 								<string>504 179 1256 946 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>106pt</string>
+							<string>108pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -441,9 +450,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>2C4AA19312EF11F900984C8B</string>
+				<string>2C36D9E412F99F4F00A0924C</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>2C4AA19412EF11F900984C8B</string>
+				<string>2C36D9E512F99F4F00A0924C</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -581,6 +590,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>2C0F07E512A4FA1300991032</string>
 		<string>/Users/jetbrains/Documents/JBCollections/JBCollections.xcodeproj</string>
 	</array>
@@ -662,7 +672,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>2C0F07E512A4FA1300991032</string>
-				<string>2C4AA19512EF11F900984C8B</string>
+				<string>2C36D9E612F99F4F00A0924C</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -817,14 +827,12 @@
 							<key>Dock</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JBPriorityQueue.m</string>
+										<string>JBArrays.m</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -845,6 +853,8 @@
 							<string>501pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -880,8 +890,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>2C6203D312DC8B5C00A82450</string>
-				<string>2C6203D412DC8B5C00A82450</string>
+				<string>2C36D9EE12F99FCF00A0924C</string>
+				<string>2C36D9EF12F99FCF00A0924C</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
