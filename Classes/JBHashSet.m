@@ -58,7 +58,7 @@ extern int DEFAULT_INIT_CAPACITY;
 }
 
 - (NSUInteger) size {
-	return [myMap size];
+	return myMap.size;
 }
 
 - (void) dealloc {

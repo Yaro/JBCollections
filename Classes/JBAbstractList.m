@@ -57,14 +57,22 @@
 	return YES;
 }
 
-- (void) sort: (NSComparator) cmp {
-	JBArray* arr = [[self toJBArray] retain];
-	[arr sort: cmp];
+- (void) reverse {
+	JBArray* arr = [self toJBArray];
+	[arr reverse];
 	[self clear];
-	for (int i = 0; i < [arr size]; i++) {
+	for (int i = 0; i < arr.size; i++) {
 		[self add: [arr get: i]];
 	}
-	[arr release];
+}
+
+- (void) sort: (NSComparator) cmp {
+	JBArray* arr = [self toJBArray];
+	[arr sort: cmp];
+	[self clear];
+	for (int i = 0; i < arr.size; i++) {
+		[self add: [arr get: i]];
+	}
 }
 
 @end
@@ -78,7 +86,7 @@
 
 - (id) initWithList: (JBAbstractList*) plist range: (NSRange) range {
 	[super init];
-	if (range.location < 0 || range.location + range.length > [plist size]) {
+	if (range.location < 0 || range.location + range.length > plist.size) {
 		@throw [NSException exceptionWithName: @"bad sublist range" reason: @"" userInfo: nil];
 	}
 	myList = [plist retain];

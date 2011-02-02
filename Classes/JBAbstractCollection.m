@@ -55,7 +55,7 @@
 }
 
 - (NSString*) description {
-	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], self.size];
 	id iter = [self iterator];
 	while ([iter hasNext]) {
 		[s appendFormat: @"element: %@\n", [[iter next] description]];
@@ -93,7 +93,7 @@
 }
 
 - (BOOL) isEmpty {
-	return [self size] == 0;
+	return self.size == 0;
 }
 
 - (BOOL) removeAll: (id <JBCollection>) c {
@@ -106,7 +106,7 @@
 }
 
 - (id*) toArray {
-	int size = [self size];
+	int size = self.size;
 	id* arr = malloc(sizeof(id) * size);
 	id iter = [self iterator];
 	for (int i = 0; i < size; i++) {
@@ -116,17 +116,26 @@
 }
 
 - (JBArray*) toJBArray {
-	JBArray* arr = [[JBArray withSize: [self size]] retain];
+	JBArray* arr = [JBArray withSize: self.size];
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < [self size]; i++) {
+	for (int i = 0; i < self.size; i++) {
 		[arr set: [iter next] at: i];
 	}
-	return [arr autorelease];
+	return arr;
+}
+
+- (NSMutableArray*) toNSArray {
+	NSMutableArray* arr = [NSMutableArray arrayWithCapacity: self.size];
+	id<JBIterator> iter = [self iterator];
+	for (int i = 0; i < self.size; i++) {
+		[arr addObject: [iter next]];
+	}
+	return arr;
 }
 
 - (BOOL) any: (BOOL(^)(id)) handler {
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < [self size]; i++) {
+	for (int i = 0; i < self.size; i++) {
 		if (handler([iter next]) == YES) {
 			return YES;
 		}
@@ -136,7 +145,7 @@
 
 - (BOOL) all: (BOOL(^)(id)) handler {
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < [self size]; i++) {
+	for (int i = 0; i < self.size; i++) {
 		if (handler([iter next]) == NO) {
 			return NO;
 		}
@@ -148,7 +157,7 @@
 - (JBArrayList*) select: (BOOL(^)(id)) handler {
 	JBArrayList* ret = [JBArrayList new];
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < [self size]; i++) {
+	for (int i = 0; i < self.size; i++) {
 		id item = [iter next];
 		if (handler(item) == YES) {
 			[ret add: item];

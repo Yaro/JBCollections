@@ -33,6 +33,7 @@
 - (void) dealloc {
 	[nextCL release];
 	[hasNextCL release];
+	[removeCL release];
 	[super dealloc];
 }
 

@@ -8,5 +8,6 @@
 - (BOOL) isEqual: (id) o;
 
 - (void) sort: (NSComparator) cmp;
+- (void) reverse;
 
 @end

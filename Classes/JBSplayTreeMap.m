@@ -115,11 +115,11 @@ typedef int CTYPE;
 	}
 	if (myPar->myLeft == self) {
 		myPar->myLeft = myRight;
-		myLeft.par = myPar;
+		myRight.par = myPar;
 		myRight = myPar;
 	} else {
 		myPar->myRight = myLeft;
-		myRight.par = myPar;
+		myLeft.par = myPar;
 		myLeft = myPar;
 	}
 	myPar->myPar = self;

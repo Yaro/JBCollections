@@ -24,7 +24,9 @@
 - (NSUInteger) size;
 - (NSString*) description;
 - (NSObject<JBIterator>*) iterator;
+
 - (JBArray*) toJBArray;
+- (NSMutableArray*) toNSArray;
 
 - (BOOL) any: (BOOL(^)(id)) handler;
 - (BOOL) all: (BOOL(^)(id)) handler;

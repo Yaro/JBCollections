@@ -219,7 +219,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 		return NO;
 	}
 	JBHashMap* omap = (JBHashMap*)o;
-	if (mySize != [omap size]) {
+	if (mySize != omap.size) {
 		return NO;
 	}
 	id iter = [omap entryIterator];

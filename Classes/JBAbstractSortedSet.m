@@ -100,7 +100,7 @@ NSObject* PRESENCE;
 }
 
 - (NSUInteger) size {
-	return [myMap size];
+	return myMap.size;
 }
 
 - (BOOL) contains: (id) o {

@@ -30,7 +30,7 @@
 }
 
 + (id) withCollection: (<JBCollection>) c {
-	JBArrayList* ret = [JBArrayList withCapacity: MAX([c size], 10)];
+	JBArrayList* ret = [JBArrayList withCapacity: MAX(c.size, 10)];
 	[ret addAll: c];
 	return ret;
 }

@@ -152,6 +152,16 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return myLength;
 }
 
+- (void) reverse {
+	int last = myLength / 2;
+	for (int i = 0; i < last; i++) {
+		id tmp = myArray[i];
+		myArray[i] = myArray[myLength - 1 - i];
+		myArray[myLength - 1 - i] = tmp;
+	}
+}
+
+
 - (void) sort: (NSComparator) cmp left: (int) l right: (int) r {
 	if (l >= r) return;
 	int xi = randInt(l, r);

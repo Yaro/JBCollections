@@ -18,7 +18,7 @@
 
 @interface JBLinkedList()
 
-- (LRNode*) node: (NSUInteger) index;
+- (LRNode*) node: (NSInteger) index;
 - (id) unlinkNode: (LRNode*) node;
 - (void) checkEmpty;
 
@@ -40,7 +40,7 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	}
 }
 
-- (LRNode*) node: (NSUInteger) index {
+- (LRNode*) node: (NSInteger) index {
 	rangeCheck(self, index);
 	if (index > (mySize >> 1)) {
 		LRNode* x = myLast;
@@ -104,16 +104,12 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 - (id) removeFirst {
 	[self checkEmpty];
-	id ret = myFirst.item;
-	[self unlinkNode: myFirst];
-	return ret;
+	return [self unlinkNode: myFirst];
 }
 
 - (id) removeLast {
 	[self checkEmpty];
-	id ret = myLast.item;
-	[self unlinkNode: myLast];
-	return ret;
+	return [self unlinkNode: myLast];
 }
 
 - (id) removeAt: (NSInteger) index {

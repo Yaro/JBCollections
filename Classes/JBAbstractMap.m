@@ -67,7 +67,7 @@
 
 
 - (NSString*) description {
-	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], [self size]];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], self.size];
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
 		[s appendFormat: @"%@\n", [iter next]];
@@ -128,7 +128,7 @@
 
 
 - (BOOL) isEmpty {
-	return [self size] == 0;
+	return self.size == 0;
 }
 
 - (void) putAll: (id<JBMap>) map {
@@ -140,7 +140,7 @@
 }
 
 - (JBArray*) values {
-	JBArray* arr = [[JBArray alloc] initWithSize: [self size]];
+	JBArray* arr = [[JBArray alloc] initWithSize: self.size];
 	int cnt = 0;
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
