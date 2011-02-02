@@ -99,9 +99,7 @@
 	mySize++;
 }
 
-- (id) removeAt: (NSInteger) index {
-	[self rangeCheck: index];
-	id ret = myData[index];
+- (void) safeRemoveAt: (NSInteger) index {
 	for (int i = index + 1; i < mySize; i++) {
 		myData[i - 1] = myData[i];
 	}
@@ -109,13 +107,19 @@
 	if (mySize >= 10 && myLength > (mySize * 5) / 2) {
 		[self trimToSize];
 	}
+}
+
+- (id) removeAt: (NSInteger) index {
+	[self rangeCheck: index];
+	id ret = myData[index];
+	[self safeRemoveAt: index];
 	return [ret autorelease];
 }
 
 - (BOOL) remove: (id) o {
-	for (int i = 0; i < mySize; i++) {
+	for (int i = mySize - 1; i >= 0; i--) {
 		if ([o isEqual: myData[i]]) {
-			[self removeAt: i];
+			[self safeRemoveAt: i];
 			return TRUE;
 		}
 	}

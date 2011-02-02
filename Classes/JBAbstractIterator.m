@@ -25,7 +25,7 @@
 
 - (void) remove {
 	if (removeCL == nil) {
-		[JBAbstractIterator noRemove];
+		@throw [JBAbstractIterator noRemove];
 	} 
 	removeCL();
 }

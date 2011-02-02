@@ -86,6 +86,10 @@
 	return self;
 }
 
++ (id) withComparator: (NSComparator) comparator {
+	return [[[self alloc] initWithComparator: comparator] autorelease];
+}
+
 - (void) dealloc {
 	[myRoot release];
 	[myComparator release];
@@ -104,8 +108,7 @@
 
 - (id) min: (id) key1 with: (id) key2 {
 	NSComparisonResult res = [self compare: key1 with: key2];
-	if (res == NSOrderedDescending) return key2;
-	return key1;
+	return res == NSOrderedDescending ? key2 : key1;
 }
 
 - (BOOL) node: (RBNode*) node containsKey: (id) key {
@@ -230,6 +233,8 @@
 	return [self node: myRoot containsKey: key];	
 }
 
+
+
 - (RBNode*) nextEntry: (id) key inNode: (RBNode*) node {
 	if (node == nil) return nil;
 	
@@ -250,6 +255,8 @@
 	return [self nextEntry: key inNode: myRoot].key;
 }
 
+
+
 - (RBNode*) prevEntry: (id) key inNode: (RBNode*) node {
 	if (node == nil) return nil;
 	
@@ -267,8 +274,10 @@
 }	
 
 - (id) prevKey: (id) key {
-	return [self prevEntry: key inNode: myRoot];
+	return [self prevEntry: key inNode: myRoot].key;
 }
+
+
 
 - (id) nextOrEqualTo: (id) key inNode: (RBNode*) node {
 	if (node == nil) return nil;
@@ -289,6 +298,8 @@
 - (id) nextOrEqualKey: (id) key {
 	return [self nextOrEqualTo: key inNode: myRoot];
 }
+
+
 
 - (id) prevOrEqualTo: (id) key inNode: (RBNode*) node {
 	if (node == nil) return nil;

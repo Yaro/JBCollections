@@ -17,9 +17,8 @@ typedef int CTYPE;
 - (TMapEntry*) min;
 - (TMapEntry*) max;
 - (TMapEntry*) unlinkNext;
-- (void) splay;
-- (void) splayOnce;
 - (void) rotateWithParent;
+- (id) initWithKey: (id) key value: (id) value parent: (TMapEntry*) par;
 
 @end
 
@@ -27,6 +26,12 @@ typedef int CTYPE;
 @implementation TMapEntry
 
 @synthesize left = myLeft, right = myRight, par = myPar;
+
+- (id) initWithKey: (id) key value: (id) value parent: (TMapEntry*) par {
+	[self initWithKey: key value: value];
+	myPar = par;
+	return self;
+}
 
 - (void) dealloc {
 	[super dealloc];
@@ -39,6 +44,8 @@ typedef int CTYPE;
 	} else {
 		ch = self->myRight;
 	}
+	
+	ch.par = myPar;
 	
 	if (myPar->myLeft == self) {
 		myPar->myLeft = ch;
@@ -90,8 +97,9 @@ typedef int CTYPE;
 		e = e->myLeft;
 	}
 	
+
 	ret = e->myLeft;
-	e->myLeft = ret->myRight;
+	[ret delink];
 	return ret;
 }
 
@@ -107,37 +115,20 @@ typedef int CTYPE;
 	}
 	if (myPar->myLeft == self) {
 		myPar->myLeft = myRight;
+		myLeft.par = myPar;
 		myRight = myPar;
 	} else {
 		myPar->myRight = myLeft;
+		myRight.par = myPar;
 		myLeft = myPar;
 	}
-}
-
-- (void) splay {
-	while (myPar != nil) {
-		[self splayOnce];
-	}
+	myPar->myPar = self;
+	myPar = X;
 }
 
 - (CTYPE) toParent {
 	if (myPar == nil) return ROOT;
 	return myPar->myLeft == self ? LEFT : RIGHT;
-}
-
-- (void) splayOnce {
-	TMapEntry* p = myPar;
-	if (p->myPar == nil) {
-		[self rotateWithParent];
-		return;
-	}
-	if ([self toParent] == [p toParent]) {
-		[p rotateWithParent];
-		[self rotateWithParent];
-	} else {
-		[self rotateWithParent];
-		[self rotateWithParent];
-	}
 }
 
 // debug feature
@@ -168,6 +159,8 @@ typedef int CTYPE;
 - (TMapEntry*) nextEntry: (TMapEntry*) e;
 - (TMapEntry*) max: (TMapEntry*) e1 with: (TMapEntry*) e2;
 - (NSComparisonResult) compare: (id) o1 with: (id) o2;
+- (void) splay: (TMapEntry*) e;
+- (void) splayOnce: (TMapEntry*) e;
 
 @end
 
@@ -176,7 +169,7 @@ typedef int CTYPE;
 @synthesize comparator = myComparator, size = mySize;
 
 
-// debug only
+// debug
 #if 1
 - (int) height: (TMapEntry*) e {
 	if (e == nil) return 0;
@@ -203,6 +196,10 @@ typedef int CTYPE;
 	[super init];
 	myComparator = [cmp copy];
 	return self;
+}
+
++ (id) withComparator: (NSComparator) comparator {
+	return [[[self alloc] initWithComparator: comparator] autorelease];
 }
 
 - (id) init {
@@ -234,20 +231,20 @@ typedef int CTYPE;
 	return myComparator(o1, o2);
 }
 
-- (id) firstKey {
-	return [self firstEntry].key;
-}
-
-- (id) lastKey {
-	return [self lastEntry].key;
-}
-
 - (TMapEntry*) firstEntry {
 	return [myRoot min];
 }
 
 - (TMapEntry*) lastEntry {
 	return [myRoot max];
+}
+
+- (id) firstKey {
+	return [self firstEntry].key;
+}
+
+- (id) lastKey {
+	return [self lastEntry].key;
 }
 
 - (TMapEntry*) nextEntry: (TMapEntry*) e {
@@ -262,6 +259,29 @@ typedef int CTYPE;
 		e = e->myPar;
 	}
 	return e->myPar;
+}
+
+
+- (void) splay: (TMapEntry*) e {
+	while (e->myPar != nil) {
+		[self splayOnce: e];
+	}
+	myRoot = e;
+}
+
+- (void) splayOnce: (TMapEntry*) e {
+	TMapEntry* p = e->myPar;
+	if (p->myPar == nil) {
+		[e rotateWithParent];
+		return;
+	}
+	if ([e toParent] == [p toParent]) {
+		[p rotateWithParent];
+		[e rotateWithParent];
+	} else {
+		[e rotateWithParent];
+		[e rotateWithParent];
+	}
 }
 
 
@@ -287,14 +307,14 @@ typedef int CTYPE;
 		}
 		else if (cmp == NSOrderedDescending) {
 			if (tEntry.left == nil) {
-				tEntry.left = (e = [[TMapEntry alloc] initWithKey: key value: value]);
+				tEntry.left = (e = [[TMapEntry alloc] initWithKey: key value: value parent: tEntry]);
 				added = TRUE;
 			} else {
 				tEntry = tEntry.left;
 			}
 		} else {
 			if (tEntry.right == nil) {
-				tEntry.right = (e = [[TMapEntry alloc] initWithKey: key value: value]);
+				tEntry.right = (e = [[TMapEntry alloc] initWithKey: key value: value parent: tEntry]);
 				added = TRUE;
 			} else {
 				tEntry = tEntry.right;
@@ -302,7 +322,7 @@ typedef int CTYPE;
 		}
 	}
 	mySize++;
-	[e splay];
+	[self splay: e];
 	return nil;
 }
 
@@ -316,7 +336,7 @@ typedef int CTYPE;
 			if (ne == nil) {
 				if (e == myRoot) {
 					myRoot = e->myLeft;
-					myRoot->myPar = nil;;
+					myRoot.par = nil;
 				} else {
 					[e delink];
 				}
@@ -353,38 +373,54 @@ typedef int CTYPE;
 
 - (NSObject<JBIterator>*) entryIterator {
 	__block NSInteger done = 0;
-	__block TMapEntry* e = [self firstEntry];
+	__block TMapEntry* e = [self firstEntry],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (e == nil) {
 			@throw [JBAbstractIterator noSuchElement];
 		}
 		id ret = e;
+		prev = e;
 		e = [self nextEntry: e];
 		done++;
 		return ret;
 	} hasNextCL: ^BOOL(void) {
 		return done < mySize;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];
+		done--;
 	}] autorelease];
 }
 
 - (NSObject<JBIterator>*) keyIterator {
 	__block NSInteger done = 0;
-	__block TMapEntry* e = [self firstEntry];
+	__block TMapEntry* e = [self firstEntry],* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (e == nil) {
 			@throw [JBAbstractIterator noSuchElement];
 		}
 		id ret = e.key;
+		prev = e;
 		e = [self nextEntry: e];
 		done++;
 		return ret;
 	} hasNextCL: ^BOOL(void) {
 		return done < mySize;
+	} removeCL: ^void(void) {
+		if (prev == nil) {
+			@throw [JBAbstractIterator badRemove];
+		}
+		[self remove: prev.key];
+		done--;
 	}] autorelease];
 }
 
 - (void) clear {
 	[self clear: myRoot];
+	myRoot = nil;
+	mySize = 0;
 }
 
 - (void) clear: (TMapEntry*) e {

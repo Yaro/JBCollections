@@ -13,4 +13,6 @@
 - (id) prevOrEqual: (id) key;
 - (id) nextOrEqual: (id) key;
 
++ (id) withComparator: (NSComparator) comp;
+
 @end
