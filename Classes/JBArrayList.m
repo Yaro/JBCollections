@@ -40,19 +40,14 @@
 }
 
 - (void) trimToSize {
-	id* newData = copyOf(myData, mySize);
-	free(myData);
-	myData = newData;
+	myData = resizeArray(myData, mySize);
 	myLength = mySize;
 }
 
 - (void) ensureCapacity: (NSInteger) minLength {
 	if (minLength > myLength) {
 		int nLength = MAX((myLength * 3) / 2 + 1, minLength);
-		id* newData = arrayWithLength(nLength);
-		memcpy(newData, myData, sizeof(id) * myLength);
-		free(myData);
-		myData = newData;
+		myData = resizeArray(myData, nLength);
 		myLength = nLength;
 	}
 }
@@ -133,15 +128,16 @@
 		myData[i] = nil;
 	}
 	if (myLength > 30) {
-		free(myData);
 		myLength = 10;
-		myData = arrayWithLength(10);
+		myData = resizeArray(myData, myLength);
 	}
 	mySize = 0;
 }
 
 - (void) dealloc {
-	[self clear];
+	for (int i = 0; i < mySize; i++) {
+		[myData[i] release];
+	}
 	deleteArray(myData);
 	[super dealloc];
 }

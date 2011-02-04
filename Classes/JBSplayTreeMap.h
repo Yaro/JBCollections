@@ -1,15 +1,14 @@
 #import <Foundation/Foundation.h>
-#import "JBAbstractMap.h"
 #import "JBSortedMap.h"
+#import "JBAbstractMap.h"
+#import "JBAbstractSortedMap.h"
 @class TMapEntry;
 
-@interface JBSplayTreeMap : JBAbstractMap<JBSortedMap> {
-	NSComparator myComparator;
+@interface JBSplayTreeMap : JBAbstractSortedMap<JBSortedMap> {
 	NSUInteger mySize;
 	TMapEntry* myRoot;
 }
 
-@property (readonly) NSComparator comparator;
 @property (readonly, assign) NSUInteger size;
 
 @end

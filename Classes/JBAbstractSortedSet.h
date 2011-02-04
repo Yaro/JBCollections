@@ -7,8 +7,8 @@
 	JBAbstractMap<JBSortedMap>* myMap;
 }
 
-@property (readonly) NSComparator comparator;
-
 - (BOOL) isEqual: (id) o;
+
+@property (readonly) NSComparator comparator;
 
 @end

@@ -1,18 +1,16 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractMap.h"
+#import "JBAbstractSortedMap.h"
 #import "JBSortedMap.h"
 
 @class RBNode;
 
-@interface JBTreeMap : JBAbstractMap<JBSortedMap> {
-	@public
-	NSComparator myComparator;
+@interface JBTreeMap : JBAbstractSortedMap<JBSortedMap> {
 	RBNode* myRoot;
 	NSUInteger mySize;
 }
 
 @property (readonly) NSUInteger size;
-@property (readonly) NSComparator comparator;
 
 
 @end

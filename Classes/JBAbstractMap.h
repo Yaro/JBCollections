@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import "JBMap.h"
 #import "JBArray.h"
 #import "JBMapEntry.h"

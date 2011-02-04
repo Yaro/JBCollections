@@ -2,13 +2,6 @@
 #import "JBArrays.h"
 
 
-
-/*void swap(id* a, id* b) {
-	id x = *a;
-	*a = *b;
-	*b = x;
-}*/
-
 int randInt(int l, int r) {
 	return (int)(rand() % (r - l + 1) + l);
 }

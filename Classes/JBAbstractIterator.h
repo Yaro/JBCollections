@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import "JBIterator.h"
 
 @interface JBAbstractIterator : NSObject<JBIterator> {	

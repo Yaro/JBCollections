@@ -3,8 +3,8 @@
 @implementation JBAbstractMap
 
 
-- (id) initWithKeysAndObjects: (id) firstKey, ... {
-	[self init];
++ (id) withKeysAndObjects: (id) firstKey, ... {
+	id ret = [self new];
 	id object, key;
 	va_list argumentList;
 	if (firstKey) {
@@ -13,22 +13,22 @@
 		if (firstObject == nil) {
 			@throw [NSException exceptionWithName: @"odd number of elements" reason: @"" userInfo: nil];
 		}
-		[self putKey: firstKey withValue: firstObject];
+		[ret putKey: firstKey withValue: firstObject];
 		while (key = va_arg(argumentList, id)) {
 			object = va_arg(argumentList, id);
 			if (object == nil) {
 				@throw [NSException exceptionWithName: @"odd number of elements" reason: @"" userInfo: nil];
 			}
-			[self putKey: key withValue: object];
+			[ret putKey: key withValue: object];
 		}
 	}
-	return self;
+	return [ret autorelease];
 }
 
-- (id) initWithMap: (id<JBMap>) map {
-	[self init];
-	[self putAll: map];
-	return self;
++ (id) withMap: (id<JBMap>) map {
+	id ret = [self new];
+	[ret putAll: map];
+	return [ret autorelease];
 }
 
 - (NSObject<JBIterator>*) entryIterator {
@@ -73,23 +73,6 @@
 		[s appendFormat: @"%@\n", [iter next]];
 	}
 	return s;
-}
-
-
-- (BOOL) isEqual: (id) o {
-	if (!([o isKindOfClass: [JBAbstractMap class]])) {
-		return NO;
-	}
-	id ourIter = [self entryIterator], iter = [o entryIterator];
-	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
-	while (q1 || q2) {
-		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
-			return NO;
-		}
-		q1 = [ourIter hasNext];
-		q2 = [iter hasNext];
-	}
-	return YES;
 }
 
 - (BOOL) containsKey: (id) key {
@@ -151,7 +134,7 @@
 }
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[[self class] alloc] initWithMap: self];
+	return [[[self class] withMap: self] retain];
 }
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {

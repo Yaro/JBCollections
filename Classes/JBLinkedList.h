@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import "JBAbstractList.h"
 #import "JBDeque.h"
 @class LRNode;

@@ -6,10 +6,14 @@ typedef int CTYPE;
 
 @interface TMapEntry : JBMapEntry {
 @public
-	TMapEntry* myLeft,* myRight,* myPar;
+	TMapEntry* myLeft;
+	TMapEntry* myRight;
+	TMapEntry* myPar;
 }
 
-@property (readwrite, nonatomic, assign) TMapEntry* left,* right,* par;
+@property (readwrite, nonatomic, assign) TMapEntry* left;
+@property (readwrite, nonatomic, assign) TMapEntry* right;
+@property (readwrite, nonatomic, assign) TMapEntry* par;
 
 - (CTYPE) toParent;
 - (BOOL) hasRight;
@@ -87,7 +91,8 @@ typedef int CTYPE;
 		return nil;
 	}
 
-	TMapEntry* e = myRight,* ret = nil;
+	TMapEntry* e = myRight;
+	TMapEntry* ret = nil;
 	if (e->myLeft == nil) {
 		[e delink];
 		return e;
@@ -150,39 +155,8 @@ typedef int CTYPE;
 
 @implementation JBSplayTreeMap
 
-@synthesize comparator = myComparator, size = mySize;
+@synthesize size = mySize;
 
-
-- (id) initWithComparator: (NSComparator) cmp {
-	[super init];
-	myComparator = [cmp copy];
-	return self;
-}
-
-+ (id) withComparator: (NSComparator) comparator {
-	return [[[self alloc] initWithComparator: comparator] autorelease];
-}
-
-- (id) init {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithKeysAndObjects: (id) firstKey, ... {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithMap: (id<JBMap>) map {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithSortedMap: (id) map {
-	SEL comparatorSelector = @selector(comparator);
-	if ([map respondsToSelector: comparatorSelector]) {
-		[self initWithComparator: [map performSelector: comparatorSelector]];
-	}
-	[self putAll: map];
-	return self;
-}
 
 - (TMapEntry*) max: (id) o1 with: (id) o2 {
 	return myComparator(o1, o2) == NSOrderedAscending ? o2 : o1;
@@ -257,7 +231,8 @@ typedef int CTYPE;
 		return nil;
 	}
 	
-	TMapEntry* e,* tEntry = myRoot;
+	TMapEntry* e;
+	TMapEntry* tEntry = myRoot;
 	BOOL added = NO;
 	while (!added) {
 		NSComparisonResult cmp = [self compare: tEntry.key with: key];
@@ -289,11 +264,12 @@ typedef int CTYPE;
 
 - (id) remove: (id) key {
 	TMapEntry* e = myRoot;
+	TMapEntry* ne = nil;
 	while (e != nil) {
 		NSComparisonResult res = [self compare: e.key with: key];
 		if (res == NSOrderedSame) {
 			id ret = [e.value retain];
-			TMapEntry* ne = [e unlinkNext];
+			ne = [e unlinkNext];
 			if (ne == nil) {
 				if (e == myRoot) {
 					myRoot = e->myLeft;
@@ -334,7 +310,8 @@ typedef int CTYPE;
 
 - (NSObject<JBIterator>*) entryIterator {
 	__block NSInteger done = 0;
-	__block TMapEntry* e = [self firstEntry],* prev = nil;
+	__block TMapEntry* e = [self firstEntry];
+	__block TMapEntry* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (e == nil) {
 			@throw [JBAbstractIterator noSuchElement];
@@ -357,7 +334,8 @@ typedef int CTYPE;
 
 - (NSObject<JBIterator>*) keyIterator {
 	__block NSInteger done = 0;
-	__block TMapEntry* e = [self firstEntry],* prev = nil;
+	__block TMapEntry* e = [self firstEntry];
+	__block TMapEntry* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (e == nil) {
 			@throw [JBAbstractIterator noSuchElement];

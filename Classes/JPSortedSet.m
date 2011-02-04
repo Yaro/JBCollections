@@ -4,29 +4,6 @@
 
 @implementation JPSortedSet
 
-#if 1
-
-- (int) height: (JPRBNode*) e {
-	if (e == nil) return 0;
-	int L = [self height: e.left], R = [self height: e.right];
-	return 1 + MAX(L, R);
-}
-
-- (int) height {
-	return [self height: myRoot];
-}
-
-- (int) size: (JPRBNode*) e {
-	if (e == nil) return 0;
-	return 1 + [self size: e.left] + [self size: e.right];
-}
-
-- (int) ssize {
-	return [self size: myRoot];
-}
-
-#endif
-
 - (id) initWithComparator: (NSComparator) comparator {
 	[super init];
 	myComparator = [comparator copy];

@@ -8,7 +8,8 @@
 	id myItem;
 }
 
-@property (readwrite, nonatomic, assign) LRNode* nextNode,* prevNode;
+@property (readwrite, nonatomic, assign) LRNode* nextNode;
+@property (readwrite, nonatomic, assign) LRNode* prevNode;
 @property (readwrite, nonatomic, assign) id item;
 
 + (id) createNodeWithPrev: (LRNode*) prevNode next: (LRNode*) nextNode item: (id) item;
@@ -20,7 +21,6 @@
 
 - (LRNode*) node: (NSInteger) index;
 - (id) unlinkNode: (LRNode*) node;
-- (void) checkEmpty;
 
 @end
 
@@ -34,11 +34,6 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 	}
 }
 
-- (void) checkEmpty {
-	if (mySize == 0) {
-		@throw [NSException exceptionWithName: @"Collection is empty" reason: @"" userInfo: nil];
-	}
-}
 
 - (LRNode*) node: (NSInteger) index {
 	rangeCheck(self, index);
@@ -103,13 +98,11 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 }
 
 - (id) removeFirst {
-	[self checkEmpty];
-	return [self unlinkNode: myFirst];
+	return self.isEmpty ? nil : [self unlinkNode: myFirst];
 }
 
 - (id) removeLast {
-	[self checkEmpty];
-	return [self unlinkNode: myLast];
+	return self.isEmpty ? nil : [self unlinkNode: myLast];
 }
 
 - (id) removeAt: (NSInteger) index {
@@ -117,13 +110,11 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 }
 
 - (id) first {
-	[self checkEmpty];
-	return myFirst.item;
+	return self.isEmpty ? nil : myFirst.item;
 }
 
 - (id) last {
-	[self checkEmpty];
-	return myLast.item;
+	return self.isEmpty ? nil : myLast.item;
 }
 
 - (BOOL) add: (id) o {
@@ -185,7 +176,8 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 
 - (NSObject<JBIterator>*) iterator {
-	__block LRNode* cursor = myFirst,* prev = nil;
+	__block LRNode* cursor = myFirst;
+	__block LRNode* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor == nil) {
 			@throw [JBAbstractIterator noSuchElement];

@@ -35,60 +35,8 @@
 
 @implementation JBTreeMap
 
-@synthesize size = mySize, comparator = myComparator;
+@synthesize size = mySize;
 
-#if 1
-- (int) height: (RBNode*) e {
-	if (e == nil) return 0;
-	int L = [self height: e.left], R = [self height: e.right];
-	return 1 + MAX(L, R);
-}
-
-- (int) height {
-	return [self height: myRoot];
-}
-
-- (int) size: (RBNode*) e {
-	if (e == nil) return 0;
-	return 1 + [self size: e.left] + [self size: e.right];
-}
-
-- (int) ssize {
-	return [self size: myRoot];
-}
-#endif
-
-- (id) initWithComparator: (NSComparator) comparator {
-	[super init];
-	myComparator = [comparator copy];
-	return self;
-}
-
-- (id) init {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithKeysAndObjects: (id) firstKey, ... {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithMap: (id<JBMap>) map {
-	@throw [JBExceptions needComparator];
-}
-
-- (id) initWithSortedMap: (id) map {
-	SEL comparatorSelector = @selector(comparator);
-	if (![map respondsToSelector: comparatorSelector]) {
-		@throw [NSException exceptionWithName: @"comparator missing" reason: @"no <comparator> method defined" userInfo: nil];
-	}
-	[self initWithComparator: [map performSelector: comparatorSelector]];
-	[self putAll: map];
-	return self;
-}
-
-+ (id) withComparator: (NSComparator) comparator {
-	return [[[self alloc] initWithComparator: comparator] autorelease];
-}
 
 - (void) dealloc {
 	[myRoot release];
@@ -335,7 +283,8 @@
 
 // O(n*log(n)) time
 - (NSObject<JBIterator>*) entryIterator {
-	__block RBNode* cursor = [myRoot min],* prev = nil;
+	__block RBNode* cursor = [myRoot min];
+	__block RBNode* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor == nil) {
 			@throw [JBAbstractIterator noSuchElement];
@@ -354,7 +303,8 @@
 }
 
 - (NSObject<JBIterator>*) keyIterator {
-	__block RBNode* cursor = [myRoot min],* prev = nil;
+	__block RBNode* cursor = [myRoot min];
+	__block RBNode* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		if (cursor == nil) {
 			@throw [JBAbstractIterator noSuchElement];

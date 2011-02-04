@@ -107,7 +107,7 @@
 
 - (id*) toArray {
 	int size = self.size;
-	id* arr = malloc(sizeof(id) * size);
+	id* arr = arrayWithLength(size);
 	id iter = [self iterator];
 	for (int i = 0; i < size; i++) {
 		arr[i] = [iter next];
@@ -116,18 +116,20 @@
 }
 
 - (JBArray*) toJBArray {
-	JBArray* arr = [JBArray withSize: self.size];
+	int size = self.size;
+	JBArray* arr = [JBArray withSize: size];
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < self.size; i++) {
+	for (int i = 0; i < size; i++) {
 		[arr set: [iter next] at: i];
 	}
 	return arr;
 }
 
 - (NSMutableArray*) toNSArray {
-	NSMutableArray* arr = [NSMutableArray arrayWithCapacity: self.size];
+	int size = self.size;
+	NSMutableArray* arr = [NSMutableArray arrayWithCapacity: size];
 	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < self.size; i++) {
+	for (int i = 0; i < size; i++) {
 		[arr addObject: [iter next]];
 	}
 	return arr;

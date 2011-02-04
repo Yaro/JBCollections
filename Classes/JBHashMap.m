@@ -55,7 +55,8 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (NSObject<JBIterator>*) keyIterator {
 	__block NSInteger done = 0, index = 0;
-	__block HMapEntry* e = myTable[0],* prev = nil;
+	__block HMapEntry* e = myTable[0];
+	__block HMapEntry* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		while (index < myLength) {
 			if (e == nil) {
@@ -82,7 +83,8 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (NSObject<JBIterator>*) entryIterator {
 	__block NSInteger done = 0, index = 0;
-	__block HMapEntry* e = myTable[0],* prev = nil;
+	__block HMapEntry* e = myTable[0];
+	__block HMapEntry* prev = nil;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
 		while (index < myLength) {
 			if (e == nil) {
@@ -174,7 +176,8 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (id) remove: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
-	HMapEntry* e = myTable[index],* prevEntry = e;
+	HMapEntry* e = myTable[index];
+	HMapEntry* prevEntry = e;
 	while (e != nil) {
 		if ([e.key isEqual: key]) {
 			mySize--;

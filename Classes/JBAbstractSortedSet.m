@@ -1,50 +1,32 @@
 #import "JBAbstractSortedSet.h"
 
 
+
+
 @implementation JBAbstractSortedSet
 
-NSObject* PRESENCE;
-
-@dynamic comparator;
-
-
-- (id) initSafe {
-	return [super init];
-}
-
 - (id) initWithComparator: (NSComparator) comp {
-	@throw [NSException exceptionWithName: @"undefined method" reason: @"should be overriden by descendant class" userInfo: nil];
+	@throw [NSException exceptionWithName: NSInternalInconsistencyException
+						reason: [NSString stringWithFormat: @"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+						userInfo: nil];
 }
 
 - (id) init {
 	@throw [JBExceptions needComparator];
 }
 
-
-- (id) initWithSortedSet: (id<JBCollection>) set {
-	SEL comparatorSelector = @selector(comparator);
-	[self initWithComparator: [(id)set performSelector: comparatorSelector]];
-	[self addAll: set];
-	return self;
-}
-
-+ (id) withObjects: (id) firstObject, ... {
-	@throw [JBExceptions needComparator];
-}
-
 + (id) withCollection: (id<JBCollection>) c {
-	SEL comparatorSelector = @selector(comparator);
-	if ([(id)c respondsToSelector: comparatorSelector]) {
-		return [[[self alloc] initWithSortedSet: c] autorelease];
-	} else {
+	if (![(id)c conformsToProtocol: @protocol(JBComparatorRequired)]) {
 		@throw [JBExceptions needComparator];
 	}
+	id ret = [self withComparator: [(<JBComparatorRequired>)c comparator]];
+	[ret addAll: c];
+	return ret;
 }
 
 + (id) withComparator: (NSComparator) comp {
 	return [[[self alloc] initWithComparator: comp] autorelease];
 }
-
 
 
 - (BOOL) isEqual: (id) o {
@@ -108,7 +90,7 @@ NSObject* PRESENCE;
 }
 
 - (BOOL) add: (NSObject*) o {
-	return [myMap putKey: o withValue: PRESENCE] == nil;
+	return [myMap putKey: o withValue: [NSNull null]] == nil;
 }
 
 - (void) clear {

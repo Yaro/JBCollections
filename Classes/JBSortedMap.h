@@ -1,11 +1,11 @@
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "JBMap.h"
+#import "JBComparatorRequired.h"
 
-@protocol JBSortedMap<JBMap>
+@protocol JBSortedMap<JBMap, JBComparatorRequired>
 
 - (id) init;
 - (id) initWithComparator: (NSComparator) comp;
-- (id) initWithSortedMap: (id) map;
 - (id) firstKey;
 - (id) lastKey;
 - (id) nextKey: (id) key;

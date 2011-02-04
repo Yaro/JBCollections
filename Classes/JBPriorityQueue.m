@@ -32,21 +32,25 @@
 	return self;
 }
 
++ (id) withCapacity: (NSInteger) capacity comparator: (NSComparator) comp {
+	return [[[self alloc] initWithCapacity: capacity comparator: comp] autorelease];
+}
+
 - (id) initWithComparator: (NSComparator) comp {
 	return [self initWithCapacity: 10 comparator: comp];
 }
 
 + (id) withComparator: (NSComparator) comp {
-	return [[[JBPriorityQueue alloc] initWithComparator: comp] autorelease];
+	return [[[self alloc] initWithComparator: comp] autorelease];
 }
 
 + (id) withCollection: (id<JBCollection>) c {
-	SEL comparatorSelector = @selector(comparator);
-	if ([(id)c respondsToSelector: comparatorSelector]) {
-		return [[[self alloc] initWithComparator: [(id)c performSelector: comparatorSelector]] autorelease];
-	} else {
+	if (![(id)c conformsToProtocol: @protocol(JBComparatorRequired)]) {
 		@throw [JBExceptions needComparator];
 	}
+	id ret = [self withComparator: [(<JBComparatorRequired>)c comparator]];
+	[ret addAll: c];
+	return ret;
 }
 
 - (void) clear {
@@ -91,15 +95,12 @@
 	id ret = myQueue[0];
 	mySize--;
 	[self siftDown: 0 object: myQueue[mySize]];
-	[ret release];
-	return ret;
+	return [ret autorelease];
 }
 
 - (void) grow: (NSInteger) minCapacity {
-	id* nQueue = arrayWithLength((minCapacity + 5) * 3 / 2);
-	copyAt(nQueue, 0, myQueue, mySize);
-	deleteArray(myQueue);
-	myQueue = nQueue;
+	myLength = (minCapacity + 5) * 3 / 2;
+	myQueue = resizeArray(myQueue, myLength);
 }
 
 - (void) siftUp: (NSInteger) i object: (id) o {
