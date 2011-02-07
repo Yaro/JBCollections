@@ -9,5 +9,6 @@
 + (NSException*) unsupportedOperation;
 + (NSException*) indexOutOfBounds: (NSInteger) index size: (NSInteger) n;
 + (NSException*) noIterator;
++ (NSException*) invalidArgument: (id) arg;
 
 @end

@@ -26,6 +26,22 @@
 	return [ret autorelease];
 }
 
++ (id) withNSArray: (NSArray*) array {
+	id ret = [self new];
+	for (id o in array) {
+		[ret add: o];
+	}
+	return ret;
+}
+
++ (id) withNSSet: (NSSet*) set {
+	id ret = [self new];
+	for (id o in set) {
+		[ret add: o];
+	}
+	return ret;
+}
+
 - (NSObject<JBIterator>*) iterator {
 	@throw [JBExceptions noIterator];
 }
@@ -42,7 +58,7 @@
 	@throw [JBExceptions unsupportedOperation];
 }
 
-- (BOOL) add: (NSObject*) o {
+- (BOOL) add: (id) o {
 	@throw [JBExceptions unsupportedOperation];
 }
 
@@ -103,16 +119,6 @@
 		anyRemoved |= [self remove: [iter next]];
 	}
 	return anyRemoved;
-}
-
-- (id*) toArray {
-	int size = self.size;
-	id* arr = arrayWithLength(size);
-	id iter = [self iterator];
-	for (int i = 0; i < size; i++) {
-		arr[i] = [iter next];
-	}
-	return arr;
 }
 
 - (JBArray*) toJBArray {

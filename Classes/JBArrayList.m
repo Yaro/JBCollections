@@ -1,5 +1,6 @@
 #import "JBArrayList.h"
 #import "JBArrays.h"
+#import "JBCollections.h"
 
 @interface JBArrayList()
 
@@ -7,6 +8,7 @@
 - (void) rangeCheckForAdd: (NSInteger) i;
 - (void) ensureCapacity: (NSInteger) minLength;
 - (void) trimToSize;
+- (id) initWithCArray: (id*) arr size: (NSInteger) n;
 
 @end
 
@@ -52,20 +54,34 @@
 	}
 }
 
-- (int) indexOf: (NSObject*) o {
+- (int) indexOf: (id) o {
 	for (int i = 0; i < mySize; i++) {
-		if ([o isEqual: myData[i]]) {
+		if (equals(o, myData[i])) {
 			return i;
 		}
 	}
-	return -1;		
+	return NSNotFound;		
 }
 
-- (id*) toArray {
-	return copyOf(myData, mySize);
+- (id) initWithCArray: (id*) arr size: (NSInteger) n {
+	[super init];
+	myData = arr;
+	mySize = n;
+	myLength = mySize;
+	for (int i = 0; i < mySize; i++) {
+		[arr[i] retain];
+	}
+	return self;
 }
 
-- (NSObject*) get: (NSInteger) i {
+- (JBArrayList*) subarray: (NSRange) range {
+	[self rangeCheck: range.location];
+	[self rangeCheck: range.location + range.length - 1];
+	id* arr = copyOf(myData + range.location, range.length);
+	return [[[JBArrayList alloc] initWithCArray: arr size: range.length] autorelease];
+}
+
+- (id) get: (NSInteger) i {
 	[self rangeCheck: i];
 	return myData[i];
 }
@@ -74,11 +90,10 @@
 	[self rangeCheck: i];
 	id ret = myData[i];
 	myData[i] = [o retain];
-	[ret release];
-	return ret;
+	return [ret autorelease];
 }
 
-- (BOOL) add: (NSObject*) o {
+- (BOOL) add: (id) o {
 	[self ensureCapacity: mySize + 1];
 	myData[mySize++] = [o retain];
 	return YES;
@@ -113,7 +128,7 @@
 
 - (BOOL) remove: (id) o {
 	for (int i = mySize - 1; i >= 0; i--) {
-		if ([o isEqual: myData[i]]) {
+		if (equals(o, myData[i])) {
 			[self safeRemoveAt: i];
 			return YES;
 		}

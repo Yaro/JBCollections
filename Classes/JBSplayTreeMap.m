@@ -1,8 +1,7 @@
 #import "JBSplayTreeMap.h"
 
 
-enum {LEFT, RIGHT, ROOT};
-typedef int CTYPE;
+typedef enum {LEFT, RIGHT, ROOT} CTYPE;
 
 @interface TMapEntry : JBMapEntry {
 @public

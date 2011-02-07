@@ -1,5 +1,6 @@
 #import "JBArray.h"
 #import "JBArrays.h"
+#import "JBCollections.h"
 
 
 int randInt(int l, int r) {
@@ -17,6 +18,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 @interface JBArray()
 
 - (void) sort: (NSComparator) cmp left: (int) l right: (int) r;
+- (id) initWithCArray: (id*) array size: (NSInteger) size;
 
 @end
 
@@ -80,11 +82,20 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 
 - (BOOL) contains: (id) o {
 	for (int i = 0; i < myLength; i++) {
-		if ([myArray[i] isEqual: o]) {
+		if (equals(o, myArray[i])) {
 			return YES;
 		}
 	}
 	return NO;
+}
+
+- (int) indexOf: (id) o {
+	for (int i = 0; i < myLength; i++) {
+		if (equals(o, myArray[i])) {
+			return i;
+		}
+	}
+	return NSNotFound;		
 }
 
 - (id) removeAt: (NSInteger) index {
@@ -137,8 +148,21 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 	return i;
 }
 
-- (id*) toArray {
-	return copyOf(myArray, myLength);
+- (id) initWithCArray: (id*) array size: (NSInteger) size {
+	[super init];
+	myArray = array;
+	myLength = size;
+	for (int i = 0; i < myLength; i++) {
+		[myArray[i] retain];
+	}
+	return self;
+}
+
+- (JBArray*) subarray: (NSRange) range {
+	rangeCheck(self, range.location);
+	rangeCheck(self, range.location + range.length - 1);
+	id* arr = copyOf(myArray + range.location, range.length);
+	return [[[JBArray alloc] initWithCArray: arr size: range.length] autorelease];
 }
 
 - (NSUInteger) size {

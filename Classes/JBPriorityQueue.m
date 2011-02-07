@@ -1,4 +1,6 @@
 #import "JBPriorityQueue.h"
+#import "JBArray.h"
+#import "JBCollections.h"
 
 @interface JBPriorityQueue()
 
@@ -103,6 +105,22 @@
 	myQueue = resizeArray(myQueue, myLength);
 }
 
+- (BOOL) isEqual: (id) o {
+	if (!([o isKindOfClass: [JBPriorityQueue class]])) {
+		return NO;
+	}
+	id ourIter = [self iterator], iter = [o iterator];
+	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
+	while (q1 || q2) {
+		if (!q1 || !q2 || !equals([iter next], [ourIter next])) {
+			return NO;
+		}
+		q1 = [ourIter hasNext];
+		q2 = [iter hasNext];
+	}
+	return YES;
+}
+
 - (void) siftUp: (NSInteger) i object: (id) o {
 	while (i > 0) {
 		NSInteger pi = (i - 1) >> 1;
@@ -156,16 +174,28 @@
 	}
 }
 
+- (id) initWithCArray: (id*) arr size: (int) size comparator: (NSComparator) cmp {
+	[self initWithCapacity: size comparator: cmp];
+	myQueue = arr;
+	for (int i = 0; i < size; i++) {
+		[myQueue[i] retain];
+	}
+	mySize = size;
+	return self;
+}
+
+- (JBArray*) toJBArray {
+	int size = self.size;
+	JBArray* arr = [JBArray withSize: size];
+	JBPriorityQueue* copy = [[JBPriorityQueue alloc] initWithCArray: myQueue size: mySize comparator: myComparator];
+	for (int i = 0; i < size; i++) {
+		[arr set: [copy poll] at: i];
+	}
+	return arr;
+}
+
 - (NSObject<JBIterator>*) iterator {
-	__block NSInteger cursor = 0;
-	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor >= mySize) {
-			@throw [JBAbstractIterator noSuchElement];
-		}
-		return myQueue[cursor++];
-	} hasNextCL: ^BOOL(void) {
-		return cursor < mySize;
-	}] autorelease];
+	return [[self toJBArray] iterator];
 }
 
 @end

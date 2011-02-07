@@ -1,5 +1,5 @@
 #import "JBHashMap.h"
-
+#import "JBCollections.h"
 
 @interface HMapEntry : JBMapEntry {
 @public
@@ -134,8 +134,8 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (BOOL) containsKey: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
-	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry) {
-		if ([e.key isEqual: key]) {
+	for (HMapEntry* e = myTable[index]; e != nil; e = e->myNextEntry) {
+		if (equals(key, e->myKey)) {
 			return YES;
 		}
 	}
@@ -143,12 +143,9 @@ const double DEFAULT_LOAD_FACTOR = .75;
 }
 
 - (id) putKey: (id) key withValue: (id) value {
-	if (key == nil || value == nil) {
-		@throw [NSException exceptionWithName: @"nil keys or values not allowed" reason: @"" userInfo: nil];
-	}
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
 	for (HMapEntry* e = myTable[index]; e != nil; e = e->myNextEntry) {
-		if ([e->myKey isEqual: key]) {
+		if (equals(key, e->myKey)) {
 			id oldVal = [e->myValue retain];
 			e.value = value;
 			return [oldVal autorelease];
@@ -166,8 +163,8 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (id) get: (id) key {
 	NSInteger index = [self indexFor: [self hash: [key hash]]];
-	for (HMapEntry* e = myTable[index]; e != nil; e = e.nextEntry) {
-		if ([e.key isEqual: key]) {
+	for (HMapEntry* e = myTable[index]; e != nil; e = e->myNextEntry) {
+		if (equals(key, e->myKey)) {
 			return e.value;
 		}
 	}
@@ -179,12 +176,12 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	HMapEntry* e = myTable[index];
 	HMapEntry* prevEntry = e;
 	while (e != nil) {
-		if ([e.key isEqual: key]) {
+		if (equals(key, e->myKey)) {
 			mySize--;
 			if (e == prevEntry) {
-				myTable[index] = e.nextEntry;
+				myTable[index] = e->myNextEntry;
 			} else {
-				prevEntry.nextEntry = e.nextEntry;
+				prevEntry->myNextEntry = e->myNextEntry;
 			}
 			id oldVal = e.value;
 			[oldVal retain];
@@ -192,7 +189,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 			return [oldVal autorelease];
 		}
 		prevEntry = e;
-		e = e.nextEntry;
+		e = e->myNextEntry;
 	}
 	return nil;
 }

@@ -41,6 +41,8 @@
 		2C98F89F12AE441300AB3547 /* JBArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98F89D12AE441300AB3547 /* JBArrays.m */; };
 		2C98FBC112AE9D4C00AB3547 /* JBAbstractIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */; };
 		2C98FBC212AE9D4C00AB3547 /* JBAbstractIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */; };
+		2CC905551300266000235662 /* JBCollections.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CC905531300266000235662 /* JBCollections.h */; };
+		2CC905561300266000235662 /* JBCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CC905541300266000235662 /* JBCollections.m */; };
 		2CE3056012BF60DE007B4488 /* JBSplayTreeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE3055E12BF60DE007B4488 /* JBSplayTreeMap.h */; };
 		2CE3056112BF60DE007B4488 /* JBSplayTreeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3055F12BF60DE007B4488 /* JBSplayTreeMap.m */; };
 		2CE309CB12BF8C00007B4488 /* JBTreeMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE309C912BF8C00007B4488 /* JBTreeMap.h */; };
@@ -99,6 +101,8 @@
 		2C98F89D12AE441300AB3547 /* JBArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBArrays.m; sourceTree = "<group>"; };
 		2C98FBBF12AE9D4C00AB3547 /* JBAbstractIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAbstractIterator.h; sourceTree = "<group>"; };
 		2C98FBC012AE9D4C00AB3547 /* JBAbstractIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAbstractIterator.m; sourceTree = "<group>"; };
+		2CC905531300266000235662 /* JBCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCollections.h; sourceTree = "<group>"; };
+		2CC905541300266000235662 /* JBCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCollections.m; sourceTree = "<group>"; };
 		2CE3055E12BF60DE007B4488 /* JBSplayTreeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBSplayTreeMap.h; sourceTree = "<group>"; };
 		2CE3055F12BF60DE007B4488 /* JBSplayTreeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBSplayTreeMap.m; sourceTree = "<group>"; };
 		2CE309C912BF8C00007B4488 /* JBTreeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTreeMap.h; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 				2CE88B4512CA0A9600A945FA /* JBExceptions.m */,
 				2CE30F2912C0BFBD007B4488 /* JPSortedSet.h */,
 				2CE30F2A12C0BFBD007B4488 /* JPSortedSet.m */,
+				2CC905531300266000235662 /* JBCollections.h */,
+				2CC905541300266000235662 /* JBCollections.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -268,6 +274,7 @@
 				2CE88C1012CA1D9500A945FA /* JBMapEntry.h in Headers */,
 				2C36E12812FC197D00A0924C /* JBComparatorRequired.h in Headers */,
 				2C881EEE12FC375E00B3D990 /* JBAbstractSortedMap.h in Headers */,
+				2CC905551300266000235662 /* JBCollections.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +352,7 @@
 				2CE88B4712CA0A9600A945FA /* JBExceptions.m in Sources */,
 				2CE88C1112CA1D9500A945FA /* JBMapEntry.m in Sources */,
 				2C881EEF12FC375E00B3D990 /* JBAbstractSortedMap.m in Sources */,
+				2CC905561300266000235662 /* JBCollections.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

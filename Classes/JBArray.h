@@ -17,4 +17,6 @@
 + (JBArray*) withSize: (NSInteger) n;
 + (JBArray*) withObjects: (id) firstObject, ...;
 
+- (JBArray*) subarray: (NSRange) range;
+
 @end

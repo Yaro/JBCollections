@@ -1,5 +1,5 @@
 #import "JBAbstractSortedSet.h"
-
+#import "JBCollections.h"
 
 
 
@@ -36,7 +36,7 @@
 	id ourIter = [self iterator], iter = [o iterator];
 	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
 	while (q1 || q2) {
-		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
+		if (!q1 || !q2 || !equals([iter next], [ourIter next])) {
 			return NO;
 		}
 		q1 = [ourIter hasNext];
@@ -89,7 +89,7 @@
 	return [myMap containsKey: o];
 }
 
-- (BOOL) add: (NSObject*) o {
+- (BOOL) add: (id) o {
 	return [myMap putKey: o withValue: [NSNull null]] == nil;
 }
 

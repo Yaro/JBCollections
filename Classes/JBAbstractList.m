@@ -1,5 +1,7 @@
 #import "JBAbstractList.h"
 #import "JBArray.h"
+#import "JBArrayList.h"
+#import "JBCollections.h"
 
 @interface JBSublist : JBAbstractList {
 	NSInteger myOffset, myLength;
@@ -32,13 +34,20 @@
 }
 
 
+- (id) first {
+	return [self get: 0];
+}
+
+- (id) last {
+	return [self get: self.size - 1];
+}
 
 - (id <JBList>) sublist: (NSRange) range {
 	return [[[JBSublist alloc] initWithList: self range: range] autorelease];
 }
 
 - (BOOL) contains: (id) o {
-	return [self indexOf: o] >= 0;
+	return [self indexOf: o] != NSNotFound;
 }
 
 - (BOOL) isEqual: (id) o {
@@ -48,7 +57,7 @@
 	id ourIter = [self iterator], iter = [o iterator];
 	BOOL q1 = [ourIter hasNext], q2 = [iter hasNext];
 	while (q1 || q2) {
-		if (!q1 || !q2 || ![[ourIter next] isEqual: [iter next]]) {
+		if (!q1 || !q2 || !equals([ourIter next], [iter next])) {
 			return NO;
 		}
 		q1 = [ourIter hasNext];

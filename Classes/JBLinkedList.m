@@ -1,5 +1,6 @@
 #import "JBLinkedList.h"
-
+#import "JBArrayList.h"
+#import "JBCollections.h"
 
 @interface LRNode : NSObject {
 @public
@@ -141,22 +142,22 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 - (NSInteger) indexOf: (id) o {
 	LRNode* x = myFirst;
 	for (int i = 0; i < mySize; i++) {
-		if ([x->myItem isEqual: o]) {
+		if (equals(x->myItem, o)) {
 			return i;
 		}
 		x = x->myNextNode;
 	}
-	return -1;
+	return NSNotFound;
 }
 
 - (BOOL) contains: (id) o {
-	return [self indexOf: o] != -1;
+	return [self indexOf: o] != NSNotFound;
 }
 
 - (BOOL) remove: (id) o {
 	LRNode* x = myFirst;
 	for (int i = 0; i < mySize; i++) {
-		if ([x.item isEqual: o]) {
+		if (equals(x->myItem, o)) {
 			[self unlinkNode: x];
 			return YES;
 		}
@@ -167,7 +168,6 @@ inline static void rangeCheck(JBLinkedList* list, NSInteger i) {
 
 
 - (id) set: (id) o at: (NSInteger) index {
-	rangeCheck(self, index);
 	LRNode* x = [self node: index];
 	id ret = x.item;
 	x.item = [o retain];

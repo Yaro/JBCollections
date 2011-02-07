@@ -7,10 +7,11 @@
 
 @protocol JBCollection<NSFastEnumeration, NSCopying>
 
-@required
 
 + (id) withCollection: (id<JBCollection>) c;
 + (id) withObjects: (id) firstObject, ...;
++ (id) withNSArray: (NSArray*) array;
++ (id) withNSSet: (NSSet*) set;
 
 - (BOOL) add: (id) o;
 - (BOOL) addAll: (id<JBCollection>) c;
@@ -28,11 +29,10 @@
 - (JBArray*) toJBArray;
 - (NSMutableArray*) toNSArray;
 
+
 - (BOOL) any: (BOOL(^)(id)) handler;
 - (BOOL) all: (BOOL(^)(id)) handler;
 - (JBArrayList*) select: (BOOL(^)(id)) handler;
 
-@optional
-- (id*) toArray;
 
 @end

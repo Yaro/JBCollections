@@ -12,7 +12,7 @@
 }
 
 + (NSException*) indexOutOfBounds: (NSInteger) index size: (NSInteger) n {
-	return [NSException exceptionWithName: @"Index out of bounds: " 
+	return [NSException exceptionWithName: NSRangeException 
 				reason: [NSString stringWithFormat: @"Index = %d, Size = %d", index, n] userInfo: nil];
 }
 
@@ -20,6 +20,9 @@
 	return [NSException exceptionWithName: @"No iterator in collection" reason: @"" userInfo: nil];
 }
 
-
++ (NSException*) invalidArgument: (id) arg {
+	return [NSException exceptionWithName: NSInvalidArgumentException 
+								   reason: [NSString stringWithFormat: @"Argument: %@", arg] userInfo: nil];
+}
 
 @end

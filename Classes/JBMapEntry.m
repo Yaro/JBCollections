@@ -1,5 +1,5 @@
 #import "JBMapEntry.h"
-
+#import "JBCollections.h"
 
 @implementation JBMapEntry
 
@@ -10,7 +10,7 @@
 }
 
 - (BOOL) isEqual: (id) o {
-	return ([o isKindOfClass: [JBMapEntry class]] && [[o key] isEqual: myKey] && [[o value] isEqual: myValue]);
+	return [o isKindOfClass: [JBMapEntry class]] && equals([o key], myKey) && equals([o value], myValue);
 }
 
 - (id) initWithKey: (id) key value: (id) value {
