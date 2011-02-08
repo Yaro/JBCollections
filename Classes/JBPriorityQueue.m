@@ -28,7 +28,7 @@
 - (id) initWithCapacity: (NSInteger) capacity comparator: (NSComparator) comp {
 	[super init];
 	myComparator = [comp copy];
-	myQueue = arrayWithLength(capacity);
+	myQueue = calloc(capacity, sizeof(id));
 	myLength = capacity;
 	mySize = 0;
 	return self;
@@ -63,7 +63,7 @@
 
 - (void) dealloc {
 	[self clear];
-	deleteArray(myQueue);
+	free(myQueue);
 	[super dealloc];
 }
 
@@ -102,7 +102,7 @@
 
 - (void) grow: (NSInteger) minCapacity {
 	myLength = (minCapacity + 5) * 3 / 2;
-	myQueue = resizeArray(myQueue, myLength);
+	myQueue = realloc(myQueue, myLength * sizeof(id));
 }
 
 - (BOOL) isEqual: (id) o {
@@ -187,10 +187,13 @@
 - (JBArray*) toJBArray {
 	int size = self.size;
 	JBArray* arr = [JBArray withSize: size];
-	JBPriorityQueue* copy = [[JBPriorityQueue alloc] initWithCArray: myQueue size: mySize comparator: myComparator];
+	id* qCopy = calloc(mySize, sizeof(id));
+	memcpy(qCopy, myQueue, mySize * sizeof(id));
+	JBPriorityQueue* copy = [[JBPriorityQueue alloc] initWithCArray: qCopy size: mySize comparator: myComparator];
 	for (int i = 0; i < size; i++) {
 		[arr set: [copy poll] at: i];
 	}
+	[copy release];
 	return arr;
 }
 

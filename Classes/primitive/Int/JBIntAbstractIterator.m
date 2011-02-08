@@ -1,9 +1,9 @@
-#import "JBAbstractIterator.h"
+#import "JBIntAbstractIterator.h"
 
 
-@implementation JBAbstractIterator
+@implementation JBIntAbstractIterator
 
-- (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 removeCL: (void(^)(void)) handler3 {
+- (id) initWithNextCL: (TYPE(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 removeCL: (void(^)(void)) handler3 {
 	[super init];
 	nextCL = [handler1 copy];
 	hasNextCL = [handler2 copy];
@@ -11,11 +11,11 @@
 	return self;
 }
 
-- (id) initWithNextCL: (id(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 {
+- (id) initWithNextCL: (TYPE(^)(void)) handler1 hasNextCL: (BOOL(^)(void)) handler2 {
 	return [self initWithNextCL: handler1 hasNextCL: handler2 removeCL: nil];
 }
 
-- (id) next {
+- (TYPE) next {
 	return nextCL();
 }
 
@@ -25,7 +25,7 @@
 
 - (void) remove {
 	if (removeCL == nil) {
-		@throw [JBAbstractIterator noRemove];
+		@throw [JBIntAbstractIterator noRemove];
 	} 
 	removeCL();
 }

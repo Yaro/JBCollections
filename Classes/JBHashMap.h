@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractMap.h"
-#import "JBArrays.h"
 @class HMapEntry;
 
 @interface JBHashMap : JBAbstractMap {

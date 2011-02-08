@@ -1,5 +1,4 @@
 #import "JBSplayTreeSet.h"
-#import "JBArrays.h"
 
 
 @implementation JBSplayTreeSet

@@ -1,36 +1,21 @@
 #import "JBArray.h"
-#import "JBArrays.h"
 #import "JBCollections.h"
 
+#define rangeCheck(i) if (i < 0 || i >= mySize) @throw [JBExceptions indexOutOfBounds: i size: mySize];
 
-int randInt(int l, int r) {
-	return (int)(rand() % (r - l + 1) + l);
+static int randInt(int l, int r) {
+	return rand() % (r - l + 1) + l;
 }
-
-inline static void rangeCheck(JBArray* arr, NSInteger i) {
-	if (i < 0 || i >= arr.length) {
-		@throw [JBExceptions indexOutOfBounds: i size: arr.length];
-	}
-}
-
-
-
-@interface JBArray()
-
-- (void) sort: (NSComparator) cmp left: (int) l right: (int) r;
-- (id) initWithCArray: (id*) array size: (NSInteger) size;
-
-@end
 
 
 @implementation JBArray
 
-@synthesize length = myLength;
+@synthesize size = mySize;
 
 - (id) initWithSize: (NSInteger) n {
 	[super init];
-	myLength = n;
-	myArray = arrayWithLength(n);
+	mySize = n;
+	myArray = calloc(n, sizeof(id));
 	return self;
 }
 
@@ -69,19 +54,19 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (id) set: (id) object at: (NSInteger) i {
-	rangeCheck(self, i);
+	rangeCheck(i);
 	id ret = myArray[i];
 	myArray[i] = [object retain];
 	return [ret autorelease];
 }
 
 - (id) get: (NSInteger) i {
-	rangeCheck(self, i);
+	rangeCheck(i);
 	return myArray[i];
 }
 
 - (BOOL) contains: (id) o {
-	for (int i = 0; i < myLength; i++) {
+	for (int i = 0; i < mySize; i++) {
 		if (equals(o, myArray[i])) {
 			return YES;
 		}
@@ -90,7 +75,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (int) indexOf: (id) o {
-	for (int i = 0; i < myLength; i++) {
+	for (int i = 0; i < mySize; i++) {
 		if (equals(o, myArray[i])) {
 			return i;
 		}
@@ -103,7 +88,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (void) clear {
-	for (int i = 0; i < myLength; i++) {
+	for (int i = 0; i < mySize; i++) {
 		[myArray[i] release];
 		myArray[i] = nil;
 	}
@@ -111,19 +96,19 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 
 - (void) dealloc {
 	[self clear];
-	deleteArray(myArray);
+	free(myArray);
 	[super dealloc];
 }
 
 - (NSObject<JBIterator>*) iterator {
 	__block NSInteger cursor = 0;
 	return [[[JBAbstractIterator alloc] initWithNextCL: ^id(void) {
-		if (cursor >= myLength) {
+		if (cursor >= mySize) {
 			@throw [JBAbstractIterator noSuchElement];
 		}
 		return myArray[cursor++];
 	} hasNextCL: ^BOOL(void) {
-		return cursor < myLength;
+		return cursor < mySize;
 	} removeCL: ^void(void) {
 		if (cursor > 0) {
 			[self removeAt: cursor - 1];
@@ -136,45 +121,36 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {
 	if (state->state == 0) {
 		state->mutationsPtr = &(state->extra[0]);
-	}
-	NSInteger i = 0;
-	state->itemsPtr = stackbuf;
-	for (i = 0; i < len; i++) {
-		if (state->state >= myLength) {
-			return i;
-		}
-		stackbuf[i] = myArray[state->state++];
-	}
-	return i;
+		state->itemsPtr = myArray;
+		state->state = 1;
+		return mySize;
+	} else return 0;
 }
 
-- (id) initWithCArray: (id*) array size: (NSInteger) size {
+- (id) initWithCArray: (id*) array size: (NSInteger) nsize {
 	[super init];
 	myArray = array;
-	myLength = size;
-	for (int i = 0; i < myLength; i++) {
+	mySize = nsize;
+	for (int i = 0; i < mySize; i++) {
 		[myArray[i] retain];
 	}
 	return self;
 }
 
 - (JBArray*) subarray: (NSRange) range {
-	rangeCheck(self, range.location);
-	rangeCheck(self, range.location + range.length - 1);
-	id* arr = copyOf(myArray + range.location, range.length);
+	rangeCheck(range.location);
+	rangeCheck(range.location + range.length - 1);
+	id* arr = malloc(range.length * sizeof(id));
+	memcpy(arr, myArray + range.location, range.length * sizeof(id));
 	return [[[JBArray alloc] initWithCArray: arr size: range.length] autorelease];
 }
 
-- (NSUInteger) size {
-	return myLength;
-}
-
 - (void) reverse {
-	int last = myLength / 2;
+	int last = mySize / 2;
 	for (int i = 0; i < last; i++) {
 		id tmp = myArray[i];
-		myArray[i] = myArray[myLength - 1 - i];
-		myArray[myLength - 1 - i] = tmp;
+		myArray[i] = myArray[mySize - 1 - i];
+		myArray[mySize - 1 - i] = tmp;
 	}
 }
 
@@ -202,7 +178,7 @@ inline static void rangeCheck(JBArray* arr, NSInteger i) {
 }
 
 - (void) sort: (NSComparator) cmp {
-	[self sort: cmp left: 0 right: myLength - 1];
+	[self sort: cmp left: 0 right: mySize - 1];
 }
 
 @end

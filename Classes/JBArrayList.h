@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractList.h"
 
-@interface JBArrayList : JBAbstractList {
+
+@interface JBArrayList : JBAbstractList<JBFastEnumerable> {
 	NSInteger mySize, myLength;
 	id* myData;
 }

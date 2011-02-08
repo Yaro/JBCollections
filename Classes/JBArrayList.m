@@ -1,16 +1,18 @@
 #import "JBArrayList.h"
-#import "JBArrays.h"
 #import "JBCollections.h"
+
+#define rangeCheck(i) if (i < 0 || i >= mySize) @throw [JBExceptions indexOutOfBounds: i size: mySize];
+#define rangeCheckForAdd(i) if (i < 0 || i > mySize) @throw [JBExceptions indexOutOfBounds: i size: mySize];
 
 @interface JBArrayList()
 
-- (void) rangeCheck: (NSInteger) i;
-- (void) rangeCheckForAdd: (NSInteger) i;
-- (void) ensureCapacity: (NSInteger) minLength;
+- (void) grow: (NSInteger) len;
 - (void) trimToSize;
 - (id) initWithCArray: (id*) arr size: (NSInteger) n;
 
 @end
+
+
 
 @implementation JBArrayList
 
@@ -22,10 +24,9 @@
 
 - (id) initWithCapacity: (NSInteger) n {
 	if (n <= 0) {
-		@throw [NSException exceptionWithName: @"non-positive capacity" reason: @"" userInfo: nil];
+		@throw [JBExceptions invalidArgument: [NSNumber	numberWithInt: n]];
 	}
-	[super init];
-	myData = arrayWithLength(n);
+	myData = calloc(n, sizeof(id));
 	myLength = n;
 	mySize = 0;
 	return self;
@@ -42,16 +43,14 @@
 }
 
 - (void) trimToSize {
-	myData = resizeArray(myData, mySize);
+	myData = realloc(myData, mySize * sizeof(id));
 	myLength = mySize;
 }
 
-- (void) ensureCapacity: (NSInteger) minLength {
-	if (minLength > myLength) {
-		int nLength = MAX((myLength * 3) / 2 + 1, minLength);
-		myData = resizeArray(myData, nLength);
-		myLength = nLength;
-	}
+- (void) grow: (NSInteger) len {
+	int nLength = MAX((myLength * 3) / 2 + 1, len);
+	myData = realloc(myData, nLength * sizeof(id));
+	myLength = nLength;
 }
 
 - (int) indexOf: (id) o {
@@ -75,33 +74,38 @@
 }
 
 - (JBArrayList*) subarray: (NSRange) range {
-	[self rangeCheck: range.location];
-	[self rangeCheck: range.location + range.length - 1];
-	id* arr = copyOf(myData + range.location, range.length);
+	rangeCheck(range.location);
+	rangeCheck(range.location + range.length - 1);
+	id* arr = malloc(range.length * sizeof(id));
+	memcpy(arr, myData + range.location, range.length * sizeof(id));
 	return [[[JBArrayList alloc] initWithCArray: arr size: range.length] autorelease];
 }
 
 - (id) get: (NSInteger) i {
-	[self rangeCheck: i];
+	rangeCheck(i);
 	return myData[i];
 }
 
 - (id) set: (id) o at: (NSInteger) i {
-	[self rangeCheck: i];
+	rangeCheck(i);
 	id ret = myData[i];
 	myData[i] = [o retain];
 	return [ret autorelease];
 }
 
 - (BOOL) add: (id) o {
-	[self ensureCapacity: mySize + 1];
+	if (mySize + 1 > myLength) {
+		[self grow: mySize + 1];
+	}
 	myData[mySize++] = [o retain];
 	return YES;
 }
 
 - (void) insert: (id) o at: (NSInteger) index {
-	[self rangeCheckForAdd: index];
-	[self ensureCapacity: mySize + 1];
+	rangeCheckForAdd(index);
+	if (mySize + 1 > myLength) {
+		[self grow: mySize + 1];
+	}
 	for (int i = mySize - 1; i >= index; i--) {
 		myData[i + 1] = myData[i];
 	}
@@ -120,7 +124,7 @@
 }
 
 - (id) removeAt: (NSInteger) index {
-	[self rangeCheck: index];
+	rangeCheck(index);
 	id ret = myData[index];
 	[self safeRemoveAt: index];
 	return [ret autorelease];
@@ -136,6 +140,14 @@
 	return NO;
 }
 
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState*) state objects: (id*) stackbuf count: (NSUInteger) len {
+	if (state->state == 0) {
+		state->mutationsPtr = &(state->extra[0]);
+		state->itemsPtr = myData;
+		state->state = 1;
+		return mySize;
+	} else return 0;
+}
 
 - (void) clear {
 	for (int i = 0; i < mySize; i++) {
@@ -144,7 +156,7 @@
 	}
 	if (myLength > 30) {
 		myLength = 10;
-		myData = resizeArray(myData, myLength);
+		myData = realloc(myData, myLength * sizeof(id));
 	}
 	mySize = 0;
 }
@@ -153,7 +165,7 @@
 	for (int i = 0; i < mySize; i++) {
 		[myData[i] release];
 	}
-	deleteArray(myData);
+	free(myData);
 	[super dealloc];
 }
 
@@ -173,18 +185,6 @@
 			@throw [JBAbstractIterator badRemove];
 		}
 	}] autorelease];
-}
-
-- (void) rangeCheck: (NSInteger) i {
-	if (i < 0 || i >= mySize) {
-		@throw [JBExceptions indexOutOfBounds: i size: mySize];
-	}
-}
-
-- (void) rangeCheckForAdd: (NSInteger) i {
-	if (i < 0 || i > mySize) {
-		@throw [JBExceptions indexOutOfBounds: i size: mySize];
-	}
 }
 
 @end

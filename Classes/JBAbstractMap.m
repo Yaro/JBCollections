@@ -67,7 +67,7 @@
 
 
 - (NSString*) description {
-	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], self.size];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [self class], self.size];
 	id iter = [self entryIterator];
 	while ([iter hasNext]) {
 		[s appendFormat: @"%@\n", [iter next]];
@@ -141,23 +141,23 @@
 	static id iter;
 	
 	if (state->state == 0) {
-		iter = [self keyIterator];
-		[iter retain];
+		iter = [[self keyIterator] retain];
 		state->mutationsPtr = &(state->extra[0]);
-		state-> state = 1;
+		state->state = 1;
 	}
 	state->itemsPtr = stackbuf;
 	
-	int i;
-	for (i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {
 		if (![iter hasNext]) {
-			if (i == 0) [iter release];
+			if (i == 0) {
+				[iter release];
+			}
 			return i;
 		}
 		stackbuf[i] = [iter next];
 	}
 	
-	return i;
+	return len;
 }
 
 @end

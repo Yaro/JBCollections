@@ -4,7 +4,7 @@
 #import "JBCollections.h"
 
 @interface JBSublist : JBAbstractList {
-	NSInteger myOffset, myLength;
+	NSInteger myOffset, mySize;
 	JBAbstractList* myList;
 }
 
@@ -70,7 +70,8 @@
 	JBArray* arr = [self toJBArray];
 	[arr reverse];
 	[self clear];
-	for (int i = 0; i < arr.size; i++) {
+	int size = arr.size;
+	for (int i = 0; i < size; i++) {
 		[self add: [arr get: i]];
 	}
 }
@@ -79,7 +80,8 @@
 	JBArray* arr = [self toJBArray];
 	[arr sort: cmp];
 	[self clear];
-	for (int i = 0; i < arr.size; i++) {
+	int size = arr.size;
+	for (int i = 0; i < size; i++) {
 		[self add: [arr get: i]];
 	}
 }
@@ -100,26 +102,26 @@
 	}
 	myList = [plist retain];
 	myOffset = range.location;
-	myLength = range.length;
+	mySize = range.length;
 	return self;
 }
 
 - (id) get: (NSInteger) index {
-	if (index < 0 || index >= myLength) {
-		@throw [JBExceptions indexOutOfBounds: index size: myLength];
+	if (index < 0 || index >= mySize) {
+		@throw [JBExceptions indexOutOfBounds: index size: mySize];
 	}
 	return [myList get: index + myOffset];
 }
 
 - (id) set: (id) o at: (NSInteger) index {
-	if (index < 0 || index >= myLength) {
-		@throw [JBExceptions indexOutOfBounds: index size: myLength];
+	if (index < 0 || index >= mySize) {
+		@throw [JBExceptions indexOutOfBounds: index size: mySize];
 	}
 	return [myList set: o at: index + myOffset];
 }
 
 - (NSUInteger) size {
-	return myLength;
+	return mySize;
 }
 
 - (void) dealloc {

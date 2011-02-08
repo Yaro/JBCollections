@@ -1,6 +1,5 @@
 #import "JBAbstractCollection.h"
 #import "JBArray.h"
-#import "JBArrays.h"
 #import "JBArrayList.h"
 
 @implementation JBAbstractCollection
@@ -31,7 +30,7 @@
 	for (id o in array) {
 		[ret add: o];
 	}
-	return ret;
+	return [ret autorelease];
 }
 
 + (id) withNSSet: (NSSet*) set {
@@ -39,7 +38,7 @@
 	for (id o in set) {
 		[ret add: o];
 	}
-	return ret;
+	return [ret autorelease];
 }
 
 - (NSObject<JBIterator>*) iterator {
@@ -71,10 +70,10 @@
 }
 
 - (NSString*) description {
-	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [[self class] description], self.size];
+	NSMutableString* s = [NSMutableString stringWithFormat: @"%@, size = %d:\n", [self class], self.size];
 	id iter = [self iterator];
 	while ([iter hasNext]) {
-		[s appendFormat: @"element: %@\n", [[iter next] description]];
+		[s appendFormat: @"element: %@\n", [iter next]];
 	}
 	return s;
 }
@@ -124,9 +123,16 @@
 - (JBArray*) toJBArray {
 	int size = self.size;
 	JBArray* arr = [JBArray withSize: size];
-	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < size; i++) {
-		[arr set: [iter next] at: i];
+	if ([self conformsToProtocol: @protocol(JBFastEnumerable)]) {
+		int i = 0;
+		for (id o in self) {
+			[arr set: o at: i++];
+		}
+	} else {
+		id<JBIterator> iter = [self iterator];
+		for (int i = 0; i < size; i++) {
+			[arr set: [iter next] at: i];
+		}
 	}
 	return arr;
 }
@@ -134,28 +140,54 @@
 - (NSMutableArray*) toNSArray {
 	int size = self.size;
 	NSMutableArray* arr = [NSMutableArray arrayWithCapacity: size];
-	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < size; i++) {
-		[arr addObject: [iter next]];
+	if ([self conformsToProtocol: @protocol(JBFastEnumerable)]) {
+		for (id o in self) {
+			[arr addObject: o];
+		}
+	} else {
+		id<JBIterator> iter = [self iterator];
+		for (int i = 0; i < size; i++) {
+			[arr addObject: [iter next]];
+		}
 	}
 	return arr;
 }
 
 - (BOOL) any: (BOOL(^)(id)) handler {
-	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < self.size; i++) {
-		if (handler([iter next]) == YES) {
-			return YES;
+	if ([self conformsToProtocol: @protocol(JBFastEnumerable)]) {
+		for (id o in self) {
+			if (handler(o) == YES) {
+				return YES;
+			}
+		}
+	} else {
+		id<JBIterator> iter = [self iterator];
+		int size = self.size;
+		for (int i = 0; i < size; i++) {
+			id o = [iter next];
+			if (handler(o) == YES) {
+				return YES;
+			}
 		}
 	}
 	return NO;
 }
 
 - (BOOL) all: (BOOL(^)(id)) handler {
-	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < self.size; i++) {
-		if (handler([iter next]) == NO) {
-			return NO;
+	if ([self conformsToProtocol: @protocol(JBFastEnumerable)]) {
+		for (id o in self) {
+			if (handler(o) == NO) {
+				return NO;
+			}
+		}
+	} else {
+		id<JBIterator> iter = [self iterator];
+		int size = self.size;
+		for (int i = 0; i < size; i++) {
+			id o = [iter next];
+			if (handler(o) == NO) {
+				return NO;
+			}
 		}
 	}
 	return YES;
@@ -164,11 +196,20 @@
 
 - (JBArrayList*) select: (BOOL(^)(id)) handler {
 	JBArrayList* ret = [JBArrayList new];
-	id<JBIterator> iter = [self iterator];
-	for (int i = 0; i < self.size; i++) {
-		id item = [iter next];
-		if (handler(item) == YES) {
-			[ret add: item];
+	if ([self conformsToProtocol: @protocol(JBFastEnumerable)]) {
+		for (id o in self) {
+			if (handler(o) == YES) {
+				[ret add: o];
+			}
+		}
+	} else {
+		id<JBIterator> iter = [self iterator];
+		int size = self.size;
+		for (int i = 0; i < size; i++) {
+			id o = [iter next];
+			if (handler(o) == YES) {
+				[ret add: o];
+			}
 		}
 	}
 	return [ret autorelease];
@@ -178,15 +219,13 @@
 	static id iter;
 	
 	if (state->state == 0) {
-		iter = [self iterator];
-		[iter retain];
+		iter = [[self iterator] retain];
 		state->mutationsPtr = &(state->extra[0]);
 		state->state = 1;
 	}
 	state->itemsPtr = stackbuf;
 	
-	int i;
-	for (i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {
 		if (![iter hasNext]) {
 			if (i == 0) {
 				[iter release];
@@ -196,7 +235,7 @@
 		stackbuf[i] = [iter next];
 	}
 	
-	return i;
+	return len;
 }
 
 @end

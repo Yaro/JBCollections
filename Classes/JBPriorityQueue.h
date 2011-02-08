@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "JBAbstractCollection.h"
 #import "JBQueue.h"
-#import "JBArrays.h"
 #import "JBComparatorRequired.h"
 
 @interface JBPriorityQueue : JBAbstractCollection<JBQueue, JBComparatorRequired> {

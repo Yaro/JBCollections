@@ -39,7 +39,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	while (myLength < initCapacity) {
 		myLength <<= 1;
 	}
-	myTable = arrayWithLength(myLength);
+	myTable = calloc(myLength, sizeof(id));
 	myLoadFactor = factor;
 	myThreshold = (int)(myLength * myLoadFactor);
 	return self;
@@ -116,7 +116,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 	}
 	NSInteger oldLength = myLength;
 	myLength = newCapacity;
-	HMapEntry** nTable = arrayWithLength(myLength);
+	HMapEntry** nTable = calloc(myLength, sizeof(id));
 	for (int i = 0; i < oldLength; i++) {
 		for (HMapEntry* e = myTable[i]; e != nil;) {
 			HMapEntry* next = e->myNextEntry;
@@ -127,7 +127,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 		}
 	}
 	
-	deleteArray(myTable);
+	free(myTable);
 	myTable = nTable;
 	myThreshold = (int)(myLength * myLoadFactor);
 }
@@ -210,7 +210,7 @@ const double DEFAULT_LOAD_FACTOR = .75;
 
 - (void) dealloc {
 	[self clear];
-	deleteArray(myTable);
+	free(myTable);
 	[super dealloc];
 }
 
